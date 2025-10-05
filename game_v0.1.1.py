@@ -11,19 +11,68 @@ class Game:
         self.active = True
         self.state = "menu"
         self.last_input = ""
+        self.init_controls()
+        self.init_map()
+        self.init_player()
 
+    def init_player(self):
+        self.player_pos = [2,2]
+
+    def init_controls(self):
         self.valid_inputs = {
-            "j": "Ja",
-            "n": "Nein",
-            "1": "Option 1",
-            "2": "Option 2",
-            "3": "Option 3",
-
+            "menu": {
+                "1": "Option 1",
+                "2": "Option 2",
+                "3": "Option 3"
+            },
+            "navigation": {
+                "q": "Zurück",
+                "e": "Weiter"
+            },
+            "exit": {
+                "J": "Ja",
+                "N": "Nein"
+            }  
         }
-
-    #muss noch fertiggestellt werden. Soll eine Methode sein um den aktuellen Status zu prüfen
-    def is_active(self):
-        self.active
+        
+    def init_map():
+        self.rooms = {
+            "yellow_room": {
+                "width": "6",
+                "lentgh": "6",
+                "position": "bottom",
+                "name": "gelber Raum"
+            },
+            "white_room": {
+                "width": "6",
+                "lentgh": "6",
+                "position": "top",
+                "name": "weißer Raum"
+            },
+            "green_room": {"width": "6",
+                "lentgh": "6",
+                "position": "front",
+                "name": "grüner Raum"
+            },
+            "red_room": {
+                "width": "6",
+                "lentgh": "6",
+                "position": "right",
+                "name": "roter Raum"
+            },
+            "blue_room": {
+                "width": "6",
+                "lentgh": "6",
+                "position": "back",
+                "name": "blauer Raum"
+            },
+            "orange_room": {
+                "width": "6",
+                "lentgh": "6",
+                "position": "left",
+                "name": "oranger Raum"
+            }
+        }
 
     def write_input(self, text):
         print("\nSpieler: [" + text + "]\n")
@@ -36,43 +85,30 @@ class Game:
         self.last_input = readkey().lower().strip()     
         self.write_input(self.last_input.upper())       
         return self.last_input                          
-             
-    # Neue Variante braucht ein Array mit allen gültigen Eingaben das geprüft wird
-    # Prüft ob last_input ein J oder ein N ist
-    # Wenn ja, gibt er Richtig zurück
-    # Wenn nein, gibt er Falsch zurück
-    def check_last_input(self):
-        if self.last_input in self.valid_inputs:              
+                 
+    # Prüft ob die Eingabe im Dictionary vorhanden ist und gibt dementsprechend True oder False zurück
+    def check_input(self):
+        if self.last_input in self.valid_inputs[self.state]:              
             return True                                 
         else:
             return False                                
     
     def show_valid_inputs(self):
-        for key, desc in self.valid_inputs.items():
-            print(f"[{key.upper()}] - {desc}")
+        for key, description in self.valid_inputs[self.state].items():
+            print(f"[{key.upper()}] {description}")
         print()
+        self.choice = self.get_input()
+        self.choice_handler()
+
+    def show_all_inputs(self):
+        for state_dict in self.valid_inputs.values():  # jedes innere Dict
+            for key, desc in state_dict.items():
+                print(f"[{key.upper()}] {desc}")
+            
+        print("")
 
     def input_exception(self):
         print("---Ungültige Eingabe. Bitte nutze die in [ ] geschriebene Taste zum steuern---")
-
-    def start(self):
-        print("---Spiel wird gestartet...---")
-        self.active = True
-        self.state = "running"
-
-       
-    def exit(self):
-        print("---Spiel wirklich beenden? [J/N]---")
-        self.choice = self.get_input()
-        if self.last_input == "j":
-            print("--- Spiel wird beendet... ---")
-            sys.exit()
-        else:
-            print("--- Ok, was möchtest du dann machen? ---")
-            self.choice = self.get_input()
-            self.menu_choice_handler()
-
-
 
     def hello(self):
         print("_____________________________________________________________")
@@ -82,55 +118,44 @@ class Game:
         
     def show_menu_options(self):
         print("[1] Spiel starten")
-        print("[2] Einstellungen")
+        print("[2] Steuerung")
         print("[3] Spiel verlassen")
 
-    def menu_choice_handler(self):
+    def choice_handler(self):
             if self.choice == "1":
                 self.state = "start"
             elif self.choice == "2":
-                self.state = "settings"
+                self.state = "navigation"
             elif self.choice == "3":
                 self.state = "exit"
-
-    # Methode für die Spielweite Steuerung
-    def global_navigation(self):
-        if self.choice == "q":
-            self.state = "back"
 
     def menu(self):
         self.hello()
         self.show_menu_options()
         self.choice = self.get_input()
 
-        while not self.check_last_input():
+        while not self.check_input():
             self.input_exception()
             self.choice = self.get_input()
-        self.menu_choice_handler()
+        self.choice_handler()
         
-    def settings(self):
-        self.show_valid_inputs()
+    #nächste baustelle
+    def start(self):
+        print("---Spiel wird gestartet...---")
+        self.init_map()
+        self.get_input()#breakpoint damit die schleife pausiert
+       
+    def exit(self):
+        print("---Spiel wirklich beenden? [J/N]---")
         self.choice = self.get_input()
-
-        
-
-    def pause(self):
-        pass
-
-    def save(self):
-        pass
-
-    def running(self):
-        print("\n---Spiel läuft---")
-
-        if self.choice == "p":
-            self.state = "pause"
-        elif self.choice == "q":
-            self.state = "exit"
-
-    def idle(self):
-        print("--- Warte auf Eingabe ---")
-        
+        if self.last_input == "j":
+            print("--- Spiel wird beendet... ---")
+            sys.exit()
+        elif self.last_input == "n":
+            print("--- Ok, zurück zum Menu. ---\n")
+            self.show_menu_options()
+            self.choice = self.get_input()
+            self.choice_handler()
 
     def run(self):
         while self.active:
@@ -140,19 +165,10 @@ class Game:
                 self.start()
             elif self.state == "exit":
                 self.exit()
-            elif self.state == "pause":
-                self.pause()
-            elif self.state == "save":
-                self.save()
-            elif self.state == "running":
-                self.running()
-            elif self.state == "settings":
-                self.settings()
-            elif self.state == "idle":
-                self.idle()
-            #elif self.state == "back":
-
-
+            elif self.state == "navigation":
+                self.show_all_inputs()
+                self.choice = self.get_input()
+                self.choice_handler()
 
 if __name__ == "__main__":
     game = Game()
