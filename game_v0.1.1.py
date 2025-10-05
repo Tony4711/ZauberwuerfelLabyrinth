@@ -35,7 +35,7 @@ class Game:
             }  
         }
         
-    def init_map():
+    def init_map(self):
         self.rooms = {
             "yellow_room": {
                 "width": "6",
@@ -156,6 +156,25 @@ class Game:
             self.show_menu_options()
             self.choice = self.get_input()
             self.choice_handler()
+
+    def move(self, direction):
+        x, y = self.player_pos()
+        
+        if direction == "w" and y < 6 :
+            y += 1
+        elif direction == "s" and y > 0:
+            y -= 1
+        elif direction == "a" and x > 0:
+            x -= 1 
+        elif direction == "d" and x < 6:
+            x += 1
+        else:
+            print("Du stößt gegen eine Wand!")
+        self.player_pos = [x,y 
+                           ]
+            
+
+        
 
     def run(self):
         while self.active:
