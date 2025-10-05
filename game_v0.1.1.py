@@ -30,9 +30,15 @@ class Game:
                 "e": "Weiter"
             },
             "exit": {
-                "J": "Ja",
-                "N": "Nein"
-            }  
+                "j": "Ja",
+                "n": "Nein"
+            },
+            "start": {
+                "w": "Vorwärts",
+                "a": "Nach links",
+                "s": "Rückwärts",
+                "d": "Nach rechts"
+            } 
         }
         
     def init_map(self):
@@ -83,15 +89,17 @@ class Game:
     def get_input(self):
         from readchar import readkey, key
         self.last_input = readkey().lower().strip()     
-        self.write_input(self.last_input.upper())       
+        self.write_input(self.last_input.upper())     
+        self.check_state_input()  
         return self.last_input                          
                  
     # Prüft ob die Eingabe im Dictionary vorhanden ist und gibt dementsprechend True oder False zurück
-    def check_input(self):
+    def check_state_input(self):
         if self.last_input in self.valid_inputs[self.state]:              
             return True                                 
         else:
-            return False                                
+            self.input_exception()
+            return False
     
     def show_valid_inputs(self):
         for key, description in self.valid_inputs[self.state].items():
@@ -127,23 +135,33 @@ class Game:
             elif self.choice == "2":
                 self.state = "navigation"
             elif self.choice == "3":
-                self.state = "exit"
+                self.state = "exit"               
 
     def menu(self):
         self.hello()
         self.show_menu_options()
         self.choice = self.get_input()
+        self.check_state_input()
 
-        while not self.check_input():
-            self.input_exception()
-            self.choice = self.get_input()
+       # while not self.check_state_input():
+        #    self.input_exception()
+         #   self.choice = self.get_input()
         self.choice_handler()
         
     #nächste baustelle
     def start(self):
         print("---Spiel wird gestartet...---")
+        self.init_player()
+        self.init_controls()
         self.init_map()
-        self.get_input()#breakpoint damit die schleife pausiert
+        while True:
+            self.choice = self.get_input()
+            if self.choice in self.valid_inputs["moving"]:
+                self.move(self.choice)
+                #print(self.player_pos) #Zum überprüfen wo der Spieler steht
+            else:
+                False
+        self.get_input()
        
     def exit(self):
         print("---Spiel wirklich beenden? [J/N]---")
@@ -158,8 +176,7 @@ class Game:
             self.choice_handler()
 
     def move(self, direction):
-        x, y = self.player_pos()
-        
+        x, y = self.player_pos
         if direction == "w" and y < 6 :
             y += 1
         elif direction == "s" and y > 0:
@@ -170,13 +187,12 @@ class Game:
             x += 1
         else:
             print("Du stößt gegen eine Wand!")
-        self.player_pos = [x,y 
-                           ]
+        self.player_pos = [x,y]
             
 
         
 
-    def run(self):
+    def game_run(self):
         while self.active:
             if self.state == "menu":
                 self.menu()
@@ -191,4 +207,4 @@ class Game:
 
 if __name__ == "__main__":
     game = Game()
-    game.run()              
+    game.game_run()              
