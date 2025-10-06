@@ -1,5 +1,6 @@
 import sys
 import readchar
+from functools import lru_cache
 
 # Ein Spiel zum Verstehen der Grundmechaniken eines Rubiks Würfels.
 # Der kleine Zauberer Garry ist in einem 3 dimensionalem Labyrinth gefangen und muss die Räume richtig miteinander verbinden, um herauszufinden.
@@ -12,7 +13,7 @@ class Game:
         self.state = "main_menu"
         self.last_input = ""
         self.init_controls()
-        self.init_map()
+        self.init_rooms()
         self.init_player()
         self.init_main_menu()
 
@@ -42,7 +43,7 @@ class Game:
             } 
         }
         
-    def init_map(self):
+    def init_rooms(self):
         self.rooms = {
             "yellow_room": {
                 "width": "6",
@@ -81,6 +82,9 @@ class Game:
             }
         }
 
+    def init_map(self):
+        pass
+    
     def init_main_menu(self):
         self.menu_structure = {
             "main_menu":{
@@ -133,6 +137,7 @@ class Game:
         print("--- Ungültige Eingabe. Bitte nutze: ---\n" )
         self.print_dict_from_state(self.valid_inputs)
 
+    @lru_cache(maxsize=1)
     def hello(self):
         print("_____________________________________________________________")
         print("\n--- Willkommen zu 'Gefangen im Zauberwürfel Labyrinth'! ---")
@@ -141,18 +146,7 @@ class Game:
 
     def show_menu_options(self):
         self.print_dict_from_state(self.menu_structure)
-
-    def choice_handler(self):
-            if self.choice == "1":
-                self.save_previous_state()
-                self.state = "start"
-            elif self.choice == "2":
-                self.save_previous_state()
-                self.state = "navigation"
-            elif self.choice == "3":
-                self.save_previous_state()
-                self.state = "exit"               
-
+               
     def save_previous_state(self):
         self.previous_state = self.state
 
@@ -167,7 +161,7 @@ class Game:
         print("--- Spiel wird gestartet ---")
         self.init_player()
         self.init_controls()
-        self.init_map()
+        self.init_rooms()
         while True:
             self.choice = self.get_input()
             if self.choice in self.valid_inputs["start"]:
@@ -184,9 +178,10 @@ class Game:
             print("--- Spiel wird beendet ---")
             sys.exit()
         elif self.last_input == "n":
-            print("--- Ok, Spiel wird nicht beendet ---\n")
-            self.state = self.previous_state
-            self.choice = self.get_input()
+            print("--- Ok, Spiel wird nicht beendet ---")
+            print("_______________________________________")
+            self.state = "main_menu"
+            
             
 
     def move(self, direction):
@@ -203,8 +198,16 @@ class Game:
             print("--- Du stößt gegen eine Wand! ---")
         self.player_pos = [x,y]
             
-
-        
+    def choice_handler(self):
+            if self.choice == "1":
+                self.save_previous_state()
+                self.state = "start"
+            elif self.choice == "2":
+                self.save_previous_state()
+                self.state = "navigation"
+            elif self.choice == "3":
+                self.save_previous_state()
+                self.state = "exit"    
 
     def game_run(self):
         while self.active:
