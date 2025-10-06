@@ -14,6 +14,7 @@ class Game:
         self.init_controls()
         self.init_map()
         self.init_player()
+        self.init_menu()
 
     def init_player(self):
         self.player_pos = [2,2]
@@ -80,8 +81,17 @@ class Game:
             }
         }
 
+    def init_menu(self):
+        self.menu_structure = {
+            "menu":{
+            "1": "Spiel starten",
+            "2": "Steuerung",
+            "3": "Spiel verlassen"
+            }
+        }
+
     def write_input(self, text):
-        print("\nSpieler: [" + text + "]\n")
+        print("\nEingabe: [" + text + "]\n")
 
     # Liest den nächsten Tastendruck des Nutzers und speichert ihn in last_input
     # Schreibt den letzten Input in Großbuchstaben in die Konsole
@@ -90,7 +100,10 @@ class Game:
         from readchar import readkey, key
         self.last_input = readkey().lower().strip()     
         self.write_input(self.last_input.upper())     
-        self.check_state_input()  
+        #self.check_state_input()  
+        while not self.check_state_input():
+            self.input_exception()
+            self.choice = self.get_input()
         return self.last_input                          
                  
     # Prüft ob die Eingabe im Dictionary vorhanden ist und gibt dementsprechend True oder False zurück
@@ -98,7 +111,7 @@ class Game:
         if self.last_input in self.valid_inputs[self.state]:              
             return True                                 
         else:
-            self.input_exception()
+            #self.input_exception()
             return False
     
     def show_valid_inputs(self):
@@ -109,25 +122,31 @@ class Game:
         self.choice_handler()
 
     def show_all_inputs(self):
-        for state_dict in self.valid_inputs.values():  # jedes innere Dict
+        for state_dict in self.valid_inputs.values():
+            for key, desc in state_dict.items():
+                print(f"[{key.upper()}] {desc}")
+            
+        print("")
+    
+    def print_dict(self, dictname):
+        for state_dict in dictname.values():
             for key, desc in state_dict.items():
                 print(f"[{key.upper()}] {desc}")
             
         print("")
 
     def input_exception(self):
-        print("---Ungültige Eingabe. Bitte nutze die in [ ] geschriebene Taste zum steuern---")
+        print("--- Ungültige Eingabe. Bitte nutze: ---\n" )
+        self.show_valid_inputs()
 
     def hello(self):
         print("_____________________________________________________________")
         print("\n--- Willkommen zu 'Gefangen im Zauberwürfel Labyrinth'! ---")
         print("\n                   --- Hauptmenü ---")
-        print("\n--- Zum steuern bitte die in [ ] geschriebene Taste drücken. ---\n")
-        
+        print("\n--- Zum steuern bitte die in [ ] geschriebene Taste drücken ---\n")
+
     def show_menu_options(self):
-        print("[1] Spiel starten")
-        print("[2] Steuerung")
-        print("[3] Spiel verlassen")
+        self.print_dict(self.menu_structure)
 
     def choice_handler(self):
             if self.choice == "1":
@@ -141,22 +160,17 @@ class Game:
         self.hello()
         self.show_menu_options()
         self.choice = self.get_input()
-        self.check_state_input()
-
-       # while not self.check_state_input():
-        #    self.input_exception()
-         #   self.choice = self.get_input()
         self.choice_handler()
         
     #nächste baustelle
     def start(self):
-        print("---Spiel wird gestartet...---")
+        print("--- Spiel wird gestartet ---")
         self.init_player()
         self.init_controls()
         self.init_map()
         while True:
             self.choice = self.get_input()
-            if self.choice in self.valid_inputs["moving"]:
+            if self.choice in self.valid_inputs["start"]:
                 self.move(self.choice)
                 #print(self.player_pos) #Zum überprüfen wo der Spieler steht
             else:
@@ -164,13 +178,13 @@ class Game:
         self.get_input()
        
     def exit(self):
-        print("---Spiel wirklich beenden? [J/N]---")
+        print("--- Spiel wirklich beenden? [J/N] ---")
         self.choice = self.get_input()
         if self.last_input == "j":
-            print("--- Spiel wird beendet... ---")
+            print("--- Spiel wird beendet ---")
             sys.exit()
         elif self.last_input == "n":
-            print("--- Ok, zurück zum Menu. ---\n")
+            print("--- Ok, zurück zum Menu ---\n")
             self.show_menu_options()
             self.choice = self.get_input()
             self.choice_handler()
@@ -186,7 +200,7 @@ class Game:
         elif direction == "d" and x < 6:
             x += 1
         else:
-            print("Du stößt gegen eine Wand!")
+            print("--- Du stößt gegen eine Wand! ---")
         self.player_pos = [x,y]
             
 
