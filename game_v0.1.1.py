@@ -9,18 +9,22 @@ class Game:
 
     def __init__(self):
         self.active = True
-        self.state = "menu"
+        self.state = "main_menu"
         self.last_input = ""
         self.init_controls()
         self.init_map()
         self.init_player()
+<<<<<<< Updated upstream
+=======
+        self.init_main_menu()
+>>>>>>> Stashed changes
 
     def init_player(self):
         self.player_pos = [2,2]
 
     def init_controls(self):
         self.valid_inputs = {
-            "menu": {
+            "main_menu": {
                 "1": "Option 1",
                 "2": "Option 2",
                 "3": "Option 3"
@@ -80,6 +84,21 @@ class Game:
             }
         }
 
+<<<<<<< Updated upstream
+=======
+    def init_main_menu(self):
+        self.menu_structure = {
+            "main_menu":{
+            "1": "Spiel starten",
+            "2": "Steuerung",
+            "3": "Spiel verlassen"
+            },
+            "second menu": {
+                "4":"test"
+            }
+        }
+
+>>>>>>> Stashed changes
     def write_input(self, text):
         print("\nSpieler: [" + text + "]\n")
 
@@ -93,7 +112,7 @@ class Game:
         self.check_state_input()  
         return self.last_input                          
                  
-    # Prüft ob die Eingabe im Dictionary vorhanden ist und gibt dementsprechend True oder False zurück
+    # Prüft ob die Eingabe für den aktuellen State gültig ist und gibt dementsprechend True oder False zurück
     def check_state_input(self):
         if self.last_input in self.valid_inputs[self.state]:              
             return True                                 
@@ -101,22 +120,29 @@ class Game:
             #self.input_exception()
             return False
     
-    def show_valid_inputs(self):
-        for key, description in self.valid_inputs[self.state].items():
+    # Nimmt als Parameter welches Dictionary ausgegeben werden soll und den aktuellen State als key
+    def print_dict_from_state(self, dictname):
+        for key, description in dictname[self.state].items():
             print(f"[{key.upper()}] {description}")
-        print()
-        self.choice = self.get_input()
-        self.choice_handler()
+        print("________________________________________")
 
-    def show_all_inputs(self):
+    def print_dict_all(self):
         for state_dict in self.valid_inputs.values():
             for key, desc in state_dict.items():
                 print(f"[{key.upper()}] {desc}")
+<<<<<<< Updated upstream
             
         print("")
 
     def input_exception(self):
         print("---Ungültige Eingabe. Bitte nutze die in [ ] geschriebene Taste zum steuern---")
+=======
+        print("________________________________________")      
+
+    def input_exception(self):
+        print("--- Ungültige Eingabe. Bitte nutze: ---\n" )
+        self.print_dict_from_state(self.valid_inputs)
+>>>>>>> Stashed changes
 
     def hello(self):
         print("_____________________________________________________________")
@@ -125,19 +151,29 @@ class Game:
         print("\n--- Zum steuern bitte die in [ ] geschriebene Taste drücken. ---\n")
         
     def show_menu_options(self):
+<<<<<<< Updated upstream
         print("[1] Spiel starten")
         print("[2] Steuerung")
         print("[3] Spiel verlassen")
+=======
+        self.print_dict_from_state(self.menu_structure)
+>>>>>>> Stashed changes
 
     def choice_handler(self):
             if self.choice == "1":
+                self.save_previous_state()
                 self.state = "start"
             elif self.choice == "2":
+                self.save_previous_state()
                 self.state = "navigation"
             elif self.choice == "3":
+                self.save_previous_state()
                 self.state = "exit"               
 
-    def menu(self):
+    def save_previous_state(self):
+        self.previous_state = self.state
+
+    def main_menu(self):
         self.hello()
         self.show_menu_options()
         self.choice = self.get_input()
@@ -148,7 +184,7 @@ class Game:
             self.choice = self.get_input()
         self.choice_handler()
         
-    #nächste baustelle
+    
     def start(self):
         self.state = "start"
         print("---Spiel wird gestartet...---")
@@ -171,10 +207,15 @@ class Game:
             print("--- Spiel wird beendet... ---")
             sys.exit()
         elif self.last_input == "n":
+<<<<<<< Updated upstream
             print("--- Ok, zurück zum Menu. ---\n")
             self.show_menu_options()
+=======
+            print("--- Ok, Spiel wird nicht beendet ---\n")
+            self.state = self.previous_state
+>>>>>>> Stashed changes
             self.choice = self.get_input()
-            self.choice_handler()
+            
 
     def move(self, direction):
         x, y = self.player_pos
@@ -195,14 +236,15 @@ class Game:
 
     def game_run(self):
         while self.active:
-            if self.state == "menu":
-                self.menu()
+            if self.state == "main_menu":
+                self.main_menu()
             elif self.state == "start":
                 self.start()
             elif self.state == "exit":
                 self.exit()
             elif self.state == "navigation":
-                self.show_all_inputs()
+                self.print_dict_all()
+                self.state = "main_menu"
                 self.choice = self.get_input()
                 self.choice_handler()
 
