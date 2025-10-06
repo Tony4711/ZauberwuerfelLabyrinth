@@ -98,7 +98,7 @@ class Game:
         if self.last_input in self.valid_inputs[self.state]:              
             return True                                 
         else:
-            self.input_exception()
+            #self.input_exception()
             return False
     
     def show_valid_inputs(self):
@@ -109,7 +109,7 @@ class Game:
         self.choice_handler()
 
     def show_all_inputs(self):
-        for state_dict in self.valid_inputs.values():  # jedes innere Dict
+        for state_dict in self.valid_inputs.values():
             for key, desc in state_dict.items():
                 print(f"[{key.upper()}] {desc}")
             
@@ -141,22 +141,23 @@ class Game:
         self.hello()
         self.show_menu_options()
         self.choice = self.get_input()
-        self.check_state_input()
+        #self.check_state_input()
 
-       # while not self.check_state_input():
-        #    self.input_exception()
-         #   self.choice = self.get_input()
+        while not self.check_state_input():
+            self.input_exception()
+            self.choice = self.get_input()
         self.choice_handler()
         
     #nächste baustelle
     def start(self):
+        self.state = "start"
         print("---Spiel wird gestartet...---")
         self.init_player()
         self.init_controls()
         self.init_map()
         while True:
             self.choice = self.get_input()
-            if self.choice in self.valid_inputs["moving"]:
+            if self.choice in self.valid_inputs["start"]:
                 self.move(self.choice)
                 #print(self.player_pos) #Zum überprüfen wo der Spieler steht
             else:
