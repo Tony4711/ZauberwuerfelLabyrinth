@@ -1,6 +1,9 @@
 import sys
 import readchar
 from functools import lru_cache
+from room import Room
+from controls import Controls
+from player import Player
 
 # Ein Spiel zum Verstehen der Grundmechaniken eines Rubiks Würfels.
 # Der kleine Zauberer Garry ist in einem 3 dimensionalem Labyrinth gefangen und muss die Räume richtig miteinander verbinden, um herauszufinden.
@@ -12,78 +15,96 @@ class Game:
         self.active = True
         self.state = "main_menu"
         self.last_input = ""
-        self.init_controls()
+        self.controls = Controls()
         self.init_rooms()
         self.init_player()
         self.init_main_menu()
 
     def init_player(self):
-        self.player_pos = [2,2]
-
-    def init_controls(self):
-        self.valid_inputs = {
-            "main_menu": {
-                "1": "Option 1",
-                "2": "Option 2",
-                "3": "Option 3"
-            },
-            "navigation": {
-                "q": "Zurück",
-                "e": "Weiter"
-            },
-            "exit": {
-                "j": "Ja",
-                "n": "Nein"
-            },
-            "start": {
-                "w": "Vorwärts",
-                "a": "Nach links",
-                "s": "Rückwärts",
-                "d": "Nach rechts"
-            } 
-        }
+        self.player = Player("Garry", [2,2])
+        self.player_pos = [2,2] 
         
     def init_rooms(self):
-        self.rooms = {
-            "yellow_room": {
-                "width": "6",
-                "lentgh": "6",
-                "position": "bottom",
-                "name": "gelber Raum"
-            },
-            "white_room": {
-                "width": "6",
-                "lentgh": "6",
-                "position": "top",
-                "name": "weißer Raum"
-            },
-            "green_room": {"width": "6",
-                "lentgh": "6",
-                "position": "front",
-                "name": "grüner Raum"
-            },
-            "red_room": {
-                "width": "6",
-                "lentgh": "6",
-                "position": "right",
-                "name": "roter Raum"
-            },
-            "blue_room": {
-                "width": "6",
-                "lentgh": "6",
-                "position": "back",
-                "name": "blauer Raum"
-            },
-            "orange_room": {
-                "width": "6",
-                "lentgh": "6",
-                "position": "left",
-                "name": "oranger Raum"
-            }
+       self.rooms = {
+            "yellow_room": Room(
+                color = "yellow",
+                width = 6,   
+                length = 6,
+                position = "bottom",
+                name = "gelber Raum",
+                neighbors = {
+                    "north": "green_room",
+                    "east": "red_room",
+                    "south": "blue_room",
+                    "west": "orange_room",
+                }
+            ),
+            "white_room": Room(
+                color = "white",
+                width = 6,
+                length = 6,
+                position = "top",
+                name = "weißer Raum",
+                neighbors = {
+                    "north": "blue_room",
+                    "east": "red_room",
+                    "south": "green_room",
+                    "west": "orange_room",
+                }
+            ),
+            "green_room": Room(
+                color = "green",
+                width = 6,
+                length = 6,
+                position = "front",
+                name = "grüner Raum",
+                neighbors = {
+                    "north": "white_room",
+                    "east": "red_room",
+                    "south": "yellow_room",
+                    "west": "orange_room",
+                }
+            ),
+            "red_room": Room(
+                color = "red",
+                width = 6,
+                length = 6,
+                position = "right",
+                name = "roter Raum",
+                neighbors = {
+                    "north": "white_room",
+                    "east": "blue_room",
+                    "south": "yellow_room",
+                    "west": "green_room",
+                }
+            ),
+            "blue_room": Room(
+                color = "blue",
+                width = 6,
+                length = 6,
+                position = "back",
+                name = "blauer Raum",
+                neighbors = {
+                    "north": "white_room",
+                    "east": "orange_room",
+                    "south": "yellow_room",
+                    "west": "red_room",
+                }
+            ),
+            "orange_room": Room(
+                color = "orange",
+                width = 6,
+                length = 6,
+                position = "left",
+                name = "oranger Raum",
+                neighbors = {
+                    "north": "white_room",
+                    "east": "green_room",
+                    "south": "yellow_room",
+                    "west": "blue_room",
+                }
+            )
         }
-
-    def init_map(self):
-        pass
     
     def init_main_menu(self):
         self.menu_structure = {
@@ -108,34 +129,21 @@ class Game:
         self.last_input = readkey().lower().strip()     
         self.write_input(self.last_input.upper())     
         #self.check_state_input()  
-        while not self.check_state_input():
+        while not self.check_input():
             self.input_exception()
             self.choice = self.get_input()
         return self.last_input                          
                  
-    # Prüft ob die Eingabe für den aktuellen State gültig ist und gibt dementsprechend True oder False zurück
-    def check_state_input(self):
-        if self.last_input in self.valid_inputs[self.state]:              
+    # Prüft ob die Eingabe gültig ist und gibt dementsprechend True oder False zurück
+    def check_input(self):
+        if self.last_input in self.controls.get_valid_inputs(self.state):              
             return True                                 
         else:
-            #self.input_exception()
-            return False
-    
-    # Nimmt als Parameter welches Dictionary ausgegeben werden soll und den aktuellen State als key
-    def print_dict_from_state(self, dictname):
-        for key, description in dictname[self.state].items():
-            print(f"[{key.upper()}] {description}")
-        print("________________________________________")
-
-    def print_dict_all(self):
-        for state_dict in self.valid_inputs.values():
-            for key, desc in state_dict.items():
-                print(f"[{key.upper()}] {desc}")
-        print("________________________________________")      
+            return False     
 
     def input_exception(self):
         print("--- Ungültige Eingabe. Bitte nutze: ---\n" )
-        self.print_dict_from_state(self.valid_inputs)
+        self.controls.get_valid_inputs(self.state)
 
     @lru_cache(maxsize=1)
     def hello(self):
@@ -144,8 +152,12 @@ class Game:
         print("\n                   --- Hauptmenü ---")
         print("\n--- Zum steuern bitte die in [ ] geschriebene Taste drücken ---\n")
 
+    # Funktioniert nicht, weil ich keinen state übergebe wie es die methode verlangt. 
+    # Ich kann nicht das dict ändern das ausgelesen wird, lediglich den state.
+    # In controls ist fest definiert das aus mappings{} ausgelesen wird.
+    # Ich brauche also hier eine neue Methode die das gleiche macht nur mit dem passenden Dict.
     def show_menu_options(self):
-        self.print_dict_from_state(self.menu_structure)
+        self.controls.print_dict(self.menu_structure)
                
     def save_previous_state(self):
         self.previous_state = self.state
@@ -159,12 +171,9 @@ class Game:
     
     def start(self):
         print("--- Spiel wird gestartet ---")
-        self.init_player()
-        self.init_controls()
-        self.init_rooms()
         while True:
             self.choice = self.get_input()
-            if self.choice in self.valid_inputs["start"]:
+            if self.choice in self.controls.get_valid_inputs("start"):
                 self.move(self.choice)
                 #print(self.player_pos) #Zum überprüfen wo der Spieler steht
             else:
@@ -218,7 +227,7 @@ class Game:
             elif self.state == "exit":
                 self.exit()
             elif self.state == "navigation":
-                self.print_dict_all()
+                self.controls.print_dict()
                 self.state = "main_menu"
                 self.choice = self.get_input()
                 self.choice_handler()
