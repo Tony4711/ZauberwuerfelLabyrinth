@@ -4,6 +4,7 @@ from functools import lru_cache
 from room import Room
 from controls import Controls
 from player import Player
+from utillity import Utility
 
 # Ein Spiel zum Verstehen der Grundmechaniken eines Rubiks Würfels.
 # Der kleine Zauberer Garry ist in einem 3 dimensionalem Labyrinth gefangen und muss die Räume richtig miteinander verbinden, um herauszufinden.
@@ -16,9 +17,10 @@ class Game:
         self.state = "main_menu"
         self.last_input = ""
         self.controls = Controls()
+        self.utility = Utility()
         self.init_rooms()
         self.init_player()
-        self.init_main_menu()
+        self.init_menu_structure()
 
     def init_player(self):
         self.player = Player("Garry", [2,2])
@@ -106,7 +108,7 @@ class Game:
             )
         }
     
-    def init_main_menu(self):
+    def init_menu_structure(self):
         self.menu_structure = {
             "main_menu":{
             "1": "Spiel starten",
@@ -117,34 +119,7 @@ class Game:
                 "4":"test"
             }
         }
-
-    def write_input(self, text):
-        print("\nEingabe: [" + text + "]\n")
-
-    # Liest den nächsten Tastendruck des Nutzers und speichert ihn in last_input
-    # Schreibt den letzten Input in Großbuchstaben in die Konsole
-    # Gibt den Inhalt von last_input zurück
-    def get_input(self):
-        from readchar import readkey, key
-        self.last_input = readkey().lower().strip()     
-        self.write_input(self.last_input.upper())     
-        #self.check_state_input()  
-        while not self.check_input():
-            self.input_exception()
-            self.choice = self.get_input()
-        return self.last_input                          
-                 
-    # Prüft ob die Eingabe gültig ist und gibt dementsprechend True oder False zurück
-    def check_input(self):
-        if self.last_input in self.controls.get_valid_inputs(self.state):              
-            return True                                 
-        else:
-            return False     
-
-    def input_exception(self):
-        print("--- Ungültige Eingabe. Bitte nutze: ---\n" )
-        self.controls.get_valid_inputs(self.state)
-
+                                         
     @lru_cache(maxsize=1)
     def hello(self):
         print("_____________________________________________________________")
@@ -154,10 +129,10 @@ class Game:
 
     # Funktioniert nicht, weil ich keinen state übergebe wie es die methode verlangt. 
     # Ich kann nicht das dict ändern das ausgelesen wird, lediglich den state.
-    # In controls ist fest definiert das aus mappings{} ausgelesen wird.
+    # In controls ist fest definiert das aus mapping{} ausgelesen wird.
     # Ich brauche also hier eine neue Methode die das gleiche macht nur mit dem passenden Dict.
     def show_menu_options(self):
-        self.controls.print_dict(self.menu_structure)
+        self.utility.print_dict("menu_structure")
                
     def save_previous_state(self):
         self.previous_state = self.state
@@ -165,24 +140,25 @@ class Game:
     def main_menu(self):
         self.hello()
         self.show_menu_options()
-        self.choice = self.get_input()
+        self.choice = self.utility.process_input()
         self.choice_handler()
         
     
     def start(self):
         print("--- Spiel wird gestartet ---")
         while True:
-            self.choice = self.get_input()
-            if self.choice in self.controls.get_valid_inputs("start"):
+            self.choice = self.utility.process_input()
+            # Wenn der Input Teil der Bewegungssteuerung ist, bewege dich, sonst False
+            if self.choice in self.utility.return_valid_inputs("start"):
                 self.move(self.choice)
                 #print(self.player_pos) #Zum überprüfen wo der Spieler steht
             else:
                 False
-        self.get_input()
+            self.utility.process_input()
        
     def exit(self):
         print("--- Spiel wirklich beenden? [J/N] ---")
-        self.choice = self.get_input()
+        self.choice = self.utility.process_input()
         if self.last_input == "j":
             print("--- Spiel wird beendet ---")
             sys.exit()

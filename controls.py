@@ -1,7 +1,8 @@
 class Controls:
 
+    # Initiert ein Dict mit allen Steuerungen verknüpft an das jeweilige Menu
     def __init__(self):
-        self.mappings = {
+        self.mapping = {
             "main_menu": {
                 "1": "Option 1",
                 "2": "Option 2",
@@ -22,18 +23,10 @@ class Controls:
                 "d": "Nach rechts"
             } 
         }
-
-    def get_valid_inputs(self, state):
-        return self.mappings.get(state)
     
-    def print_dict(self, state = None):
-        if state:
-            for state_str, input_descr in self.mappings[state].items():
-                print(f"[{state_str.upper()}] {input_descr}")
-            print("________________________________________")
-        else:
-            for state_str, input_descr in self.mappings.items():
-                print(f"\n[{state_str.upper()}]")
-                for key, description in self.mappings.items():
-                    print(f"[{key.upper()}] {description}")
-            print("________________________________________")
+    # Getter Methode um auf lokels dict zuzugreifen
+    def get_dict(self, dictname):
+        d = getattr(self, dictname, None)
+        if d is None:
+            print(f"Dict '{dictname}' existiert nicht in Controls!")
+        return d
