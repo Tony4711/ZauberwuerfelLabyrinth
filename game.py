@@ -17,7 +17,7 @@ class Game:
         self.state = "main_menu"
         self.last_input = ""
         self.controls = Controls()
-        self.utility = Utility(self.controls, self.state)
+        self.utility = Utility(self.controls)
         self.init_rooms()
         self.init_player()
         self.init_menu_structure()

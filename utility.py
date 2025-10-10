@@ -3,9 +3,9 @@ import readchar
 
 class Utility:
 
-    def __init__(self, controls, state):
+    def __init__(self, controls):
         self.controls = controls
-        self.state = state
+        #self.state = state
 
     def read_input(self):
         from readchar import readkey, key
