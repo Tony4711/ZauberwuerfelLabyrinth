@@ -4,7 +4,7 @@ from functools import lru_cache
 from room import Room
 from controls import Controls
 from player import Player
-from utillity import Utility
+from utility import Utility
 
 # Ein Spiel zum Verstehen der Grundmechaniken eines Rubiks Würfels.
 # Der kleine Zauberer Garry ist in einem 3 dimensionalem Labyrinth gefangen und muss die Räume richtig miteinander verbinden, um herauszufinden.
@@ -17,7 +17,7 @@ class Game:
         self.state = "main_menu"
         self.last_input = ""
         self.controls = Controls()
-        self.utility = Utility()
+        self.utility = Utility(self.controls)
         self.init_rooms()
         self.init_player()
         self.init_menu_structure()
@@ -132,7 +132,7 @@ class Game:
     # In controls ist fest definiert das aus mapping{} ausgelesen wird.
     # Ich brauche also hier eine neue Methode die das gleiche macht nur mit dem passenden Dict.
     def show_menu_options(self):
-        self.utility.print_dict("menu_structure")
+        self.utility.print_dict(self.menu_structure, "main_menu")
                
     def save_previous_state(self):
         self.previous_state = self.state
@@ -140,31 +140,31 @@ class Game:
     def main_menu(self):
         self.hello()
         self.show_menu_options()
-        self.choice = self.utility.process_input()
+        self.player_choice = self.utility.process_input(self.state)
         self.choice_handler()
         
     
     def start(self):
         print("--- Spiel wird gestartet ---")
         while True:
-            self.choice = self.utility.process_input()
+            self.player_choice = self.utility.process_input(self.state)
             # Wenn der Input Teil der Bewegungssteuerung ist, bewege dich, sonst False
-            if self.choice in self.utility.return_valid_inputs("start"):
-                self.move(self.choice)
+            if self.player_choice in self.utility.return_valid_inputs(self.controls.mapping, self.state):
+                self.move(self.player_choice)
                 #print(self.player_pos) #Zum überprüfen wo der Spieler steht
             else:
                 False
-            self.utility.process_input()
+            self.utility.process_input(self.state)
        
     def exit(self):
         print("--- Spiel wirklich beenden? [J/N] ---")
-        self.choice = self.utility.process_input()
-        if self.last_input == "j":
+        self.player_choice = self.utility.process_input(self.state)
+        if self.player_choice == "j":
             print("--- Spiel wird beendet ---")
             sys.exit()
-        elif self.last_input == "n":
+        elif self.player_choice == "n":
             print("--- Ok, Spiel wird nicht beendet ---")
-            print("_______________________________________")
+            print("_______________________________________\n")
             self.state = "main_menu"
             
             
@@ -184,13 +184,13 @@ class Game:
         self.player_pos = [x,y]
             
     def choice_handler(self):
-            if self.choice == "1":
+            if self.player_choice == "1":
                 self.save_previous_state()
                 self.state = "start"
-            elif self.choice == "2":
+            elif self.player_choice == "2":
                 self.save_previous_state()
                 self.state = "navigation"
-            elif self.choice == "3":
+            elif self.player_choice == "3":
                 self.save_previous_state()
                 self.state = "exit"    
 
@@ -203,9 +203,9 @@ class Game:
             elif self.state == "exit":
                 self.exit()
             elif self.state == "navigation":
-                self.controls.print_dict()
+                self.utility.print_dict(self.controls.get_dict("mapping"))
                 self.state = "main_menu"
-                self.choice = self.get_input()
+                self.player_choice = self.utility.process_input(self.state)
                 self.choice_handler()
 
 if __name__ == "__main__":
