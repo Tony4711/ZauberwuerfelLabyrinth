@@ -3,38 +3,38 @@ import readchar
 
 class Utility:
 
-    def __init__(self, controls):
+    def __init__(self, controls) -> None:
         self.controls = controls
 
-    def read_input(self):
+    def read_input(self) -> None:
         from readchar import readkey, key
         self.input = readkey().lower().strip()
 
-    def validate_input(self):
+    def validate_input(self) -> str:
         while not self.validate_mapping():
             self.input_exception()
             self.input = self.read_input()
         return self.input
     
-    def process_input(self, state = None):
+    def process_input(self, state = None) -> str:
         self.read_input()
         self.write_input(self.input.upper()) 
         self.valid_input = self.validate_input()
         return self.valid_input
             
-    def write_input(self, text):
+    def write_input(self, text) -> None:
         print("\nEingabe: [" + text + "]\n")
 
     # Prüft ob im aktuellen state der Input im dict 'mapping' vorhanden ist
     # Gibt dementsprechend True oder False zurück
-    def validate_mapping(self):
+    def validate_mapping(self) -> None:
         if self.input in self.controls.get_dict("mapping")[self.state].keys():              
             return True                                 
         else:
             return False  
     
     # 
-    def return_valid_inputs(self, dict, state):
+    def return_valid_inputs(self, dict, state) -> dict[str, str]:
         return dict.get(state)
 
     # Fehlermeldung für ungültige Eingaben

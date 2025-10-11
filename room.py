@@ -1,11 +1,24 @@
+print("Loaded Room from:", __file__)
+from dataclasses import dataclass, field
+from typing import Literal
+
+# Defines values
+Color = Literal["yellow", "blue", "green", "red", "white", "orange"]
+Direction = Literal["north", "east", "south", "west"]
+
+@dataclass(frozen=True)
 class Room:
     
-    def __init__(self, color, width, length, position, name, neighbors):
-        self.color = color
-        self.width = int(width)
-        self.length = int(length)
-        self.position = position
-        self.name = name
-        self.neighbors = dict(neighbors)
+    color: str
+    width: int
+    length: int
+    position : str
+    name: str
+    # Creates new List for each instance with only allowed values from Color 
+    #neighbors: List[Color] = field(default_factory=list)
+    neighbors: dict[Direction, Color]
+
+    def __repr__(self):
+        return f"{self.name} at {self.position} with {self.neighbors} as neighbors" 
 
     
