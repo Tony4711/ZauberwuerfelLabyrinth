@@ -5,7 +5,6 @@ class Utility:
 
     def __init__(self, controls):
         self.controls = controls
-        #self.state = state
 
     def read_input(self):
         from readchar import readkey, key
@@ -18,7 +17,6 @@ class Utility:
         return self.input
     
     def process_input(self, state = None):
-        self.state = state
         self.read_input()
         self.write_input(self.input.upper()) 
         self.valid_input = self.validate_input()

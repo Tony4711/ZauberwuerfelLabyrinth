@@ -1,0 +1,21 @@
+# Python Cache-Dateien ignorieren
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environments ignorieren
+venv/
+.env/
+
+# IDEs und Editoren
+.vscode/
+.idea/
+
+# Logs und temporäre Dateien
+*.log
+*.tmp
+*.bak
+
+# macOS / Windows spezifische Dateien
+.DS_Store
+Thumbs.db
