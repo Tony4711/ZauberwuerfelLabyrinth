@@ -21,10 +21,10 @@ class Game:
         self.init_rooms()
         self.init_player()
         self.init_menu_structure()
+       
 
     def init_player(self):
-        self.player = Player("Garry", [2,2])
-        self.player_pos = [2,2] 
+        self.player = Player("Garry", current_room=self.yellow_room)
         
     def init_rooms(self):
        self.yellow_room = Room(
@@ -171,18 +171,18 @@ class Game:
             
 
     def move(self, direction):
-        x, y = self.player_pos
-        if direction == "w" and y < 6 :
-            y += 1
-        elif direction == "s" and y > 0:
-            y -= 1
-        elif direction == "a" and x > 0:
-            x -= 1 
-        elif direction == "d" and x < 6:
-            x += 1
+        if direction == "w" and self.player.pos.y+1 < self.player.current_room.length:
+            self.player.pos.move(dx=0,dy=1)
+        elif direction == "s" and self.player.pos.y-1 > self.player.current_room.length:
+            self.player.pos.move(dx=0,dy=-1)
+        elif direction == "a" and self.player.pos.x-1 > self.player.current_room.width:
+            self.player.pos.move(dx=-1,dy=0)
+        elif direction == "d" and self.player.pos.x+1 < self.player.current_room.width:
+            self.player.pos.move(dx=1,dy=0)
         else:
             print("--- Du stößt gegen eine Wand! ---")
-        self.player_pos = [x,y]
+        
+        
             
     def choice_handler(self):
             if self.player_choice == "1":

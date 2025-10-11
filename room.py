@@ -14,8 +14,6 @@ class Room:
     length: int
     position : str
     name: str
-    # Creates new List for each instance with only allowed values from Color 
-    #neighbors: List[Color] = field(default_factory=list)
     neighbors: dict[Direction, Color]
 
     def __repr__(self):
