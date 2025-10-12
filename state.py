@@ -10,3 +10,7 @@ class DoorState(Enum):
 class GameState(Enum):
     
     INIT = auto()
+    MAIN_MENU = auto()
+    START = auto()
+    EXIT = auto()
+    GLOBAL_CONTROLS = auto()
