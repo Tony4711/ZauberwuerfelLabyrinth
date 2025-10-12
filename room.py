@@ -1,6 +1,8 @@
 print("Loaded Room from:", __file__)
 from dataclasses import dataclass, field
 from typing import Literal
+from position import Position
+
 
 # Defines values
 Color = Literal["yellow", "blue", "green", "red", "white", "orange"]
@@ -19,4 +21,3 @@ class Room:
     def __repr__(self):
         return f"{self.name} at {self.position} with {self.neighbors} as neighbors" 
 
-    
