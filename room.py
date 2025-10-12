@@ -2,6 +2,7 @@ print("Loaded Room from:", __file__)
 from dataclasses import dataclass, field
 from typing import Literal
 from position import Position
+from door import Door
 
 
 # Defines values
@@ -14,9 +15,10 @@ class Room:
     color: str
     width: int
     length: int
-    position : str
+    position : Position = field(default_factory=lambda: Position(2,2))
     name: str
     neighbors: dict[Direction, Color]
+    door: Door
 
     def __repr__(self):
         return f"{self.name} at {self.position} with {self.neighbors} as neighbors" 

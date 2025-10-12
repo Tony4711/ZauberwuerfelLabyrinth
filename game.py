@@ -2,6 +2,7 @@ import sys
 import readchar
 from functools import lru_cache
 from room import Room
+from door import Door
 from controls import Controls
 from player import Player
 from utility import Utility
@@ -25,20 +26,24 @@ class Game:
 
     def init_player(self):
         self.player = Player("Garry", current_room=self.yellow_room)
-        
+
+    def init_doors(self):
+        self.yellow_green_door = Door(position=(5,5))
+
     def init_rooms(self):
        self.yellow_room = Room(
            color = "yellow",
            width = 6,
            length = 6,
-           position = "bottom",
+           position = ,
            name = "Gelber Raum",
            neighbors = {
                "north" : "green",
                "east" : "red",
                "south" : "blue",
                "west" : "orange"
-           }
+           },
+           door = Door(position=(5,5), leads_to="green")
        )
        self.white_room = Room(
             color = "white",

@@ -9,4 +9,5 @@ class Door:
     position: Position = field(default_factory=lambda: Position(-1,-1))
     state: DoorState = DoorState.CLOSED
     key_req: bool = False
-    connects: dict[str,str] = field(default_factory=dict)
+    leads_to: str
+    #connects: dict[str,str] = field(default_factory=dict)
