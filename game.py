@@ -205,25 +205,25 @@ class Game:
     def choice_handler(self):
             if self.player_choice == "1":
                 self.save_previous_state()
-                self.state = "start"
+                self.state = GameState.START
             elif self.player_choice == "2":
                 self.save_previous_state()
-                self.state = "navigation"
+                self.state = GameState.GLOBAL_CONTROLS
             elif self.player_choice == "3":
                 self.save_previous_state()
-                self.state = "exit"    
+                self.state = GameState.EXIT    
 
     def game_run(self):
         while self.active:
-            if self.state == "main_menu":
+            if self.state == GameState.MAIN_MENU:
                 self.main_menu()
-            elif self.state == "start":
+            elif self.state == GameState.START:
                 self.start()
-            elif self.state == "exit":
+            elif self.state == GameState.EXIT:
                 self.exit()
-            elif self.state == "navigation":
+            elif self.state == GameState.GLOBAL_CONTROLS:
                 self.utility.print_dict(self.controls.get_dict("mapping"))
-                self.state = "main_menu"
+                self.state = GameState.MAIN_MENU
                 self.player_choice = self.utility.process_input(self.state)
                 self.choice_handler()
 
