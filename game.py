@@ -1,6 +1,8 @@
 import sys
 import readchar
 from functools import lru_cache
+from state import DoorState, GameState
+from position import Position
 from room import Room
 from door import Door
 from controls import Controls
@@ -19,6 +21,7 @@ class Game:
         self.last_input = ""
         self.controls = Controls()
         self.utility = Utility(self.controls)
+        self.init_doors()
         self.init_rooms()
         self.init_player()
         self.init_menu_structure()
@@ -28,14 +31,15 @@ class Game:
         self.player = Player("Garry", current_room=self.yellow_room)
 
     def init_doors(self):
-        self.yellow_green_door = Door(position=(5,5))
+        pass
+        #self.yellow_green_door = Door(position=(5,5))
 
     def init_rooms(self):
        self.yellow_room = Room(
            color = "yellow",
            width = 6,
            length = 6,
-           position = ,
+           position = Position(6,0) ,
            name = "Gelber Raum",
            neighbors = {
                "north" : "green",
@@ -43,72 +47,78 @@ class Game:
                "south" : "blue",
                "west" : "orange"
            },
-           door = Door(position=(5,5), leads_to="green")
+           yellow_green_door = Door(position=(6,12), direction= "north", state= DoorState.OPEN)
        )
        self.white_room = Room(
             color = "white",
             width = 6,
             length = 6,
-            position = "top",
+            position = Position(6,12),
             name = "Weißer Raum",
             neighbors = {
                 "north": "blue",
                 "east": "red",
                 "south": "green",
                 "west": "orange"
-            }
+            },
+            white_green_door = Door(position=(6,12), direction="south")
+
        )
        self.green_room = Room(
             color = "green",
             width = 6,
             length = 6,
-            position = "front",
+            position = Position(6,6),
             name = "Grüner Raum",
             neighbors = {
                 "north": "white",
                 "east": "red",
                 "south": "yellow",
                 "west": "orange"
-            }
+            },
+            green_orange_door = Door(position=(6,6), direction="west")
         )
        self.red_room = Room(
             color = "red",
             width = 6,
             length = 6,
-            position = "right",
+            position = Position(12,6),
             name = "Roter Raum",
             neighbors = {
                 "north": "white",
                 "east": "blue",
                 "south": "yellow",
                 "west": "green"
-            }
+            },
+            red_green_door = Door(position=(12,6), direction="west")
         )
        self.blue_room = Room(
             color = "blue",
             width = 6,
             length = 6,
-            position = "back",
+            position = Position(18,6),
             name = "Blauer Raum",
             neighbors = {
                 "north": "white",
                 "east": "orange",
                 "south": "yellow",
                 "west": "red"
-            }
+            },
+            blue_red_door = Door(position=(18,6), direction="west")
         )
        self.orange_room = Room(
             color = "orange",
             width = 6,
             length = 6,
-            position = "left",
+            position = Position(0,6),
             name = "Oranger Raum",
             neighbors = {
                 "north": "white",
                 "east": "green",
                 "south": "yellow",
                 "west": "blue"
-            }
+            },
+            orange_blue_door = Door(position=(0,6), direction="west")
        )
        # Debug print
        #for room in [self.orange_room, self.yellow_room, self.blue_room, self.green_room, self.white_room, self.red_room]:

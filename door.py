@@ -7,7 +7,7 @@ from dataclasses import dataclass, field
 class Door:
 
     position: Position = field(default_factory=lambda: Position(-1,-1))
+    direction: str
     state: DoorState = DoorState.CLOSED
     key_req: bool = False
     leads_to: str
-    #connects: dict[str,str] = field(default_factory=dict)
