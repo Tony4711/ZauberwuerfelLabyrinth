@@ -1,7 +1,7 @@
 import sys
 import readchar
 from functools import lru_cache
-from enums import DoorState, GameState
+from enums import DoorState, GameState, Directions
 from position import Position
 from room import Room
 from door import Door
@@ -42,12 +42,12 @@ class Game:
            position = Position(6,0) ,
            name = "Gelber Raum",
            neighbors = {
-               "north" : "green",
-               "east" : "red",
-               "south" : "blue",
-               "west" : "orange"
+               Directions.NORTH: "green",
+               Directions.EAST: "red",
+               Directions.SOUTH: "blue",
+               Directions.WEST: "orange"
            },
-           yellow_green_door = Door(position=(6,12), direction= "north", state= DoorState.OPEN)
+           yellow_green_door = Door(position=(6,12), direction=Directions.NORTH, state= DoorState.OPEN)
        )
        self.white_room = Room(
             color = "white",
@@ -56,12 +56,12 @@ class Game:
             position = Position(6,12),
             name = "Weißer Raum",
             neighbors = {
-                "north": "blue",
-                "east": "red",
-                "south": "green",
-                "west": "orange"
+                Directions.NORTH: "blue",
+                Directions.EAST: "red",
+                Directions.SOUTH: "green",
+                Directions.WEST: "orange"
             },
-            white_green_door = Door(position=(6,12), direction="south")
+            white_green_door = Door(position=(6,12), direction=Directions.SOUTH)
 
        )
        self.green_room = Room(
@@ -71,12 +71,12 @@ class Game:
             position = Position(6,6),
             name = "Grüner Raum",
             neighbors = {
-                "north": "white",
-                "east": "red",
-                "south": "yellow",
-                "west": "orange"
+                Directions.NORTH: "white",
+                Directions.EAST: "red",
+                Directions.SOUTH: "yellow",
+                Directions.WEST: "orange"
             },
-            green_orange_door = Door(position=(6,6), direction="west")
+            green_orange_door = Door(position=(6,6), direction=Directions.WEST)
         )
        self.red_room = Room(
             color = "red",
@@ -85,12 +85,12 @@ class Game:
             position = Position(12,6),
             name = "Roter Raum",
             neighbors = {
-                "north": "white",
-                "east": "blue",
-                "south": "yellow",
-                "west": "green"
+                Directions.NORTH: "white",
+                Directions.EAST: "blue",
+                Directions.SOUTH: "yellow",
+                Directions.WEST: "green"
             },
-            red_green_door = Door(position=(12,6), direction="west")
+            red_green_door = Door(position=(12,6), direction=Directions.WEST)
         )
        self.blue_room = Room(
             color = "blue",
@@ -99,12 +99,12 @@ class Game:
             position = Position(18,6),
             name = "Blauer Raum",
             neighbors = {
-                "north": "white",
-                "east": "orange",
-                "south": "yellow",
-                "west": "red"
+                Directions.NORTH: "white",
+                Directions.EAST: "orange",
+                Directions.SOUTH: "yellow",
+                Directions.SOUTH: "red"
             },
-            blue_red_door = Door(position=(18,6), direction="west")
+            blue_red_door = Door(position=(18,6), direction=Directions.WEST)
         )
        self.orange_room = Room(
             color = "orange",
@@ -113,12 +113,12 @@ class Game:
             position = Position(0,6),
             name = "Oranger Raum",
             neighbors = {
-                "north": "white",
-                "east": "green",
-                "south": "yellow",
-                "west": "blue"
+                Directions.NORTH: "white",
+                Directions.EAST: "green",
+                Directions.SOUTH: "yellow",
+                Directions.WEST: "blue"
             },
-            orange_blue_door = Door(position=(0,6), direction="west")
+            orange_blue_door = Door(position=(0,6), direction=Directions.WEST)
        )
        # Debug print
        #for room in [self.orange_room, self.yellow_room, self.blue_room, self.green_room, self.white_room, self.red_room]:

@@ -14,3 +14,10 @@ class GameState(Enum):
     START = auto()
     EXIT = auto()
     GLOBAL_CONTROLS = auto()
+
+class Directions(Enum):
+
+    NORTH = auto()
+    EAST = auto()
+    SOUTH = auto()
+    WEST = auto()
