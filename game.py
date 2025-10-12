@@ -152,10 +152,9 @@ class Game:
             # Wenn der Input Teil der Bewegungssteuerung ist, bewege dich, sonst False
             if self.player_choice in self.utility.return_valid_inputs(self.controls.mapping, self.state):
                 self.move(self.player_choice)
-                #print(self.player_pos) #Zum überprüfen wo der Spieler steht
             else:
                 False
-            self.utility.process_input(self.state)
+            #self.utility.process_input(self.state)
        
     def exit(self):
         print("--- Spiel wirklich beenden? [J/N] ---")
@@ -173,12 +172,16 @@ class Game:
     def move(self, direction):
         if direction == "w" and self.player.pos.y+1 < self.player.current_room.length:
             self.player.pos.move(dx=0,dy=1)
-        elif direction == "s" and self.player.pos.y-1 > self.player.current_room.length:
+            print("--- Du gehst einen Schritt nach Norden ---\n")
+        elif direction == "s" and self.player.pos.y-1 > 0:
             self.player.pos.move(dx=0,dy=-1)
-        elif direction == "a" and self.player.pos.x-1 > self.player.current_room.width:
+            print("--- Du gehst einen Schritt nach Süden ---\n")
+        elif direction == "a" and self.player.pos.x-1 > 0:
             self.player.pos.move(dx=-1,dy=0)
+            print("--- Du gehst einen Schritt nach Westen ---\n")
         elif direction == "d" and self.player.pos.x+1 < self.player.current_room.width:
             self.player.pos.move(dx=1,dy=0)
+            print("--- Du gehst einen Schritt nach Osten ---\n")
         else:
             print("--- Du stößt gegen eine Wand! ---")
         
