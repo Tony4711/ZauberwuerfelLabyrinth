@@ -172,16 +172,16 @@ class Game:
     def move(self, direction):
         if direction == "w" and self.player.pos.y+1 < self.player.current_room.length:
             self.player.pos.move(dx=0,dy=1)
-            print("--- Du gehst einen Schritt nach Norden ---\n")
+            print("--- Du gehst einen Schritt nach Norden ---")
         elif direction == "s" and self.player.pos.y-1 > 0:
             self.player.pos.move(dx=0,dy=-1)
-            print("--- Du gehst einen Schritt nach Süden ---\n")
+            print("--- Du gehst einen Schritt nach Süden ---")
         elif direction == "a" and self.player.pos.x-1 > 0:
             self.player.pos.move(dx=-1,dy=0)
-            print("--- Du gehst einen Schritt nach Westen ---\n")
+            print("--- Du gehst einen Schritt nach Westen ---")
         elif direction == "d" and self.player.pos.x+1 < self.player.current_room.width:
             self.player.pos.move(dx=1,dy=0)
-            print("--- Du gehst einen Schritt nach Osten ---\n")
+            print("--- Du gehst einen Schritt nach Osten ---")
         else:
             print("--- Du stößt gegen eine Wand! ---")
         
