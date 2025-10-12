@@ -1,7 +1,7 @@
 import sys
 import readchar
 from functools import lru_cache
-from state import DoorState, GameState
+from enums import DoorState, GameState
 from position import Position
 from room import Room
 from door import Door
