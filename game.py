@@ -180,7 +180,7 @@ class Game:
         elif self.player_choice == "n":
             print("--- Ok, Spiel wird nicht beendet ---")
             print("_______________________________________\n")
-            self.state = "main_menu"
+            self.state = GameState.MAIN_MENU
             
             
 
