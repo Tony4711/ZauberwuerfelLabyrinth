@@ -17,12 +17,12 @@ class Utility:
         self.input = readkey().lower().strip()
     
     def write_input(self, text) -> None:
-        print("\nEingabe: [" + text + "]\n")
+        print("Eingabe: [" + text + "]\n")
 
     def validate_input(self, state = None) -> str:
         while not self.validate_mapping(state):
-            self.input_exception()
-            self.input = self.read_input()
+            self.input_exception(state)
+            self.input = self.process_input(state)
         return self.input
 
     # Prüft ob im aktuellen state der Input im dict 'mapping' vorhanden ist
