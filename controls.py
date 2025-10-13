@@ -1,22 +1,23 @@
+from enums import GameState
 class Controls:
 
     # Initiert ein Dict mit allen Steuerungen verknüpft an das jeweilige Menu
     def __init__(self):
         self.mapping = {
-            "main_menu": {
+            GameState.MAIN_MENU: {
                 "1": "Option 1",
                 "2": "Option 2",
                 "3": "Option 3"
             },
-            "navigation": {
+            GameState.GLOBAL_CONTROLS: {
                 "q": "Zurück",
                 "e": "Weiter"
             },
-            "exit": {
+            GameState.EXIT: {
                 "j": "Ja",
                 "n": "Nein"
             },
-            "start": {
+            GameState.START: {
                 "w": "Vorwärts",
                 "a": "Nach links",
                 "s": "Rückwärts",
