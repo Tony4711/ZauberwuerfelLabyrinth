@@ -1,5 +1,5 @@
 import readchar
-#from controls import Controls
+from enums import GameState
 
 class Utility:
 
@@ -38,27 +38,31 @@ class Utility:
         return dict.get(state)
 
     # Fehlermeldung für ungültige Eingaben
-    def input_exception(self):
+    def input_exception(self, state):
         print("--- Ungültige Eingabe. Bitte nutze: ---\n" )
-        self.controls.get_dict("mapping")[self.state].items()
+        #self.controls.get_dict("mapping")[state].items()
+        self.print_dict(self.controls.get_dict("mapping"), state)
 
     # Gibt in einer übersicht alle Steuerungen aus
     # Wenn kein state übergeben wurde, werden alle möglichen Eingaben ausgegeben
-    def print_dict(self, dictname : dict, state = None):
+    def print_dict(self, dictname : dict, key = None):
         
         # Wenn ein state vorhanden ist
-        if state:
+        if key:
             # Gebe alle child Daten des parent keys aus
-            for state_str, input_descr in dictname[state].items():
-                print(f"[{state_str.upper()}] {input_descr}")
-            print("________________________________________")
+            for key, value in dictname[key].items():
+                key_str = str(getattr(key, "value", key))
+                print(f"[{key_str.upper()}] {value}")
+            print("________________________________________\n")
         else:
             # Ansonsten gebe alle Daten des dict aus
-            for state_str, input_descr in dictname.items():
-                print(f"\n[{state_str.upper()}]")
-                for key, description in input_descr.items():
-                    print(f"[{key.upper()}] {description}")
-            print("________________________________________")
+            for key, value in dictname.items():
+                key_str = str(getattr(key, "value", key))
+                print(f"\n[{key_str}]")
+                for key, description in value.items():
+                    key_str = str(getattr(key, "value", key))
+                    print(f"[{key_str.upper()}] {description}")
+            print("________________________________________\n")
 
     #wip   
     def print_map(self, map : dict):
