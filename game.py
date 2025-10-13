@@ -172,7 +172,7 @@ class Game:
             #self.utility.process_input(self.state)
        
     def exit(self):
-        print("--- Spiel wirklich beenden? [J/N] ---")
+        print("--- Spiel wirklich beenden? [J/N] ---\n")
         self.player_choice = self.utility.process_input(self.state)
         if self.player_choice == "j":
             print("--- Spiel wird beendet ---")
