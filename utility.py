@@ -59,3 +59,9 @@ class Utility:
                 for key, description in input_descr.items():
                     print(f"[{key.upper()}] {description}")
             print("________________________________________")
+
+    #wip   
+    def print_map(self, map : dict):
+        for rooms in map.items():
+            print(rooms)
+            

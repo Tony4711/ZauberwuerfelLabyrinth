@@ -6,5 +6,6 @@ from room import Room
 class Player:
 
     name: str
-    pos: Position = field(default_factory=lambda: Position(2,2)) 
     current_room: Room | None = None
+    pos: Position = field(default_factory=lambda: Position(2,2)) 
+    

@@ -21,3 +21,12 @@ class Directions(Enum):
     EAST = auto()
     SOUTH = auto()
     WEST = auto()
+
+class RoomColor(Enum):
+    
+    YELLOW = auto()
+    WHITE = auto()
+    GREEN = auto()
+    ORANGE = auto()
+    BLUE = auto()
+    RED = auto()
