@@ -152,9 +152,6 @@ class Game:
     # Ich brauche also hier eine neue Methode die das gleiche macht nur mit dem passenden Dict.
     def show_menu_options(self):
         self.utility.print_dict(self.menu_structure, "main_menu")
-               
-    def save_previous_state(self):
-        self.previous_state = self.state
 
     def main_menu(self):
         self.hello()
@@ -164,7 +161,7 @@ class Game:
         
     
     def start(self):
-        print("--- Spiel wird gestartet ---")
+        print("--- Spiel wird gestartet ---\n")
         while True:
             self.player_choice = self.utility.process_input(self.state)
             # Wenn der Input Teil der Bewegungssteuerung ist, bewege dich, sonst False
@@ -190,30 +187,27 @@ class Game:
     def move(self, direction):
         if direction == "w" and self.player.pos.y+1 < self.player.current_room.length:
             self.player.pos.move(dx=0,dy=1)
-            print("--- Du gehst einen Schritt nach Norden ---")
+            print("--- Du gehst einen Schritt nach Norden ---\n")
         elif direction == "s" and self.player.pos.y-1 > 0:
             self.player.pos.move(dx=0,dy=-1)
-            print("--- Du gehst einen Schritt nach Süden ---")
+            print("--- Du gehst einen Schritt nach Süden ---\n")
         elif direction == "a" and self.player.pos.x-1 > 0:
             self.player.pos.move(dx=-1,dy=0)
-            print("--- Du gehst einen Schritt nach Westen ---")
+            print("--- Du gehst einen Schritt nach Westen ---\n")
         elif direction == "d" and self.player.pos.x+1 < self.player.current_room.width:
             self.player.pos.move(dx=1,dy=0)
-            print("--- Du gehst einen Schritt nach Osten ---")
+            print("--- Du gehst einen Schritt nach Osten ---\n")
         else:
-            print("--- Du stößt gegen eine Wand! ---")
+            print("--- Du stößt gegen eine Wand! ---\n")
         
         
             
     def choice_handler(self):
             if self.player_choice == "1":
-                self.save_previous_state()
                 self.state = GameState.START
             elif self.player_choice == "2":
-                self.save_previous_state()
                 self.state = GameState.GLOBAL_CONTROLS
             elif self.player_choice == "3":
-                self.save_previous_state()
                 self.state = GameState.EXIT    
 
     def game_run(self):
