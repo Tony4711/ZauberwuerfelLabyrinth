@@ -1,5 +1,5 @@
 import readchar
-from enums import GameState
+from enums import GameState, Directions, RoomColor
 
 class Utility:
 
@@ -64,8 +64,22 @@ class Utility:
                     print(f"[{key_str.upper()}] {description}")
             print("________________________________________\n")
 
+    def _lookup_neighbor(self, room, direction):
+        target = room.neighbors.get(direction)
+        if target is None:
+            return None
+        return target
+
+
     #wip   
-    def print_map(self, map : dict):
-        for rooms in map.items():
-            print(rooms)
-            
+    def print_map(self, room, map : dict):
+       front = room.color
+       left = self._lookup_neighbor(room, Directions.WEST)
+       right = self._lookup_neighbor(room, Directions.EAST)
+       up = self._lookup_neighbor(room, Directions.NORTH)
+       down = self._lookup_neighbor(room, Directions.SOUTH)
+       back = self._lookup_neighbor(map.get(right), Directions.EAST)
+
+       print(f"              [{map.get(up).name}]") 
+       print(f"[{map.get(left).name}][{map.get(front).name}][{map.get(right).name}][{map.get(back).name}]")
+       print(f"              [{map.get(down).name}]") 
