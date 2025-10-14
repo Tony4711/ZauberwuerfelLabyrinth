@@ -118,21 +118,22 @@ class Game:
     
     def init_map(self):
         self.map_dict = {
-            self.yellow_room,
-            self.white_room,
-            self.green_room,
-            self.orange_room,
-            self.blue_room,
-            self.red_room
+            RoomColor.YELLOW: self.yellow_room,
+            RoomColor.WHITE: self.white_room,
+            RoomColor.GREEN: self.green_room,
+            RoomColor.ORANGE: self.orange_room,
+            RoomColor.BLUE: self.blue_room,
+            RoomColor.RED: self.red_room
         }
-        self.utility.print_map(self.map_dict)
+        self.utility.print_map(self.green_room, self.map_dict)
     
     def init_menu_structure(self):
         self.menu_structure = {
             "main_menu":{
             "1": "Spiel starten",
             "2": "Steuerung",
-            "3": "Spiel verlassen"
+            "3": "Spiel verlassen",
+            "4": "Karte öffnen"
             },
             "second menu": {
                 "4":"test"
@@ -204,21 +205,31 @@ class Game:
             elif self.player_choice == "2":
                 self.state = GameState.GLOBAL_CONTROLS
             elif self.player_choice == "3":
-                self.state = GameState.EXIT    
+                self.state = GameState.EXIT  
+            elif self.player_choice == "4":
+                self.state = GameState.MAP  
+
+    def game_idle(self):
+        self.player_choice = self.utility.process_input(self.state)
+        self.choice_handler()
 
     def game_run(self):
         while self.active:
             if self.state == GameState.MAIN_MENU:
                 self.main_menu()
+            elif self.state == GameState.IDLE:
+                self.game_idle()
             elif self.state == GameState.START:
                 self.start()
             elif self.state == GameState.EXIT:
                 self.exit()
             elif self.state == GameState.GLOBAL_CONTROLS:
                 self.utility.print_dict(self.controls.get_dict("mapping"))
-                self.state = GameState.MAIN_MENU
-                self.player_choice = self.utility.process_input(self.state)
+                self.state = GameState.IDLE
                 self.choice_handler()
+            elif self.state == GameState.MAP:
+                self.init_map()
+                self.state = GameState.IDLE
 
 if __name__ == "__main__":
     game = Game()
