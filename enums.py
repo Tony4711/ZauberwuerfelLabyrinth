@@ -14,6 +14,8 @@ class GameState(Enum):
     START = "Start"
     EXIT = "Exit"
     GLOBAL_CONTROLS = "Steuerung"
+    MAP = "Karte"
+    IDLE = "Ruhend"
 
 class Directions(Enum):
 
