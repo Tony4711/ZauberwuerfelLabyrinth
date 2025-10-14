@@ -16,14 +16,16 @@ from utility import Utility
 class Game:
 
     def __init__(self):
-        self.active = True
+        self.running = True
         self.state = GameState.MAIN_MENU
         self.last_input = ""
         self.controls = Controls()
         self.utility = Utility(self.controls)
         self.init_rooms()
         self.init_player()
+        self.init_map()
         self.init_menu_structure()
+        
        
 
     def init_player(self):
@@ -153,13 +155,6 @@ class Game:
     # Ich brauche also hier eine neue Methode die das gleiche macht nur mit dem passenden Dict.
     def show_menu_options(self):
         self.utility.print_dict(self.menu_structure, "main_menu")
-
-    def main_menu(self):
-        self.hello()
-        self.show_menu_options()
-        self.player_choice = self.utility.process_input(self.state)
-        self.choice_handler()
-        
     
     def start(self):
         print("--- Spiel wird gestartet ---\n")
@@ -209,27 +204,24 @@ class Game:
             elif self.player_choice == "4":
                 self.state = GameState.MAP  
 
-    def game_idle(self):
-        self.player_choice = self.utility.process_input(self.state)
-        self.choice_handler()
-
     def game_run(self):
-        while self.active:
-            if self.state == GameState.MAIN_MENU:
-                self.main_menu()
-            elif self.state == GameState.IDLE:
-                self.game_idle()
-            elif self.state == GameState.START:
-                self.start()
-            elif self.state == GameState.EXIT:
-                self.exit()
-            elif self.state == GameState.GLOBAL_CONTROLS:
-                self.utility.print_dict(self.controls.get_dict("mapping"))
-                self.state = GameState.IDLE
-                self.choice_handler()
-            elif self.state == GameState.MAP:
-                self.init_map()
-                self.state = GameState.IDLE
+        self.hello()
+        self.show_menu_options()
+        while self.running:
+            self.player_choice = self.utility.process_input(self.state)
+            self.choice_handler()
+            self.state_handler()
+
+
+    def state_handler(self):
+        if self.state == GameState.START:
+            self.start()
+        elif self.state == GameState.EXIT:
+            self.exit()
+        elif self.state == GameState.GLOBAL_CONTROLS:
+            self.utility.print_dict(self.controls.get_dict("mapping"))
+        elif self.state == GameState.MAP:
+            self.init_map()
 
 if __name__ == "__main__":
     game = Game()
