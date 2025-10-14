@@ -37,6 +37,7 @@ class Command(Enum):
     MOVE_EAST = "Nach Osten gehen"
     MOVE_SOUTH = "Nach Süden gehen"
     MOVE_WEST = "Nach Westen gehen"
+    START = "Start"
     QUIT = "Schließen"
     MAP = "Karte"
     GLOBAL_CONTROLS = "Steuerung"
