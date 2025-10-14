@@ -182,8 +182,6 @@ class Game:
             print("_______________________________________\n")
             self.state = GameState.MAIN_MENU
             
-            
-
     def move(self, direction):
         if direction == "w" and self.player.pos.y+1 < self.player.current_room.length:
             self.player.pos.move(dx=0,dy=1)
@@ -199,9 +197,7 @@ class Game:
             print("--- Du gehst einen Schritt nach Osten ---\n")
         else:
             print("--- Du stößt gegen eine Wand! ---\n")
-        
-        
-            
+                   
     def choice_handler(self):
             if self.player_choice == "1":
                 self.state = GameState.START
