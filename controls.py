@@ -7,7 +7,8 @@ class Controls:
             GameState.MAIN_MENU: {
                 "1": "Option 1",
                 "2": "Option 2",
-                "3": "Option 3"
+                "3": "Option 3",
+                "4": "Option 4"
             },
             GameState.GLOBAL_CONTROLS: {
                 "q": "Zurück",
@@ -22,6 +23,9 @@ class Controls:
                 "a": "Nach links",
                 "s": "Rückwärts",
                 "d": "Nach rechts"
+            },
+            GameState.MAP: {
+                "q": "Zurück"
             } 
         }
     
