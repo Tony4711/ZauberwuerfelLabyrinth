@@ -32,3 +32,12 @@ class RoomColor(Enum):
     ORANGE = auto()
     BLUE = auto()
     RED = auto()
+
+class Command(Enum):
+
+    MOVE_NORTH = "Nach Norden gehen"
+    MOVE_EAST = "Nach Osten gehen"
+    MOVE_SOUTH = "Nach Süden gehen"
+    MOVE_WEST = "Nach Westen gehen"
+    QUIT = "Schließen"
+    MAP = "Karte"
