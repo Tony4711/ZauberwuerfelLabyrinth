@@ -13,8 +13,6 @@ class GameState(Enum):
     MAIN_MENU = "Main Menu"
     START = "Start"
     EXIT = "Exit"
-    GLOBAL_CONTROLS = "Steuerung"
-    MAP = "Karte"
     IDLE = "Ruhend"
 
 class Directions(Enum):
@@ -40,4 +38,6 @@ class Command(Enum):
     MOVE_SOUTH = "Nach Süden gehen"
     MOVE_WEST = "Nach Westen gehen"
     QUIT = "Schließen"
+    MAP = "Karte"
+    GLOBAL_CONTROLS = "Steuerung"
     MAP = "Karte"
