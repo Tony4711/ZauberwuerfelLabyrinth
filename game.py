@@ -25,6 +25,19 @@ class Game:
         self.init_player()
         self.init_map()
         self.init_menu_structure()
+        self.movement_commands = {
+            Command.MOVE_NORTH,
+            Command.MOVE_EAST,
+            Command.MOVE_SOUTH,
+            Command.MOVE_WEST
+        }
+        self.option_commands = {
+            Command.OP1,
+            Command.OP2,
+            Command.OP2,
+            Command.OP3,
+            Command.OP4
+        }
         
        
 
@@ -127,7 +140,6 @@ class Game:
             RoomColor.BLUE: self.blue_room,
             RoomColor.RED: self.red_room
         }
-        self.utility.print_map(self.green_room, self.map_dict)
     
     def init_menu_structure(self):
         self.menu_structure = {
@@ -144,17 +156,19 @@ class Game:
                                          
     @lru_cache(maxsize=1)
     def hello(self):
-        print("_____________________________________________________________")
+        print("________________________________________________________________")
         print("\n--- Willkommen zu 'Gefangen im Zauberwürfel Labyrinth'! ---")
         print("\n                   --- Hauptmenü ---")
         print("\n--- Zum steuern bitte die in [ ] geschriebene Taste drücken ---\n")
 
-    # Funktioniert nicht, weil ich keinen state übergebe wie es die methode verlangt. 
-    # Ich kann nicht das dict ändern das ausgelesen wird, lediglich den state.
-    # In controls ist fest definiert das aus mapping{} ausgelesen wird.
-    # Ich brauche also hier eine neue Methode die das gleiche macht nur mit dem passenden Dict.
+    def show_controls(self):
+        self.utility.print_dict(self.controls.get_dict("mapping"))
+
     def show_menu_options(self):
         self.utility.print_dict(self.menu_structure, "main_menu")
+    
+    def show_map(self):
+         self.utility.print_map(self.green_room, self.map_dict)
     
     def start(self):
         print("--- Spiel wird gestartet ---\n")
@@ -165,62 +179,67 @@ class Game:
                 self.move(self.command)
             else:
                 False
-            #self.utility.process_input(self.state)
        
     def exit(self):
         print("--- Spiel wirklich beenden? [J/N] ---\n")
+        prev_state = self.state
+        self.state = GameState.EXIT
         self.command = self.utility.process_input(self.state)
-        if self.command == "j":
+        if self.command == Command.ACCEPT:
             print("--- Spiel wird beendet ---")
-            sys.exit()
-        elif self.command == "n":
+            self.state = GameState.EXIT
+            self.running = False
+        elif self.command == Command.DENIE:
+            self.state = prev_state
             print("--- Ok, Spiel wird nicht beendet ---")
-            print("_______________________________________\n")
-            self.state = GameState.MAIN_MENU
-            
+            print("________________________________________________________________\n")
+
     def move(self, direction):
-        if direction == "w" and self.player.pos.y+1 < self.player.current_room.length:
+        if direction is Command.MOVE_NORTH and self.player.pos.y+1 < self.player.current_room.length:
             self.player.pos.move(dx=0,dy=1)
             print("--- Du gehst einen Schritt nach Norden ---\n")
-        elif direction == "s" and self.player.pos.y-1 > 0:
+        elif direction is Command.MOVE_SOUTH and self.player.pos.y-1 > 0:
             self.player.pos.move(dx=0,dy=-1)
             print("--- Du gehst einen Schritt nach Süden ---\n")
-        elif direction == "a" and self.player.pos.x-1 > 0:
+        elif direction is Command.MOVE_WEST and self.player.pos.x-1 > 0:
             self.player.pos.move(dx=-1,dy=0)
             print("--- Du gehst einen Schritt nach Westen ---\n")
-        elif direction == "d" and self.player.pos.x+1 < self.player.current_room.width:
+        elif direction is Command.MOVE_EAST and self.player.pos.x+1 < self.player.current_room.width:
             self.player.pos.move(dx=1,dy=0)
             print("--- Du gehst einen Schritt nach Osten ---\n")
         else:
             print("--- Du stößt gegen eine Wand! ---\n")
                    
     def process_command(self):
-            if self.command == Command.START:
-                self.state = GameState.START
-            elif self.command == "2":
-                self.state = GameState.GLOBAL_CONTROLS
-            elif self.command == "3":
-                self.state = GameState.EXIT  
-            elif self.command == "4":
-                self.state = GameState.MAP  
+            if self.command is Command.CONTROLS:
+                self.show_controls()
+            elif self.command == Command.EXIT:
+                self.exit()
+            elif self.command is Command.OPEN_MAP:
+                self.show_map() 
+            elif self.command in self.movement_commands:
+                self.move(self.command)
+            elif self.command in self.option_commands:
+                self.menu_handler()
 
-    def state_handler(self):
-        if self.state == GameState.START:
+    def menu_handler(self):
+        if self.command is Command.OP1:
+            self.state = GameState.START
             self.start()
-        elif self.state == GameState.EXIT:
+        elif self.command is Command.OP2:
+            self.show_controls()
+        elif self.command is Command.OP3:
             self.exit()
-        elif self.state == GameState.GLOBAL_CONTROLS:
-            self.utility.print_dict(self.controls.get_dict("mapping"))
-        elif self.state == GameState.MAP:
-            self.init_map()
-    
+        elif self.command is Command.OP4:
+             self.show_map()
+
     def game_run(self):
         self.hello()
         self.show_menu_options()
         while self.running:
             self.command = self.utility.process_input(self.state)
             self.process_command()
-            self.state_handler()
+
 
 if __name__ == "__main__":
     game = Game()
