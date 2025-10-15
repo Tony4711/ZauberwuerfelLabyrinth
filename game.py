@@ -1,7 +1,7 @@
 import sys
 import readchar
 from functools import lru_cache
-from enums import DoorState, GameState, Directions, RoomColor
+from enums import DoorState, GameState, Directions, RoomColor, Command
 from position import Position
 from room import Room
 from door import Door
@@ -159,21 +159,21 @@ class Game:
     def start(self):
         print("--- Spiel wird gestartet ---\n")
         while True:
-            self.player_choice = self.utility.process_input(self.state)
+            self.command = self.utility.process_input(self.state)
             # Wenn der Input Teil der Bewegungssteuerung ist, bewege dich, sonst False
-            if self.player_choice in self.utility.return_valid_inputs(self.controls.mapping, self.state):
-                self.move(self.player_choice)
+            if self.command in self.utility.return_valid_inputs(self.controls.mapping, self.state):
+                self.move(self.command)
             else:
                 False
             #self.utility.process_input(self.state)
        
     def exit(self):
         print("--- Spiel wirklich beenden? [J/N] ---\n")
-        self.player_choice = self.utility.process_input(self.state)
-        if self.player_choice == "j":
+        self.command = self.utility.process_input(self.state)
+        if self.command == "j":
             print("--- Spiel wird beendet ---")
             sys.exit()
-        elif self.player_choice == "n":
+        elif self.command == "n":
             print("--- Ok, Spiel wird nicht beendet ---")
             print("_______________________________________\n")
             self.state = GameState.MAIN_MENU
@@ -194,24 +194,15 @@ class Game:
         else:
             print("--- Du stößt gegen eine Wand! ---\n")
                    
-    def choice_handler(self):
-            if self.player_choice == "1":
+    def process_command(self):
+            if self.command == Command.START:
                 self.state = GameState.START
-            elif self.player_choice == "2":
+            elif self.command == "2":
                 self.state = GameState.GLOBAL_CONTROLS
-            elif self.player_choice == "3":
+            elif self.command == "3":
                 self.state = GameState.EXIT  
-            elif self.player_choice == "4":
+            elif self.command == "4":
                 self.state = GameState.MAP  
-
-    def game_run(self):
-        self.hello()
-        self.show_menu_options()
-        while self.running:
-            self.player_choice = self.utility.process_input(self.state)
-            self.choice_handler()
-            self.state_handler()
-
 
     def state_handler(self):
         if self.state == GameState.START:
@@ -222,6 +213,14 @@ class Game:
             self.utility.print_dict(self.controls.get_dict("mapping"))
         elif self.state == GameState.MAP:
             self.init_map()
+    
+    def game_run(self):
+        self.hello()
+        self.show_menu_options()
+        while self.running:
+            self.command = self.utility.process_input(self.state)
+            self.process_command()
+            self.state_handler()
 
 if __name__ == "__main__":
     game = Game()
