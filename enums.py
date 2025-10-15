@@ -14,6 +14,7 @@ class GameState(Enum):
     START = "Start"
     EXIT = "Exit"
     IDLE = "Ruhend"
+    GLOBAL_CONTROLS = "Alle Steuerungen"
 
 class Directions(Enum):
 
@@ -37,11 +38,9 @@ class Command(Enum):
     MOVE_EAST = "d"
     MOVE_SOUTH = "s"
     MOVE_WEST = "a"
-    START = "Start"
-    QUIT = "Schließen"
-    MAP = "Karte"
-    GLOBAL_CONTROLS = "Steuerung"
-    MAP = "Karte"
+    QUIT = "x"
+    OPEN_MAP = "m"
+    CONTROLS = "c"
     OP1 = "1"
     OP2 = "2"
     OP3 = "3"
@@ -50,3 +49,4 @@ class Command(Enum):
     FORTH = "e"
     ACCEPT = "j"
     DENIE = "n"
+    EXIT = "x"
