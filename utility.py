@@ -1,5 +1,5 @@
 import readchar
-from enums import GameState, Directions, RoomColor
+from enums import GameState, Directions, RoomColor, Command
 
 class Utility:
 
@@ -7,28 +7,41 @@ class Utility:
         self.controls = controls
     
     def process_input(self, state = None) -> str:
-        self.read_input()
-        self.write_input(self.input.upper()) 
-        self.valid_input = self.validate_input(state)
-        return self.valid_input
+        input = self.read_input()
+        self.write_input(input.upper())
+        # parse self.input to self.command
+        command = self.get_command_from_input(input)
+        if command is None:
+            self.input_exception(state)
+        else:
+            valid_command = self.state_accepts_command(state, command)
+            return valid_command
     
     def read_input(self) -> None:
         from readchar import readkey, key
-        self.input = readkey().lower().strip()
+        input = readkey().lower().strip()
+        return input
     
     def write_input(self, text) -> None:
         print("Eingabe: [" + text + "]\n")
+    
+    def get_command_from_input(self, input: str):
+        for command in Command:
+            if command.value == input:
+                return command
+        return None
 
-    def validate_input(self, state = None) -> str:
-        while not self.validate_mapping(state):
+
+    def state_accepts_command(self, state, command) -> str:
+        while not self.validate_mapping(state, command):
             self.input_exception(state)
-            self.input = self.process_input(state)
-        return self.input
+            command = self.process_input(state)
+        return command
 
     # Prüft ob im aktuellen state der Input im dict 'mapping' vorhanden ist
     # Gibt dementsprechend True oder False zurück
-    def validate_mapping(self, state = None) -> bool:
-        if self.input in self.controls.get_dict("mapping")[state].keys():              
+    def validate_mapping(self, state, command) -> bool:
+        if command in self.controls.get_dict("mapping")[state].keys():              
             return True                                 
         else:
             return False  
@@ -53,7 +66,7 @@ class Utility:
             for key, value in dictname[key].items():
                 key_str = str(getattr(key, "value", key))
                 print(f"[{key_str.upper()}] {value}")
-            print("________________________________________\n")
+            print("________________________________________________________________\n")
         else:
             # Ansonsten gebe alle Daten des dict aus
             for key, value in dictname.items():
@@ -62,7 +75,7 @@ class Utility:
                 for key, description in value.items():
                     key_str = str(getattr(key, "value", key))
                     print(f"[{key_str.upper()}] {description}")
-            print("________________________________________\n")
+            print("________________________________________________________________\n")
 
     def _lookup_neighbor(self, room, direction):
         target = room.neighbors.get(direction)
@@ -82,4 +95,6 @@ class Utility:
 
        print(f"              [{map.get(up).name}]") 
        print(f"[{map.get(left).name}][{map.get(front).name}][{map.get(right).name}][{map.get(back).name}]")
-       print(f"              [{map.get(down).name}]") 
+       print(f"              [{map.get(down).name}]\n")
+       print("________________________________________________________________\n") 
+
