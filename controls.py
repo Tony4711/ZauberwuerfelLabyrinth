@@ -12,7 +12,10 @@ class Controls:
             },
             GameState.GLOBAL_CONTROLS: {
                 Command.BACK: "Zurück",
-                Command.FORTH: "Weiter"
+                Command.FORTH: "Weiter",
+                Command.EXIT: "Beenden",
+                Command.OPEN_MAP: "Karte öffnen",
+                Command.CONTROLS: "Steuerung anzeigen"
             },
             GameState.EXIT: {
                 Command.ACCEPT: "Ja",
@@ -23,10 +26,7 @@ class Controls:
                 Command.MOVE_WEST: "Nach Westen gehen",
                 Command.MOVE_SOUTH: "Nach Süden gehen",
                 Command.MOVE_EAST: "Nach Osten gehen"
-            },
-            GameState.MAP: {
-                Command.BACK: "Zurück"
-            } 
+            }
         }
     
     # Getter Methode um auf lokels dict zuzugreifen
