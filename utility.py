@@ -14,7 +14,7 @@ class Utility:
         if command is None:
             self.input_exception(state)
         else:
-            valid_command = self.state_accepts_command(state, command)
+            valid_command = self.state_trooper(state, command)
             return valid_command
     
     def read_input(self) -> None:
@@ -32,15 +32,15 @@ class Utility:
         return None
 
 
-    def state_accepts_command(self, state, command) -> str:
-        while not self.validate_mapping(state, command):
+    def state_trooper(self, state, command) -> str:
+        while not self.is_valid_for_state(state, command):
             self.input_exception(state)
             command = self.process_input(state)
         return command
 
     # Prüft ob im aktuellen state der Input im dict 'mapping' vorhanden ist
     # Gibt dementsprechend True oder False zurück
-    def validate_mapping(self, state, command) -> bool:
+    def is_valid_for_state(self, state, command) -> bool:
         if command in self.controls.get_dict("mapping")[state].keys():              
             return True                                 
         else:
