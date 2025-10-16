@@ -66,7 +66,7 @@ class Utility:
             for key, value in dictname[key].items():
                 key_str = str(getattr(key, "value", key))
                 print(f"[{key_str.upper()}] {value}")
-            print("________________________________________________________________\n")
+            print("________________________________________\n")
         else:
             # Ansonsten gebe alle Daten des dict aus
             for key, value in dictname.items():
@@ -96,5 +96,5 @@ class Utility:
        print(f"              [{map.get(up).name}]") 
        print(f"[{map.get(left).name}][{map.get(front).name}][{map.get(right).name}][{map.get(back).name}]")
        print(f"              [{map.get(down).name}]\n")
-       print("________________________________________________________________\n") 
+       print("________________________________________________________________\n")
 
