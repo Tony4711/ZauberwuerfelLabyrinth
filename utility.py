@@ -6,7 +6,7 @@ class Utility:
     def __init__(self, controls) -> None:
         self.controls = controls
     
-    def process_input(self, state = None) -> str:
+    def process_input(self,  state: GameState, isGlobal: False):
         input = self.read_input()
         self.write_input(input.upper())
         # parse self.input to self.command
@@ -14,7 +14,7 @@ class Utility:
         if command is None:
             self.input_exception(state)
         else:
-            valid_command = self.state_trooper(state, command)
+            valid_command = self.state_trooper(state, command, isGlobal)
             return valid_command
     
     def read_input(self) -> None:
@@ -32,10 +32,13 @@ class Utility:
         return None
 
 
-    def state_trooper(self, state, command) -> str:
+    def state_trooper(self, state, command, isGlobal) -> str:
         while not self.is_valid_for_state(state, command):
-            self.input_exception(state)
-            command = self.process_input(state)
+            if isGlobal and self.is_valid_for_state(GameState.GLOBAL_CONTROLS, command):
+                return command
+            else:
+                self.input_exception(state)
+                command = self.process_input(state)
         return command
 
     # Prüft ob im aktuellen state der Input im dict 'mapping' vorhanden ist
@@ -46,8 +49,8 @@ class Utility:
         else:
             return False  
     
-    # 
-    def return_valid_inputs(self, dict, state) -> dict[str, str]:
+    # Gibt alle values eines dicts anhand des keys 'state' zuück
+    def get_commands_for_state(self, dict, state) -> dict[str, str]:
         return dict.get(state)
 
     # Fehlermeldung für ungültige Eingaben

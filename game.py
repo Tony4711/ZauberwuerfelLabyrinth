@@ -18,6 +18,7 @@ class Game:
     def __init__(self):
         self.running = True
         self.state = GameState.MAIN_MENU
+        self.isGlobal = False
         self.last_input = ""
         self.controls = Controls()
         self.utility = Utility(self.controls)
@@ -173,12 +174,12 @@ class Game:
     def start(self):
         print("--- Spiel wird gestartet ---\n")
         while True:
-            self.command = self.utility.process_input(self.state)
+            self.command = self.utility.process_input(self.state, True)
             # Wenn der Input Teil der Bewegungssteuerung ist, bewege dich, sonst False
-            if self.command in self.utility.return_valid_inputs(self.controls.mapping, self.state):
+            if self.command in self.utility.get_commands_for_state(self.controls.mapping, self.state):
                 self.move(self.command)
             else:
-                False
+                self.process_command()
        
     def exit(self):
         print("--- Spiel wirklich beenden? [J/N] ---\n")
@@ -224,7 +225,8 @@ class Game:
 
     def menu_handler(self):
         if self.command is Command.OP1:
-            self.state = GameState.START
+            self.state = GameState.PLAYING
+            self.isGlobal = True
             self.start()
         elif self.command is Command.OP2:
             self.show_controls()
@@ -237,7 +239,7 @@ class Game:
         self.hello()
         self.show_menu_options()
         while self.running:
-            self.command = self.utility.process_input(self.state)
+            self.command = self.utility.process_input(self.state, self.isGlobal)
             self.process_command()
 
 
