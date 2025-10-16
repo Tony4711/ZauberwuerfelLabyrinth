@@ -38,7 +38,7 @@ class Utility:
                 return command
             else:
                 self.input_exception(state)
-                command = self.process_input(state)
+                command = self.process_input(state, isGlobal)
         return command
 
     # Prüft ob im aktuellen state der Input im dict 'mapping' vorhanden ist
