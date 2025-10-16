@@ -21,7 +21,7 @@ class Controls:
                 Command.ACCEPT: "Ja",
                 Command.DENIE: "Nein"
             },
-            GameState.START: {
+            GameState.PLAYING: {
                 Command.MOVE_NORTH: "Nach Norden gehen",
                 Command.MOVE_WEST: "Nach Westen gehen",
                 Command.MOVE_SOUTH: "Nach Süden gehen",

@@ -11,7 +11,7 @@ class GameState(Enum):
     
     INIT = "Init"
     MAIN_MENU = "Main Menu"
-    START = "Start"
+    PLAYING = "Start"
     EXIT = "Exit"
     IDLE = "Ruhend"
     GLOBAL_CONTROLS = "Alle Steuerungen"
