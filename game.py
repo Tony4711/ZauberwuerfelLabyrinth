@@ -145,10 +145,10 @@ class Game:
     def init_menu_structure(self):
         self.menu_structure = {
             "main_menu":{
-            "1": "Spiel starten",
-            "2": "Steuerung",
-            "3": "Spiel verlassen",
-            "4": "Karte öffnen"
+            Command.OP1.value: "Spiel starten",
+            Command.OP2.value: "Steuerung",
+            Command.OP3.value: "Karte öffnen",
+            Command.OP4.value: "Spiel verlassen"
             },
             "second menu": {
                 "4":"test"
@@ -231,9 +231,9 @@ class Game:
         elif self.command is Command.OP2:
             self.show_controls()
         elif self.command is Command.OP3:
-            self.exit()
+            self.show_map()
         elif self.command is Command.OP4:
-             self.show_map()
+             self.exit()
 
     def game_run(self):
         self.hello()

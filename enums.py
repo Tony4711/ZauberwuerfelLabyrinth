@@ -14,7 +14,7 @@ class GameState(Enum):
     PLAYING = "Start"
     EXIT = "Exit"
     IDLE = "Ruhend"
-    GLOBAL_CONTROLS = "Alle Steuerungen"
+    GLOBAL_CONTROLS = "Globale Steuerungen"
 
 class Directions(Enum):
 
