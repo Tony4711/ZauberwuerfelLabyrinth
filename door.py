@@ -9,6 +9,6 @@ class Door:
     direction: Directions
     key_req: bool = False
     state: DoorState = DoorState.CLOSED
-    position: Position = field(default_factory=lambda: Position(-1,-1))
+    pos: Position = field(default_factory=lambda: Position(-1,-1))
     
     
