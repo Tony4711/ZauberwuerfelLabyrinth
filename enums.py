@@ -32,24 +32,30 @@ class RoomColor(Enum):
     BLUE = auto()
     RED = auto()
 
+class CommandTag(Enum):
+    MOVEMENT = auto()
+    META= auto()
+    OPTION = auto()
+    CHOICE = auto()
+
 class Command(Enum):
 
-    MOVE_NORTH = ("w", "movement")
-    MOVE_EAST = ("d", "movement") 
-    MOVE_SOUTH = ("s", "movement")
-    MOVE_WEST = ("a", "movement")
-    QUIT = ("x", "meta")
-    OPEN_MAP = ("m", "meta")
-    CONTROLS = ("c", "meta")
-    OP1 = ("1", "option")
-    OP2 = ("2", "option")
-    OP3 = ("3", "option")
-    OP4 = ("4", "option")
-    BACK = ("q", "meta")
-    FORTH = ("e", "meta")
-    ACCEPT = ("j", "choice")
-    DENIE = ("n", "choice")
-    EXIT = ("x", "choice")
+    MOVE_NORTH = ("w", CommandTag.MOVEMENT)
+    MOVE_EAST = ("d", CommandTag.MOVEMENT) 
+    MOVE_SOUTH = ("s", CommandTag.MOVEMENT)
+    MOVE_WEST = ("a", CommandTag.MOVEMENT)
+    QUIT = ("x", CommandTag.META)
+    OPEN_MAP = ("m", CommandTag.META)
+    CONTROLS = ("c", CommandTag.META)
+    OP1 = ("1", CommandTag.OPTION)
+    OP2 = ("2", CommandTag.OPTION)
+    OP3 = ("3", CommandTag.OPTION)
+    OP4 = ("4", CommandTag.OPTION)
+    BACK = ("q", CommandTag.META)
+    FORTH = ("e", CommandTag.META)
+    ACCEPT = ("j", CommandTag.CHOICE)
+    DENIE = ("n", CommandTag.CHOICE)
+    EXIT = ("x", CommandTag.CHOICE)
 
     def __init__(self, key, tag):
         self._value_ = key
