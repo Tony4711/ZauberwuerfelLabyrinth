@@ -34,19 +34,23 @@ class RoomColor(Enum):
 
 class Command(Enum):
 
-    MOVE_NORTH = "w"
-    MOVE_EAST = "d"
-    MOVE_SOUTH = "s"
-    MOVE_WEST = "a"
-    QUIT = "x"
-    OPEN_MAP = "m"
-    CONTROLS = "c"
-    OP1 = "1"
-    OP2 = "2"
-    OP3 = "3"
-    OP4 = "4"
-    BACK = "q"
-    FORTH = "e"
-    ACCEPT = "j"
-    DENIE = "n"
-    EXIT = "x"
+    MOVE_NORTH = ("w", "movement")
+    MOVE_EAST = ("d", "movement") 
+    MOVE_SOUTH = ("s", "movement")
+    MOVE_WEST = ("a", "movement")
+    QUIT = ("x", "meta")
+    OPEN_MAP = ("m", "meta")
+    CONTROLS = ("c", "meta")
+    OP1 = ("1", "option")
+    OP2 = ("2", "option")
+    OP3 = ("3", "option")
+    OP4 = ("4", "option")
+    BACK = ("q", "meta")
+    FORTH = ("e", "meta")
+    ACCEPT = ("j", "choice")
+    DENIE = ("n", "choice")
+    EXIT = ("x", "choice")
+
+    def __init__(self, key, tag):
+        self._value_ = key
+        self.tag = tag
