@@ -1,7 +1,7 @@
 import sys
 import readchar
 from functools import lru_cache
-from enums import DoorState, GameState, Directions, RoomColor, Command
+from enums import DoorState, GameState, Directions, RoomColor, Command, CommandTag
 from position import Position
 from room import Room
 from door import Door
@@ -26,19 +26,6 @@ class Game:
         self.init_player()
         self.init_map()
         self.init_menu_structure()
-        self.movement_commands = {
-            Command.MOVE_NORTH,
-            Command.MOVE_EAST,
-            Command.MOVE_SOUTH,
-            Command.MOVE_WEST
-        }
-        self.option_commands = {
-            Command.OP1,
-            Command.OP2,
-            Command.OP2,
-            Command.OP3,
-            Command.OP4
-        }
         
        
 
@@ -58,7 +45,7 @@ class Game:
                Directions.SOUTH: RoomColor.BLUE,
                Directions.WEST: RoomColor.ORANGE
            },
-          door = Door(leads_to=RoomColor.GREEN, direction=Directions.NORTH, state=DoorState.OPEN, position=(6,12))
+          door = Door(leads_to=RoomColor.GREEN, direction=Directions.NORTH, state=DoorState.OPEN, pos=(6,12))
        )
        self.white_room = Room(
             color = RoomColor.WHITE,
@@ -72,7 +59,7 @@ class Game:
                 Directions.SOUTH: RoomColor.GREEN,
                 Directions.WEST: RoomColor.ORANGE
             },
-            door = Door(leads_to=RoomColor.GREEN, direction=Directions.SOUTH, position=(6,12))
+            door = Door(leads_to=RoomColor.GREEN, direction=Directions.SOUTH, pos=(6,12))
 
        )
        self.green_room = Room(
@@ -87,7 +74,7 @@ class Game:
                 Directions.SOUTH: RoomColor.YELLOW,
                 Directions.WEST: RoomColor.ORANGE
             },
-            door = Door(leads_to=RoomColor.ORANGE , direction=Directions.WEST, position=(6,6))
+            door = Door(leads_to=RoomColor.ORANGE , direction=Directions.WEST, pos=(6,6))
         )
        self.red_room = Room(
             color = RoomColor.RED,
@@ -101,7 +88,7 @@ class Game:
                 Directions.SOUTH: RoomColor.YELLOW,
                 Directions.WEST: RoomColor.GREEN
             },
-            door = Door(leads_to=RoomColor.GREEN, direction=Directions.WEST, position=(12,6))
+            door = Door(leads_to=RoomColor.GREEN, direction=Directions.WEST, pos=(12,6))
         )
        self.blue_room = Room(
             color = RoomColor.BLUE,
@@ -115,7 +102,7 @@ class Game:
                 Directions.SOUTH: RoomColor.YELLOW,
                 Directions.SOUTH: RoomColor.RED
             },
-            door = Door(leads_to=RoomColor.RED, direction=Directions.WEST, position=(18,6))
+            door = Door(leads_to=RoomColor.RED, direction=Directions.WEST, pos=(18,6))
         )
        self.orange_room = Room(
             color = RoomColor.ORANGE,
@@ -129,7 +116,7 @@ class Game:
                 Directions.SOUTH: RoomColor.YELLOW,
                 Directions.WEST: RoomColor.BLUE
             },
-            door = Door(leads_to=RoomColor.BLUE, direction=Directions.WEST, position=(0,6))
+            door = Door(leads_to=RoomColor.BLUE, direction=Directions.WEST, pos=(0,6))
        )
     
     def init_map(self):
@@ -149,9 +136,6 @@ class Game:
             Command.OP2.value: "Steuerung",
             Command.OP3.value: "Karte öffnen",
             Command.OP4.value: "Spiel verlassen"
-            },
-            "second menu": {
-                "4":"test"
             }
         }
                                          
@@ -218,9 +202,9 @@ class Game:
                 self.exit()
             elif self.command is Command.OPEN_MAP:
                 self.show_map() 
-            elif self.command in self.movement_commands:
+            elif self.command.tag is CommandTag.MOVEMENT:
                 self.move(self.command)
-            elif self.command in self.option_commands:
+            elif self.command is CommandTag.OPTION:
                 self.menu_handler()
 
     def menu_handler(self):
