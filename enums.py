@@ -55,7 +55,7 @@ class Command(Enum):
     FORTH = ("e", CommandTag.META)
     ACCEPT = ("j", CommandTag.CHOICE)
     DENIE = ("n", CommandTag.CHOICE)
-    EXIT = ("x", CommandTag.CHOICE)
+    EXIT = ("x", CommandTag.META)
 
     def __init__(self, key, tag):
         self._value_ = key
