@@ -13,7 +13,7 @@ class Controls:
             GameState.GLOBAL_CONTROLS: {
                 Command.BACK: "Zurück",
                 Command.FORTH: "Weiter",
-                Command.EXIT: "Beenden",
+                Command.EXIT: "Spiel verlassen",
                 Command.OPEN_MAP: "Karte öffnen",
                 Command.CONTROLS: "Steuerung anzeigen"
             },
