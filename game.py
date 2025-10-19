@@ -166,6 +166,7 @@ class Game:
                 #---DEBUG print--- self.utility.print_pos("Door:",self.player.current_room.door)
                 if self.check_door():
                     print(f"{'--- Du stehst vor einer Tür ---\n':^64}")
+                    self.prepare_room_transition()
             else:
                 self.process_command()
        
@@ -191,6 +192,9 @@ class Game:
         else: 
             False
     
+    def prepare_room_transition(self):
+        pass
+
     def move(self, direction):
         if direction is Command.MOVE_NORTH and self.player.pos.y+1 <= self.player.current_room.length:
             self.player.pos.move(dx=0,dy=1)
