@@ -158,15 +158,12 @@ class Game:
         print(f"{'--- Spiel wird gestartet ---\n':^64}")
         print(f"{'--- Bitte nutze [' + Command.CONTROLS.value.upper() + '] um dir die Steuerung anzeigen zu lassen ---\n':^64}")
         while True:
-            self.command = self.utility.process_input(self.state, True)
+            self.command = self.utility.process_input(self.state, isGlobal=True)
             # Wenn der Input Teil der Bewegungssteuerung ist, bewege dich, sonst False
             if self.command in self.utility.get_commands_for_state(self.controls.mapping, self.state):
                 self.move(self.command)
                 #---DEBUG print--- self.utility.print_pos("Player:", self.player)
                 #---DEBUG print--- self.utility.print_pos("Door:",self.player.current_room.door)
-                if self.check_door():
-                    print(f"{'--- Du stehst vor einer Tür ---\n':^64}")
-                    self.prepare_room_transition()
             else:
                 self.process_command()
        
@@ -193,7 +190,10 @@ class Game:
             False
     
     def prepare_room_transition(self):
-        pass
+        print(f"{'--- Möchtest du hindurchgehen? [J/N] ---\n':^64}")
+        self.command = self.utility.process_input(self.state, isGlobal=False)
+        if self.command == Command.ACCEPT:
+            pass
 
     def check_door(self):
         if (self.player.pos.x == self.player.current_room.door.pos.x) and (self.player.pos.y == self.player.current_room.door.pos.y):
@@ -202,40 +202,40 @@ class Game:
             False
     
     def move(self, direction):
-        if direction is Command.MOVE_NORTH and self.player.pos.y+1 <= self.player.current_room.length:
+        if direction == Command.MOVE_NORTH and self.player.pos.y+1 <= self.player.current_room.length:
             self.player.pos.move(dx=0,dy=1)
             print(f"{'--- Du gehst einen Schritt nach Norden ---\n':^64}")
-        elif direction is Command.MOVE_SOUTH and self.player.pos.y-1 > 0:
+        elif direction == Command.MOVE_SOUTH and self.player.pos.y-1 > 0:
             self.player.pos.move(dx=0,dy=-1)
             print(f"{'--- Du gehst einen Schritt nach Süden ---\n':^64}")
-        elif direction is Command.MOVE_WEST and self.player.pos.x-1 > 0:
+        elif direction == Command.MOVE_WEST and self.player.pos.x-1 > 0:
             self.player.pos.move(dx=-1,dy=0)
             print(f"{'--- Du gehst einen Schritt nach Westen ---\n':^64}")
-        elif direction is Command.MOVE_EAST and self.player.pos.x+1 <= self.player.current_room.width:
+        elif direction == Command.MOVE_EAST and self.player.pos.x+1 <= self.player.current_room.width:
             self.player.pos.move(dx=1,dy=0)
             print(f"{'--- Du gehst einen Schritt nach Osten ---\n':^64}")
+        elif self.check_door():
+            print(f"{'--- Du stehst vor einer Tür ---\n':^64}")
+            self.prepare_room_transition()
         else:
             print(f"{'--- Du stößt gegen eine Wand! ---\n':^64}")
                    
     def process_command(self):
-            if self.command is Command.CONTROLS:
+            if self.command == Command.CONTROLS:
                 self.show_controls()
             elif self.command == Command.EXIT:
                 self.exit()
-            elif self.command is Command.OPEN_MAP:
+            elif self.command == Command.OPEN_MAP:
                 self.show_map() 
-            #elif self.command.tag is CommandTag.MOVEMENT:
-                #self.move(self.command)
-                #self.check_door()
-            elif self.command.tag is CommandTag.OPTION:
+            elif self.command.tag == CommandTag.OPTION:
                 self.menu_handler()
 
     def menu_handler(self):
-        if self.command is Command.OP1:
+        if self.command == Command.OP1:
             self.state = GameState.PLAYING
             self.isGlobal = True
             self.start()
-        elif self.command is Command.OP2:
+        elif self.command == Command.OP2:
              self.exit()
 
     def game_run(self):
