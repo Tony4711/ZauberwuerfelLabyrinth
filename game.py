@@ -162,8 +162,10 @@ class Game:
             # Wenn der Input Teil der Bewegungssteuerung ist, bewege dich, sonst False
             if self.command in self.utility.get_commands_for_state(self.controls.mapping, self.state):
                 self.move(self.command)
-                #---DEBUG print--- self.utility.print_pos("Player:", self.player)
-                #---DEBUG print--- self.utility.print_pos("Door:",self.player.current_room.door)
+                #---DEBUG print--- "
+                self.utility.print_pos("Player:", self.player)
+                #---DEBUG print--- 
+                self.utility.print_pos("Door:",self.player.current_room.door)
             else:
                 self.process_command()
        
@@ -188,28 +190,59 @@ class Game:
             return True 
         else: 
             False
-    
-    #wip
-    def prepare_room_transition(self):
-        print(f"{'--- Möchtest du hindurchgehen? [J/N] ---\n':^64}")
-        self.command = self.utility.process_input(self.state, isGlobal=False)
-        if self.command == Command.ACCEPT:
-            door_direction = self.player.current_room.door.direction
-            next_room_color = self.player.current_room.neighbors.get(door_direction)
-            next_room = self.map_dict.get(next_room_color)
-            #wip einen schritt in die himmelsrichtung der Tür machen, aktuell bewegt der spieler sich vertikal als auch horizontal
-            ini_player_pos_next_room = self.player.current_room.door.pos.move(dx=1,dy=1)
-            self.player.current_room = next_room
-            self.player.pos = self.player
 
-            
     def check_door(self):
         if (self.player.pos.x == self.player.current_room.door.pos.x) and (self.player.pos.y == self.player.current_room.door.pos.y):
             return True 
         else: 
-            False
     
-    def move(self, direction):
+            False
+    def move_through_door(self, directional_command):
+        directional_step = {
+            Command.MOVE_NORTH: (Directions.NORTH, (0, 1),),
+            Command.MOVE_SOUTH: (Directions.SOUTH, (0, -1)),
+            Command.MOVE_EAST:  (Directions.EAST, (1, 0)),
+            Command.MOVE_WEST:  (Directions.WEST, (-1, 0))
+        }
+        next_room_color = self.player.current_room.door.leads_to
+        # Use color to find next room object
+        next_room = self.map_dict.get(next_room_color)
+        (dx, dy) = directional_step[directional_command][1]
+        direction = directional_step[directional_command][0]
+        self.player.pos.move(dx, dy)
+        print(f"{'--- Du gehst durch eine Tür in richtung ' + direction.value + ' ---\n':^64}")
+        self.player.current_room = next_room
+
+    def move(self, directional_command):
+        if directional_command == Command.MOVE_NORTH:
+            if self.check_door():
+                self.move_through_door(directional_command)    
+            elif self.player.pos.y+1 <= self.player.current_room.length:
+                self.player.pos.move(dx=0,dy=1)
+                print(f"{'--- Du gehst einen Schritt nach Norden ---\n':^64}")
+        elif directional_command == Command.MOVE_SOUTH:
+            if self.check_door():
+                self.move_through_door(directional_command)
+            elif self.player.pos.y-1 > 0:
+                self.player.pos.move(dx=0,dy=-1)
+                print(f"{'--- Du gehst einen Schritt nach Süden ---\n':^64}")
+        elif directional_command == Command.MOVE_WEST:
+            if self.check_door():
+                self.move_through_door(directional_command)
+            elif self.player.pos.x-1 > 0:
+                self.player.pos.move(dx=-1,dy=0)
+                print(f"{'--- Du gehst einen Schritt nach Westen ---\n':^64}")
+        elif directional_command == Command.MOVE_EAST:
+            if self.check_door():
+                self.move_through_door(directional_command)
+            elif self.player.pos.x+1 <= self.player.current_room.width:
+                self.player.pos.move(dx=1,dy=0)
+                print(f"{'--- Du gehst einen Schritt nach Osten ---\n':^64}")
+        else:
+            print(f"{'--- Du stößt gegen eine Wand! ---\n':^64}")
+       
+
+    def move_old(self, direction):
         if direction == Command.MOVE_NORTH and self.player.pos.y+1 <= self.player.current_room.length:
             self.player.pos.move(dx=0,dy=1)
             print(f"{'--- Du gehst einen Schritt nach Norden ---\n':^64}")
