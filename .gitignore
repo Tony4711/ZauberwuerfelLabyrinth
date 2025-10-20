@@ -15,6 +15,7 @@ venv/
 *.log
 *.tmp
 *.bak
+*.txt
 
 # macOS / Windows spezifische Dateien
 .DS_Store
