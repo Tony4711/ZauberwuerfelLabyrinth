@@ -189,12 +189,20 @@ class Game:
         else: 
             False
     
+    #wip
     def prepare_room_transition(self):
         print(f"{'--- Möchtest du hindurchgehen? [J/N] ---\n':^64}")
         self.command = self.utility.process_input(self.state, isGlobal=False)
         if self.command == Command.ACCEPT:
-            pass
+            door_direction = self.player.current_room.door.direction
+            next_room_color = self.player.current_room.neighbors.get(door_direction)
+            next_room = self.map_dict.get(next_room_color)
+            #wip einen schritt in die himmelsrichtung der Tür machen, aktuell bewegt der spieler sich vertikal als auch horizontal
+            ini_player_pos_next_room = self.player.current_room.door.pos.move(dx=1,dy=1)
+            self.player.current_room = next_room
+            self.player.pos = self.player
 
+            
     def check_door(self):
         if (self.player.pos.x == self.player.current_room.door.pos.x) and (self.player.pos.y == self.player.current_room.door.pos.y):
             return True 
