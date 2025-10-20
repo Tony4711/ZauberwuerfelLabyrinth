@@ -1,6 +1,14 @@
 """Centralized state definitions for the game (door, game, etc.)."""
 from enum import Enum, auto
 
+class CommandTag(Enum):
+    MOVEMENT = auto()
+    META= auto()
+    OPTION = auto()
+    CHOICE = auto()
+    HORIZONTAL = auto()
+    VERTICAL = auto()
+
 class DoorState(Enum):
 
     OPEN = auto()
@@ -18,10 +26,10 @@ class GameState(Enum):
 
 class Directions(Enum):
 
-    NORTH = auto()
-    EAST = auto()
-    SOUTH = auto()
-    WEST = auto()
+    NORTH = "Norder"
+    EAST = "Osten"
+    SOUTH = "Süden"
+    WEST = "Westen"
 
 class RoomColor(Enum):
     
@@ -31,12 +39,6 @@ class RoomColor(Enum):
     ORANGE = auto()
     BLUE = auto()
     RED = auto()
-
-class CommandTag(Enum):
-    MOVEMENT = auto()
-    META= auto()
-    OPTION = auto()
-    CHOICE = auto()
 
 class Command(Enum):
 
