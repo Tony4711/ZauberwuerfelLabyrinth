@@ -62,3 +62,7 @@ class Command(Enum):
     def __init__(self, key, tag):
         self._value_ = key
         self.tag = tag
+    
+class Corner(Enum):
+    BOTTOM_LEFT = auto()
+    TOP_RIGHT = auto()

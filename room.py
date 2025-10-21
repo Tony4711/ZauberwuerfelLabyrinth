@@ -1,4 +1,4 @@
-from enums import Directions, RoomColor
+from enums import Directions, RoomColor, Corner
 from dataclasses import dataclass, field
 from typing import Literal
 from position import Position
@@ -13,8 +13,8 @@ class Room:
     name: str
     door: Door
     neighbors: dict[Directions, RoomColor]
-    position : Position = field(default_factory=lambda: Position(2,2))
+    pos : dict[Corner, Position]
     
     def __repr__(self):
-        return f"{self.name} at {self.position} with {self.neighbors} as neighbors" 
+        return f"{self.name} at {self.pos} with {self.neighbors} as neighbors" 
 
