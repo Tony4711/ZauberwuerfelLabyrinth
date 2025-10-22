@@ -49,7 +49,7 @@ class Game:
                Directions.WEST: RoomColor.ORANGE
            },
           doors = {
-              Directions.NORTH: Door(leads_to=RoomColor.GREEN, pos=Position(6,12)),
+              Directions.NORTH: Door(leads_to=RoomColor.GREEN, pos=Position(8,6)),
               Directions.SOUTH: Door(leads_to=RoomColor.WHITE, pos=Position(8,0))
           }
        )
@@ -69,7 +69,7 @@ class Game:
                 Directions.WEST: RoomColor.ORANGE
             },
             doors = {
-                Directions.SOUTH: Door(leads_to=RoomColor.GREEN, pos=Position(6,8)),
+                Directions.SOUTH: Door(leads_to=RoomColor.GREEN, pos=Position(8,12)),
                 Directions.NORTH: Door(leads_to=RoomColor.YELLOW, pos=Position(8,18))
             }
 
@@ -90,9 +90,9 @@ class Game:
                 Directions.WEST: RoomColor.ORANGE
             },
             doors = {
-                Directions.WEST: Door(leads_to=RoomColor.ORANGE , pos=Position(6,6)),
-                Directions.EAST: Door(leads_to=RoomColor.RED, pos=Position(12,6)),
-                Directions.NORTH: Door(leads_to=RoomColor.WHITE, pos=Position(6,12)),
+                Directions.WEST: Door(leads_to=RoomColor.ORANGE , pos=Position(6,8)),
+                Directions.EAST: Door(leads_to=RoomColor.RED, pos=Position(12,8)),
+                Directions.NORTH: Door(leads_to=RoomColor.WHITE, pos=Position(8,12)),
                 Directions.SOUTH: Door(leads_to=RoomColor.YELLOW, pos=Position(8,6))
             }
         )
@@ -112,8 +112,8 @@ class Game:
                 Directions.WEST: RoomColor.GREEN
             },
             doors = {
-                Directions.WEST: Door(leads_to=RoomColor.GREEN, pos=Position(12,6)),
-                Directions.EAST: Door(leads_to=RoomColor.BLUE, pos=Position(18,6))
+                Directions.WEST: Door(leads_to=RoomColor.GREEN, pos=Position(12,8)),
+                Directions.EAST: Door(leads_to=RoomColor.BLUE, pos=Position(18,8))
             }
         )
        self.blue_room = Room(
@@ -132,8 +132,8 @@ class Game:
                 Directions.SOUTH: RoomColor.RED
             },
             doors = {
-                Directions.WEST: Door(leads_to=RoomColor.RED, pos=Position(18,6)),
-                Directions.EAST: Door(leads_to=RoomColor.ORANGE, pos=Position(0,6))
+                Directions.WEST: Door(leads_to=RoomColor.RED, pos=Position(18,8)),
+                Directions.EAST: Door(leads_to=RoomColor.ORANGE, pos=Position(24,8))
 
             }
         )
@@ -153,8 +153,8 @@ class Game:
                 Directions.WEST: RoomColor.BLUE
             },
             doors = {
-                Directions.WEST: Door(leads_to=RoomColor.BLUE, pos=Position(0,6)),
-                Directions.EAST: Door(leads_to=RoomColor.GREEN, pos=Position(6,6))
+                Directions.WEST: Door(leads_to=RoomColor.BLUE, pos=Position(0,8)),
+                Directions.EAST: Door(leads_to=RoomColor.GREEN, pos=Position(6,8))
             }
        )
        self.starting_room = self.green_room
@@ -202,12 +202,9 @@ class Game:
             if self.command in self.utility.get_commands_for_state(self.controls.mapping, self.state):
                 self.move(self.command)
                 #---DEBUG print---
-                self.utility.print_pos("Player:", self.player)
-                self.utility.print_pos("Door:",self.player.current_room.doors)
-                print(self.player.current_room.name)
-                #print(self.player.current_room.pos)
-                #print(self.player.current_room.length)
-                #print(self.player.current_room.width)
+                #print(f"Player:\nx={self.player.pos.x}, y={self.player.pos.y}")
+                #print(self.player.current_room.name)
+
             else:
                 self.process_command()
        
@@ -229,7 +226,8 @@ class Game:
 
 
     def check_door(self, direction):
-        if (self.player.pos.x == self.player.current_room.doors[direction].pos.x) and (self.player.pos.y == self.player.current_room.doors[direction].pos.y):
+        door = self.player.current_room.doors[direction]
+        if (self.player.pos.x == door.pos.x) and (self.player.pos.y == door.pos.y):
             return True 
         else: 
     
@@ -238,15 +236,21 @@ class Game:
     def cube_wrap_around(self):
         if self.player.pos.x < 0:
             self.player.pos.x = self.player.current_room.pos[Corner.TOP_RIGHT].x
+        if self.player.pos.x > 24:
+            self.player.pos.x = self.player.current_room.pos[Corner.BOTTOM_LEFT].x
+        if self.player.pos.y < 0:
+            self.player.pos.y = self.player.current_room.pos[Corner.TOP_RIGHT].y
+        if self.player.pos.y > 18:
+            self.player.pos.y = self.player.current_room.pos[Corner.BOTTOM_LEFT].y
 
-    def move_through_door(self, directional_command):
+    def move_through_door(self, directional_command, direction):
         directional_step = {
             Command.MOVE_NORTH: (Directions.NORTH, (0, 1),),
             Command.MOVE_SOUTH: (Directions.SOUTH, (0, -1)),
             Command.MOVE_EAST:  (Directions.EAST, (1, 0)),
             Command.MOVE_WEST:  (Directions.WEST, (-1, 0))
         }
-        next_room_color = self.player.current_room.doors.leads_to
+        next_room_color = self.player.current_room.doors[direction].leads_to
         # Use color to find next room object
         next_room = self.map_dict.get(next_room_color)
         (dx, dy) = directional_step[directional_command][1]
@@ -261,7 +265,7 @@ class Game:
     def move(self, directional_command):
         if directional_command == Command.MOVE_NORTH:
             if self.check_door(Directions.NORTH):
-                self.move_through_door(directional_command)    
+                self.move_through_door(directional_command, Directions.NORTH)    
             elif self.player.pos.y+1 <= self.player.current_room.pos[Corner.TOP_RIGHT].y:
                 self.player.pos.move(dx=0,dy=1)
                 print(f"{'--- Du gehst einen Schritt nach Norden ---\n':^64}")
@@ -269,7 +273,7 @@ class Game:
                 print(f"{'--- Du stößt gegen eine Wand! ---\n':^64}")
         elif directional_command == Command.MOVE_SOUTH:
             if self.check_door(Directions.SOUTH):
-                self.move_through_door(directional_command)
+                self.move_through_door(directional_command, Directions.SOUTH)
             elif self.player.pos.y-1 >= self.player.current_room.pos[Corner.BOTTOM_LEFT].y:
                 self.player.pos.move(dx=0,dy=-1)
                 print(f"{'--- Du gehst einen Schritt nach Süden ---\n':^64}")
@@ -277,7 +281,7 @@ class Game:
                 print(f"{'--- Du stößt gegen eine Wand! ---\n':^64}")
         elif directional_command == Command.MOVE_WEST:
             if self.check_door(Directions.WEST):
-                self.move_through_door(directional_command)
+                self.move_through_door(directional_command, Directions.WEST)
             elif self.player.pos.x-1 >= self.player.current_room.pos[Corner.BOTTOM_LEFT].x:
                 self.player.pos.move(dx=-1,dy=0)
                 print(f"{'--- Du gehst einen Schritt nach Westen ---\n':^64}")
@@ -285,7 +289,7 @@ class Game:
                 print(f"{'--- Du stößt gegen eine Wand! ---\n':^64}")
         elif directional_command == Command.MOVE_EAST:
             if self.check_door(Directions.EAST):
-                self.move_through_door(directional_command)
+                self.move_through_door(directional_command, Directions.EAST)
             elif self.player.pos.x+1 <= self.player.current_room.pos[Corner.TOP_RIGHT].x:
                 self.player.pos.move(dx=1,dy=0)
                 print(f"{'--- Du gehst einen Schritt nach Osten ---\n':^64}")
