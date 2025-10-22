@@ -26,7 +26,7 @@ class GameState(Enum):
 
 class Directions(Enum):
 
-    NORTH = "Norder"
+    NORTH = "Norden"
     EAST = "Osten"
     SOUTH = "Süden"
     WEST = "Westen"
