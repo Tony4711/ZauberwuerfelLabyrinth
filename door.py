@@ -6,9 +6,9 @@ from dataclasses import dataclass, field
 class Door:
 
     leads_to: str
-    direction: Directions
+    #direction: Directions
     key_req: bool = False
-    state: DoorState = DoorState.CLOSED
+    state: DoorState = DoorState.OPEN
     pos: Position = field(default_factory=lambda: Position(-1,-1))
     
     

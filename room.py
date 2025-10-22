@@ -11,7 +11,7 @@ class Room:
     width: int
     length: int
     name: str
-    door: Door
+    doors: dict[Directions, Door]
     neighbors: dict[Directions, RoomColor]
     pos : dict[Corner, Position]
     
