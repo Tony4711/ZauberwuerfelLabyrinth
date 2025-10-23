@@ -1,5 +1,6 @@
 import sys
 import readchar
+import random
 from functools import lru_cache
 from enums import DoorState, GameState, Directions, RoomColor, Command, CommandTag, Corner
 from position import Position
@@ -26,6 +27,7 @@ class Game:
         self.init_player()
         self.init_map()
         self.init_menu_structure()
+        self.shuffle_map()
         
        
 
@@ -169,6 +171,17 @@ class Game:
             RoomColor.RED: self.red_room
         }
     
+    def shuffle_map(self):
+        room_pos = []
+        for key, value in self.map_dict.items():
+            room_pos.append(value.pos)
+        random.shuffle(room_pos)
+        for (color, room), new_pos in zip(self.map_dict.items(), room_pos):
+            room.pos = new_pos
+        
+    def calc_neighbor(self):
+        pass
+
     def init_menu_structure(self):
         self.menu_structure = {
             "main_menu":{

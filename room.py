@@ -4,7 +4,7 @@ from typing import Literal
 from position import Position
 from door import Door
 
-@dataclass(frozen=True)
+@dataclass
 class Room:
     
     color: RoomColor
