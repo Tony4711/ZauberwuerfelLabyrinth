@@ -41,7 +41,7 @@ class Game:
                 Corner.BOTTOM_LEFT: Position(6,0),
                 Corner.TOP_RIGHT: Position(12,6)
                 },
-           name = "Gelber Raum",
+           name = "'Gelben Raum'",
            neighbors = {
                Directions.NORTH: RoomColor.GREEN,
                Directions.EAST: RoomColor.RED,
@@ -61,7 +61,7 @@ class Game:
                 Corner.BOTTOM_LEFT: Position(6,12),
                 Corner.TOP_RIGHT: Position(12,18)
                 },
-            name = "Weißer Raum",
+            name = "'Weißen Raum'",
             neighbors = {
                 Directions.NORTH: RoomColor.BLUE,
                 Directions.EAST: RoomColor.RED,
@@ -82,7 +82,7 @@ class Game:
                 Corner.BOTTOM_LEFT: Position(6,6),
                 Corner.TOP_RIGHT: Position(12,12)
                 },
-            name = "Grüner Raum",
+            name = "'Grünen Raum'",
             neighbors = {
                 Directions.NORTH: RoomColor.WHITE,
                 Directions.EAST: RoomColor.RED,
@@ -104,7 +104,7 @@ class Game:
                 Corner.BOTTOM_LEFT: Position(12,6),
                 Corner.TOP_RIGHT: Position(18,12)
                 },
-            name = "Roter Raum",
+            name = "'Roten Raum'",
             neighbors = {
                 Directions.NORTH: RoomColor.WHITE,
                 Directions.EAST: RoomColor.BLUE,
@@ -124,7 +124,7 @@ class Game:
                 Corner.BOTTOM_LEFT: Position(18,6),
                 Corner.TOP_RIGHT: Position(24,12)
                 },
-            name = "Blauer Raum",
+            name = "'Blauen Raum'",
             neighbors = {
                 Directions.NORTH: RoomColor.WHITE,
                 Directions.EAST: RoomColor.ORANGE,
@@ -145,7 +145,7 @@ class Game:
                 Corner.BOTTOM_LEFT: Position(0,6),
                 Corner.TOP_RIGHT: Position(6,12)
                 },
-            name = "Oranger Raum",
+            name = "'Orangen Raum'",
             neighbors = {
                 Directions.NORTH: RoomColor.WHITE,
                 Directions.EAST: RoomColor.GREEN,
