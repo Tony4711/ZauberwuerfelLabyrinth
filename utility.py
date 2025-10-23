@@ -25,8 +25,7 @@ class Utility:
         return input
     
     def write_input(self, text) -> None:
-        
-        print("Eingabe: [" + text + "]\n")
+        print(f"Eingabe: [{text}]\n".rjust(self.columns))
     
     def get_command_from_input(self, input: str):
         for command in Command:
@@ -57,7 +56,7 @@ class Utility:
 
     # Fehlermeldung für ungültige Eingaben
     def input_exception(self, state, command, isGlobal):
-        print(f"{'--- Ungültige Eingabe. Bitte nutze: ---\n':^64}" )
+        self.centered(f"--- Ungültige Eingabe. Bitte nutze: ---\n" )
         self.print_dict(self.controls.get_dict("mapping"), state)
         command = self.process_input(state, isGlobal)
         return command
@@ -71,8 +70,7 @@ class Utility:
             # Gebe alle child Daten des parent keys aus
             for key, value in dictname[key].items():
                 key_str = str(getattr(key, "value", key))
-                print(f"[{key_str.upper()}] {value}")
-            #print("________________________________________________________________\n")
+                self.centered(f"[{key_str.upper()}] {value}")
             self.print_dividing_line()
         else:
             # Ansonsten gebe alle Daten des dict aus
@@ -82,7 +80,6 @@ class Utility:
                 for key, description in value.items():
                     key_str = str(getattr(key, "value", key))
                     print(f"[{key_str.upper()}] {description}")
-            #print("________________________________________________________________\n")
             self.print_dividing_line()
 
     def _lookup_neighbor(self, room, direction):
@@ -90,8 +87,9 @@ class Utility:
         if target is None:
             return None
         return target
-
-
+    
+    def centered(self, text: str):
+        print(text.center(self.columns))
     
     def print_map(self, room, map : dict):
        front = room.color
@@ -104,7 +102,6 @@ class Utility:
        print(f"              [{map.get(up).name}]") 
        print(f"[{map.get(left).name}][{map.get(front).name}][{map.get(right).name}][{map.get(back).name}]")
        print(f"              [{map.get(down).name}]\n")
-       #print("________________________________________________________________\n")
        self.print_dividing_line()
 
     def print_pos(self, text, objekt):

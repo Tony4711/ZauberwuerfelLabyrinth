@@ -41,7 +41,7 @@ class Game:
                 Corner.BOTTOM_LEFT: Position(6,0),
                 Corner.TOP_RIGHT: Position(12,6)
                 },
-           name = "'Gelben Raum'",
+           name = "Gelben Raum",
            neighbors = {
                Directions.NORTH: RoomColor.GREEN,
                Directions.EAST: RoomColor.RED,
@@ -61,7 +61,7 @@ class Game:
                 Corner.BOTTOM_LEFT: Position(6,12),
                 Corner.TOP_RIGHT: Position(12,18)
                 },
-            name = "'Weißen Raum'",
+            name = "Weißen Raum",
             neighbors = {
                 Directions.NORTH: RoomColor.BLUE,
                 Directions.EAST: RoomColor.RED,
@@ -82,7 +82,7 @@ class Game:
                 Corner.BOTTOM_LEFT: Position(6,6),
                 Corner.TOP_RIGHT: Position(12,12)
                 },
-            name = "'Grünen Raum'",
+            name = "Grünen Raum",
             neighbors = {
                 Directions.NORTH: RoomColor.WHITE,
                 Directions.EAST: RoomColor.RED,
@@ -104,7 +104,7 @@ class Game:
                 Corner.BOTTOM_LEFT: Position(12,6),
                 Corner.TOP_RIGHT: Position(18,12)
                 },
-            name = "'Roten Raum'",
+            name = "Roten Raum",
             neighbors = {
                 Directions.NORTH: RoomColor.WHITE,
                 Directions.EAST: RoomColor.BLUE,
@@ -124,7 +124,7 @@ class Game:
                 Corner.BOTTOM_LEFT: Position(18,6),
                 Corner.TOP_RIGHT: Position(24,12)
                 },
-            name = "'Blauen Raum'",
+            name = "Blauen Raum",
             neighbors = {
                 Directions.NORTH: RoomColor.WHITE,
                 Directions.EAST: RoomColor.ORANGE,
@@ -145,7 +145,7 @@ class Game:
                 Corner.BOTTOM_LEFT: Position(0,6),
                 Corner.TOP_RIGHT: Position(6,12)
                 },
-            name = "'Orangen Raum'",
+            name = "Orangen Raum",
             neighbors = {
                 Directions.NORTH: RoomColor.WHITE,
                 Directions.EAST: RoomColor.GREEN,
@@ -179,10 +179,10 @@ class Game:
                                          
     @lru_cache(maxsize=1)
     def hello(self):
-        print("________________________________________________________________")
-        print("\n--- Willkommen zu 'Gefangen im Zauberwürfel Labyrinth'! ---")
-        print("\n                   --- Hauptmenü ---")
-        print("\n--- Zum steuern bitte die in [ ] geschriebene Taste drücken ---\n")
+        self.utility.print_dividing_line()
+        self.utility.centered("--- Willkommen zu 'Gefangen im Zauberwürfel Labyrinth'! ---\n")
+        self.utility.centered("--- Hauptmenü ---\n")
+        self.utility.centered("--- Zum steuern bitte die in [ ] geschriebene Taste drücken ---\n")
 
     def show_controls(self):
         self.utility.print_dict(self.controls.get_dict("mapping"))
@@ -194,42 +194,42 @@ class Game:
          self.utility.print_map(self.green_room, self.map_dict)
     
     def start(self):
-        print(f"{'--- Spiel wird gestartet ---\n':^64}")
-        print(f"{'--- Bitte nutze [' + Command.CONTROLS.value.upper() + '] um dir die Steuerung anzeigen zu lassen ---\n':^64}")
+        self.utility.centered(f"--- Spiel wird gestartet ---\n")
+        self.utility.centered(f"--- Bitte nutze [{Command.CONTROLS.value.upper()}] um dir die Steuerung anzeigen zu lassen ---\n")
         while True:
             self.command = self.utility.process_input(self.state, isGlobal=True)
             # Wenn der Input Teil der Bewegungssteuerung ist, bewege dich, sonst False
             if self.command in self.utility.get_commands_for_state(self.controls.mapping, self.state):
-                #moved = False
-                result = self.move(self.command)
-                if result:
-                    moved, direction = result
-                self.print_move_feedback(moved, direction)
+                self.move(self.command)
                 #---DEBUG print---
                 #print(f"Player:\nx={self.player.pos.x}, y={self.player.pos.y}")
                 #print(self.player.current_room.name)
 
             else:
+                #Ansonsten neuen Input einholen
                 self.process_command()
        
     def exit(self):
-        print(f"{'--- Spiel wirklich beenden? [J/N] ---\n':^64}")
+        self.utility.centered(f"--- Spiel wirklich beenden? [J/N] ---\n")
         prev_state = self.state
         self.state = GameState.EXIT
         self.command = self.utility.process_input(self.state, False)
         if self.command == Command.ACCEPT:
-            print(f"{'--- Spiel wird beendet ---':^64}")
+            self.utility.centered(f"--- Spiel wird beendet ---")
             self.utility.print_dividing_line()
             self.state = GameState.EXIT
             self.running = False
             sys.exit()
         elif self.command == Command.DENIE:
             self.state = prev_state
-            print(f"{'--- Ok, Spiel wird nicht beendet ---':^64}")
+            self.utility.centered(f"--- Ok, Spiel wird nicht beendet ---")
             self.utility.print_dividing_line()
 
     def check_door(self, direction):
-        door = self.player.current_room.doors[direction]
+        try:
+            door = self.player.current_room.doors[direction]
+        except KeyError:
+            return False
         if (self.player.pos.x == door.pos.x) and (self.player.pos.y == door.pos.y):
             self.move_through_door(direction)
             return True 
@@ -260,46 +260,41 @@ class Game:
         # Get offset tuple from dict{} by using Direction.ENUM as key
         (dx, dy) = offset.get(direction)
         self.player.pos.move(dx, dy)
-        self.player.previous_room = self.player.current_room
         self.player.current_room = next_room
         self.cube_wrap_around()
-        print(f"{'--- Du gehst durch eine Tür in richtung ' + direction.value + ' und betrittst den ' + self.player.current_room.name +' ---\n':^64}")
+        self.utility.centered(f"--- Du gehst durch eine Tür in Richtung {direction.value} ---\n")
+        self.utility.centered(f"--- Du betrittst den {self.player.current_room.name} ---\n")
         
-    def print_move_feedback(self, moved, direction = None):
-        if moved:
-            print(f"--- Du gehst einen Schritt nach {direction.value} ---".center(64))
-        else:
-            print(f"{'--- Du stößt gegen eine Wand! ---\n':^64}")
 
     def move(self, directional_command):
         if directional_command == Command.MOVE_NORTH:
             if not self.check_door(Directions.NORTH):
                 if self.player.pos.y+1 <= self.player.current_room.pos[Corner.TOP_RIGHT].y:
                     self.player.pos.move(dx=0,dy=1)
-                    print(f"{'--- Du gehst einen Schritt nach Norden ---\n':^64}")
+                    self.utility.centered(f"--- Du gehst einen Schritt nach Norden ---\n")
                 else:
-                    print(f"{'--- Du stößt gegen eine Wand! ---\n':^64}")
+                    self.utility.centered(f"--- Du stößt gegen eine Wand! ---\n")
         elif directional_command == Command.MOVE_SOUTH:
             if not self.check_door(Directions.SOUTH):
                 if self.player.pos.y-1 >= self.player.current_room.pos[Corner.BOTTOM_LEFT].y:
                     self.player.pos.move(dx=0,dy=-1)
-                    print(f"{'--- Du gehst einen Schritt nach Süden ---\n':^64}")
+                    self.utility.centered(f"--- Du gehst einen Schritt nach Süden ---\n")
                 else:
-                    print(f"{'--- Du stößt gegen eine Wand! ---\n':^64}")
+                    self.utility.centered(f"--- Du stößt gegen eine Wand! ---\n")
         elif directional_command == Command.MOVE_WEST:
             if not self.check_door(Directions.WEST):
                 if self.player.pos.x-1 >= self.player.current_room.pos[Corner.BOTTOM_LEFT].x:
                     self.player.pos.move(dx=-1,dy=0)
-                    print(f"{'--- Du gehst einen Schritt nach Westen ---\n':^64}")
+                    self.utility.centered(f"--- Du gehst einen Schritt nach Westen ---\n")
                 else:
-                    print(f"{'--- Du stößt gegen eine Wand! ---\n':^64}")
+                    self.utility.centered(f"--- Du stößt gegen eine Wand! ---\n")
         elif directional_command == Command.MOVE_EAST:
             if not self.check_door(Directions.EAST):
                 if self.player.pos.x+1 <= self.player.current_room.pos[Corner.TOP_RIGHT].x:
                     self.player.pos.move(dx=1,dy=0)
-                    print(f"{'--- Du gehst einen Schritt nach Osten ---\n':^64}")
+                    self.utility.centered(f"{'--- Du gehst einen Schritt nach Osten ---\n':^64}")
                 else:
-                    print(f"{'--- Du stößt gegen eine Wand! ---\n':^64}")           
+                    self.utility.centered(f"--- Du stößt gegen eine Wand! ---\n")           
                    
     def process_command(self):
             if self.command == Command.CONTROLS:
