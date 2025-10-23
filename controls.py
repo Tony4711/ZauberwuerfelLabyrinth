@@ -24,8 +24,8 @@ class Controls:
             GameState.PLAYING: {
                 Command.MOVE_NORTH: "Nach Norden gehen",
                 Command.MOVE_WEST: "Nach Westen gehen",
-                Command.MOVE_SOUTH: "Nach Süden gehen",
-                Command.MOVE_EAST: "Nach Osten gehen"
+                Command.MOVE_SOUTH: "Nach Süden gehen ",
+                Command.MOVE_EAST: "Nach Osten gehen "
             }
         }
     
