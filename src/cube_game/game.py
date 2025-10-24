@@ -29,8 +29,6 @@ class Game:
         self.init_menu_structure()
         self.shuffle_map()
         
-       
-
     def init_player(self):
         self.player = Player("Garry", current_room=self.starting_room)
 
@@ -278,7 +276,6 @@ class Game:
         self.utility.centered(f"--- Du gehst durch eine Tür in Richtung {direction.value} ---\n")
         self.utility.centered(f"--- Du betrittst den {self.player.current_room.name} ---\n")
         
-
     def move(self, directional_command):
         if directional_command == Command.MOVE_NORTH:
             if not self.check_door(Directions.NORTH):
