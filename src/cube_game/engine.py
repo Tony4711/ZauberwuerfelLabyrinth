@@ -1,14 +1,12 @@
 import sys
-import readchar
-import random
-from functools import lru_cache
-from enums import DoorState, GameState, Directions, RoomColor, Command, CommandTag, Corner
+from enums import CommandTag, Command, DoorState, IsGlobal, GameState, MenuState, Directions, RoomColor, Corner
 from position import Position
 from room import Room
 from door import Door
 from controls import Controls
 from player import Player
 from utility import Utility
+from world import World
 
 # Ein Spiel zum Verstehen der Grundmechaniken eines Rubiks Würfels.
 # Der kleine Zauberer Garry ist in einem 3 dimensionalem Labyrinth gefangen und muss die Räume richtig miteinander verbinden, um herauszufinden.
@@ -16,35 +14,20 @@ from utility import Utility
 
 class Engine:
 
-    def __init__(self):
+    def __init__(self, StateManager):
         self.running = True
-        self.state = GameState.MAIN_MENU
+        self.state = GameState.INIT
         self.isGlobal = False
-        self.last_input = ""
-        self.controls = Controls()
-        self.utility = Utility(self.controls)
+        self.controls = Controls(StateManager)
+        self.utility = Utility()
+        self.world = World()
+        self.stateManager = StateManager
         self.init_player()
 
         
     def init_player(self):
-        self.player = Player("Garry", current_room=self.starting_room)
+        self.player = Player("Garry", current_room=self.world.starting_room)
     
-    def start(self):
-        self.utility.centered(f"--- Spiel wird gestartet ---\n")
-        self.utility.centered(f"--- Bitte nutze [{Command.CONTROLS.value.upper()}] um dir die Steuerung anzeigen zu lassen ---\n")
-        while True:
-            self.command = self.utility.process_input(self.state, isGlobal=True)
-            # Wenn der Input Teil der Bewegungssteuerung ist, bewege dich, sonst False
-            if self.command in self.utility.get_commands_for_state(self.controls.mapping, self.state):
-                self.move(self.command)
-                #---DEBUG print---
-                #print(f"Player:\nx={self.player.pos.x}, y={self.player.pos.y}")
-                #print(self.player.current_room.name)
-
-            else:
-                #Ansonsten neuen Input einholen
-                self.process_command()
-       
     def exit(self):
         self.utility.centered(f"--- Spiel wirklich beenden? [J/N] ---\n")
         prev_state = self.state
@@ -134,24 +117,37 @@ class Engine:
                    
     def process_command(self, command):
             if command == Command.CONTROLS:
-                return # e.g. render_state str which triggers rigth method from interface class 
+                next_state = MenuState.CONTROLS
+                return next_state
             elif command == Command.EXIT:
                 self.exit()
             elif command == Command.OPEN_MAP:
                 return # e.g. render_state str which triggers rigth method from interface class 
             elif command.tag == CommandTag.OPTION:
-                self.menu_handler() # chore: for new archtiecture menu_handler needs to be reworked so interface class displays the menu
+                next_state = self.option_handler()
+                return next_state
+            elif command.tag == CommandTag.MOVEMENT:
+                self.move(command)
+                next_state = GameState.PLAYING
+                return next_state
 
-    def menu_handler(self):
+    def option_handler(self):
         if self.command == Command.OP1:
-            self.state = GameState.PLAYING
-            self.isGlobal = True
-            self.start()
+            next_state = GameState.PLAYING
+            return next_state
         elif self.command == Command.OP2:
              self.exit()
 
     def update(self):
-        pass
+        gameState = self.stateManager.gameState
+        isGlobal = self.stateManager.isGlobal
+        if gameState == GameState.INIT:
+            return gameState
+        self.command = self.controls.process_input(gameState, isGlobal)
+        return self.process_command(self.command)
+
+
+    
 
 
 
