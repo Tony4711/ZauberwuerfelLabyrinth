@@ -4,8 +4,7 @@ from enums import GameState, Directions, RoomColor, Command
 
 class Utility:
 
-    def __init__(self, controls) -> None:
-        self.controls = controls
+    def __init__(self) -> None:
         self.columns, self.rows = shutil.get_terminal_size()
 
     # Gibt in einer übersicht alle Steuerungen aus
