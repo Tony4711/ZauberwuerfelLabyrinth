@@ -1,9 +1,15 @@
+from position import Position
 from enums import RoomColor, Corner, Directions
 from door import Door
 from room import Room
 import random
 
 class World:
+
+    def __init__(self):
+        self.init_rooms()
+        self.init_map()
+        self.starting_room = self.green_room
 
     def init_rooms(self):
        self.yellow_room = Room(
@@ -130,7 +136,7 @@ class World:
                 Directions.EAST: Door(leads_to=RoomColor.GREEN, pos=Position(6,8))
             }
        )
-       self.starting_room = self.green_room
+       
     
     def init_map(self):
         self.map_dict = {
