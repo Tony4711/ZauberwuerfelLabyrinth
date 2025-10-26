@@ -11,6 +11,10 @@ venv/
 .vscode/
 .idea/
 
+# Worspace Dateien
+*.code-workspace
+
+
 # Logs und temporäre Dateien
 *.log
 *.tmp
@@ -20,3 +24,7 @@ venv/
 # macOS / Windows spezifische Dateien
 .DS_Store
 Thumbs.db
+
+# lokale "Bedienungsanleitung für VS Tipps/Tricks"
+/docs/vs_guide.md
+
