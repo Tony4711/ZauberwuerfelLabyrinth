@@ -67,12 +67,14 @@ class GameState(TaggedEnum):
     IDLE = ("Ruhend", IsGlobal.FALSE)
     GLOBAL_CONTROLS = ("Globale Steuerungen", IsGlobal.TRUE)
     MENU = ("Menu", IsGlobal.FALSE)
+    BACK = ("Zurück", IsGlobal.FALSE)
 
 class MenuState(Enum):
 
     MAIN = "Hauptmenu"
     SETTINGS = "Einstellungen"
     CONTROLS = "Steuerung"
+    EXIT = "Verlassen"
 
 class Directions(Enum):
 
