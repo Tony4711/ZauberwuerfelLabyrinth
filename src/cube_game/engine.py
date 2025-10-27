@@ -15,34 +15,14 @@ from world import World
 class Engine:
 
     def __init__(self, StateManager):
-        self.running = True
-        self.state = GameState.INIT
-        self.isGlobal = False
         self.controls = Controls(StateManager)
         self.utility = Utility()
         self.world = World()
         self.stateManager = StateManager
         self.init_player()
 
-        
     def init_player(self):
         self.player = Player("Garry", current_room=self.world.starting_room)
-    
-    def exit(self):
-        self.utility.centered(f"--- Spiel wirklich beenden? [J/N] ---\n")
-        prev_state = self.state
-        self.state = GameState.EXIT
-        self.command = self.utility.process_input(self.state, False)
-        if self.command == Command.ACCEPT:
-            self.utility.centered(f"--- Spiel wird beendet ---")
-            self.utility.print_dividing_line()
-            self.state = GameState.EXIT
-            self.running = False
-            sys.exit()
-        elif self.command == Command.DENIE:
-            self.state = prev_state
-            self.utility.centered(f"--- Ok, Spiel wird nicht beendet ---")
-            self.utility.print_dividing_line()
 
     def _check_door(self, direction):
         try:
@@ -65,6 +45,7 @@ class Engine:
         if self.player.pos.y > 18:
             self.player.pos.y = self.player.current_room.pos[Corner.BOTTOM_LEFT].y
 
+    # CHORE: Refactor method to fit new framework
     def _move_through_door(self, direction):
         offset = {
             Directions.NORTH: (0,1),
@@ -83,7 +64,8 @@ class Engine:
         self._cube_wrap_around()
         self.utility.centered(f"--- Du gehst durch eine Tür in Richtung {direction.value} ---\n")
         self.utility.centered(f"--- Du betrittst den {self.player.current_room.name} ---\n")
-        
+
+    # CHORE: Refactor method to fit new framework    
     def move(self, directional_command):
         if directional_command == Command.MOVE_NORTH:
             if not self._check_door(Directions.NORTH):
@@ -114,7 +96,7 @@ class Engine:
                     self.utility.centered(f"{'--- Du gehst einen Schritt nach Osten ---\n':^64}")
                 else:
                     self.utility.centered(f"--- Du stößt gegen eine Wand! ---\n")           
-                   
+
     def process_command(self, command):
             if command == Command.CONTROLS:
                 next_state = MenuState.CONTROLS
@@ -124,30 +106,44 @@ class Engine:
             elif command == Command.OPEN_MAP:
                 return # e.g. render_state str which triggers rigth method from interface class 
             elif command.tag == CommandTag.OPTION:
-                next_state = self.option_handler()
+                next_state = self.menu_handler(command)
                 return next_state
             elif command.tag == CommandTag.MOVEMENT:
                 self.move(command)
                 next_state = GameState.PLAYING
                 return next_state
+    
+    def menu_handler(self, command):
+        menuState = self.stateManager.menuState
+        if menuState == MenuState.MAIN:
+            return self.main_menu(command)
+        elif menuState == MenuState.EXIT:
+            return self.exit_menu(command)
 
-    def option_handler(self):
-        if self.command == Command.OP1:
+    def main_menu(self, command):
+        if command == Command.OP1:
             next_state = GameState.PLAYING
             return next_state
-        elif self.command == Command.OP2:
-             self.exit()
+        elif command == Command.OP2:
+            next_state = MenuState.EXIT
+            return next_state
+    
+    def exit_menu(self, command):
+        # Wenn 'JA' dann beende das Spiel
+        if command == Command.OP1:
+            next_state = GameState.EXIT
+            return next_state
+        # Wenn 'NEIN' dann zurück
+        if command == Command.OP2:
+            next_state = GameState.BACK
+            return next_state
+
 
     def update(self):
         gameState = self.stateManager.gameState
+        menuState = self.stateManager.menuState
         isGlobal = self.stateManager.isGlobal
         if gameState == GameState.INIT:
             return gameState
-        self.command = self.controls.process_input(gameState, isGlobal)
-        return self.process_command(self.command)
-
-
-    
-
-
-
+        self.command = self.controls.process_input(gameState, menuState, isGlobal)
+        return self.process_command(self.command) 
