@@ -27,9 +27,13 @@ class Interface:
             },
             MenuState.SETTINGS: {
 
+            },
+            MenuState.EXIT: {
+                Command.OP1.value: "Ja",
+                Command.OP2.value: "Nein"
             }
         }
-                                         
+
     @lru_cache(maxsize=1)
     def hello(self):
         self.utility.print_dividing_line()
@@ -40,8 +44,7 @@ class Interface:
     @lru_cache(maxsize=1)
     def start(self):
         self.utility.centered("--- Spiel wird gestartet ---\n")
-        self.utility.centered(f"--- Bitte nutze [{Command.CONTROLS.value.upper()}] um dir die Steuerung anzeigen zu lassen ---\n")
-       
+        self.utility.centered(f"--- Bitte nutze [{Command.CONTROLS.value.upper()}] um dir die Steuerung anzeigen zu lassen ---\n")    
     
     def show_controls(self):
         self.utility.print_dict(mapping)
@@ -50,7 +53,13 @@ class Interface:
         self.utility.print_dict(self.menu_structure, menu)
     
     def show_map(self):
-         self.utility.print_map(self.green_room, self.map_dict)
+        self.utility.print_map(self.green_room, self.map_dict)
+
+    def exit_menu(self):
+        self.utility.centered(f"--- Spiel wirklich beenden? ---\n")
+    
+    def exit_confirmed(self):
+        self.utility.centered(f"--- Spiel wird beendet ---")
     
     def update(self):
         gameState = self.stateManager.gameState
@@ -64,21 +73,26 @@ class Interface:
                 self.show_controls()
             elif menuState == MenuState.SETTINGS:
                 self.show_menu_options(MenuState.SETTINGS)
+            elif menuState == MenuState.EXIT:
+                self.exit_menu()
+                self.show_menu_options(MenuState.EXIT)
         elif gameState == GameState.PLAYING:
             self.start()
+        elif gameState == GameState.EXIT:
+            self.exit_confirmed()
 
     def print_map(self, room, map : dict):
-       front = room.color
-       left = self._lookup_neighbor(room, Directions.WEST)
-       right = self._lookup_neighbor(room, Directions.EAST)
-       up = self._lookup_neighbor(room, Directions.NORTH)
-       down = self._lookup_neighbor(room, Directions.SOUTH)
-       back = self._lookup_neighbor(map.get(right), Directions.EAST)
+        front = room.color
+        left = self._lookup_neighbor(room, Directions.WEST)
+        right = self._lookup_neighbor(room, Directions.EAST)
+        up = self._lookup_neighbor(room, Directions.NORTH)
+        down = self._lookup_neighbor(room, Directions.SOUTH)
+        back = self._lookup_neighbor(map.get(right), Directions.EAST)
 
-       print(f"              [{map.get(up).name}]") 
-       print(f"[{map.get(left).name}][{map.get(front).name}][{map.get(right).name}][{map.get(back).name}]")
-       print(f"              [{map.get(down).name}]\n")
-       self.print_dividing_line()
+        print(f"              [{map.get(up).name}]") 
+        print(f"[{map.get(left).name}][{map.get(front).name}][{map.get(right).name}][{map.get(back).name}]")
+        print(f"              [{map.get(down).name}]\n")
+        self.print_dividing_line()
     
     def print_pos(self, text, objekt):
         print(text, objekt.pos)
