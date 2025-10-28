@@ -1,5 +1,6 @@
-import sys
-from enums import CommandTag, Command, DoorState, GameState, MenuState, PlayerState, Directions, RoomColor, Corner
+import copy
+import operator
+from enums import CommandTag, Command, DoorState, GameState, MenuState, PlayerState, Directions, RoomColor, Corner, TranslateKey
 from position import Position
 from room import Room
 from door import Door
@@ -22,7 +23,7 @@ class Engine:
         self.init_player()
 
     def init_player(self):
-        self.player = Player("Garry", Directions.NORTH, self.world.starting_room)
+        self.player = Player("Garry", Directions.NORTH, self.world.starting_room, Position(8,10))
     
     def _cube_wrap_around(self):
         if self.player.pos.x < 0:
@@ -34,70 +35,88 @@ class Engine:
         if self.player.pos.y > 18:
             self.player.pos.y = self.player.current_room.pos[Corner.BOTTOM_LEFT].y
 
-    def _move_through_door(self, direction):
-        offset = {
-            Directions.NORTH: (0,1),
-            Directions.EAST: (1,0),
-            Directions.SOUTH: (0, -1),
-            Directions.WEST: (-1,0) 
-        }
+    def _change_room(self, direction):
         # Get RoomColor.ENUM of room behind door from doors{} dict by using Direction.ENUM as key to return door objekt and read leads_to parameter from it
         next_room_color = self.player.current_room.doors[direction].leads_to
         # Use RoomColor.ENUM as key to return Room object from map_dict{}
         next_room = self.world.map_dict.get(next_room_color)
         # Get offset tuple from dict{} by using Direction.ENUM as key
-        (dx, dy) = offset.get(direction)
-        self.player.pos.move(dx, dy)
+        # kein Interface Update da kein return PlayerState.MOVE
         self.player.direction = direction
         self.player.current_room = next_room
         self._cube_wrap_around()
 
-    
-    def _check_door(self, direction):
+    ### BUG: The method only checks for doors for last moved direction
+    # If player moves side ways to a door, it is not recognised. And if a room has more than one door,
+    # the door which has the same direction as the last move of a player  get recognised even if it is not
+    # the door right next to the player. 
+    ### CHORE: Methods need to check surrounding for doors
+    # The door direction needs to fit the player direction too while the postion of the player needs to be right
+    # infront of the door
+    def _door_infront(self, direction):
+        (dx, dy) = self._translate_(TranslateKey.DIRECTION_TO_OFFSET, direction)
+        infront = copy.copy(self.player.pos)
+        infront.move(dx, dy)
         try:
-            door = self.player.current_room.doors[direction]
+            door = self._get_door(direction)
         except KeyError:
             return False
-        if (self.player.pos.x == door.pos.x) and (self.player.pos.y == door.pos.y):
-            self._move_through_door(direction)
+        if infront == door.pos:
             return True 
         else: 
             False
 
+    def _get_door(self, direction):
+        door = self.player.current_room.doors[direction]
+        return door
+    
+    def _translate_(self, key, inner_key):
+        translate = {
+            TranslateKey.COMMAND_TO_DIRECTION: {
+            Command.MOVE_NORTH: (Directions.NORTH, operator.le),
+            Command.MOVE_EAST: (Directions.EAST, operator.le),
+            Command.MOVE_SOUTH: (Directions.SOUTH, operator.ge),
+            Command.MOVE_WEST: (Directions.WEST, operator.ge) 
+            },
+            TranslateKey.DIRECTION_TO_OFFSET: {
+            Directions.NORTH: (0,1),
+            Directions.EAST: (1,0),
+            Directions.SOUTH: (0, -1),
+            Directions.WEST: (-1,0) 
+            },
+            TranslateKey.OFFSET_TO_CORNER: {
+                (0,1): (Corner.TOP_RIGHT, lambda p: p.y),
+                (1,0): (Corner.TOP_RIGHT, lambda p: p.x),
+                (0,-1): (Corner.BOTTOM_LEFT, lambda p: p.y),
+                (-1,0): (Corner.BOTTOM_LEFT, lambda p: p.x)
+            },
+
+        }
+        return translate[key][inner_key]
+
     def move(self, directional_command):
-        if directional_command == Command.MOVE_NORTH:
-            if not self._check_door(Directions.NORTH):
-                if self.player.pos.y+1 <= self.player.current_room.pos[Corner.TOP_RIGHT].y:
-                    self.player.pos.move(dx=0,dy=1)
-                    self.player.direction = Directions.NORTH
-                    return PlayerState.MOVE
-            else:
+        # Use directional_command to translate into direction and comparison operator
+        direction, op = self._translate_(TranslateKey.COMMAND_TO_DIRECTION, directional_command)
+        # Use direction to translate into offset
+        (dx,dy) = self._translate_(TranslateKey.DIRECTION_TO_OFFSET, direction)
+        # Use offset to translate into corner and axis lambda function
+        corner, axis_func = self._translate_(TranslateKey.OFFSET_TO_CORNER, (dx,dy))
+        # axis function for player position + offset
+        player_axis_val = axis_func(self.player.pos + (dx, dy))
+        # axis function for room position at corner
+        room_axis_val   = axis_func(self.player.current_room.pos[corner])
+        # if condition to compare player position with borders of current room before moving
+        if op(player_axis_val, room_axis_val):
+            self.player.pos.move(dx,dy)
+            self.player.direction = direction 
+            if self._door_infront(direction):
                 return PlayerState.DOOR
-        elif directional_command == Command.MOVE_SOUTH:
-            if not self._check_door(Directions.SOUTH):
-                if self.player.pos.y-1 >= self.player.current_room.pos[Corner.BOTTOM_LEFT].y:
-                    self.player.pos.move(dx=0,dy=-1)
-                    self.player.direction = Directions.SOUTH
-                    return PlayerState.MOVE
-            else:
-                return PlayerState.DOOR
-        elif directional_command == Command.MOVE_WEST:
-            if not self._check_door(Directions.WEST):
-                if self.player.pos.x-1 >= self.player.current_room.pos[Corner.BOTTOM_LEFT].x:
-                    self.player.pos.move(dx=-1,dy=0)
-                    self.player.direction = Directions.WEST
-                    return PlayerState.MOVE
-            else:
-                return PlayerState.DOOR
-        elif directional_command == Command.MOVE_EAST:
-            if not self._check_door(Directions.EAST):
-                if self.player.pos.x+1 <= self.player.current_room.pos[Corner.TOP_RIGHT].x:
-                    self.player.pos.move(dx=1,dy=0)
-                    self.player.direction = Directions.EAST
-                    return PlayerState.MOVE
-            else:
-                return PlayerState.DOOR
-        return PlayerState.WALL
+            elif self.player.pos == self._get_door(direction).pos:
+                self._change_room(direction)
+                return PlayerState.GO_DOOR
+            return PlayerState.MOVE
+        else:
+            return PlayerState.WALL
         
     def menu_handler(self, command):
         menuState = self.stateManager.menuState
