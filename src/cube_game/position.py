@@ -7,4 +7,8 @@ class Position:
 
     def move(self, dx: int, dy: int) -> None:
         self.x += dx
-        self.y += dy 
+        self.y += dy
+
+    def __add__(self, other):
+        dx, dy = other
+        return Position(self.x + dx, self.y + dy) 
