@@ -1,4 +1,4 @@
-from enums import GameState, MenuState, DoorState
+from enums import GameState, MenuState, PlayerState, DoorState, LoopSignal
 
 class StateStack:
     
@@ -26,40 +26,40 @@ class MenuStack(StateStack):
     def __init__(self):
         super().__init__(MenuState.MAIN)
 
+class PlayerStack(StateStack):
+
+    def __init__(self):
+        super().__init__(PlayerState.STAND)
+
 class StateManager:
     
     def __init__(self):
-        self.isGlobal = False
         self.gameState = GameState.INIT
         self.menuState = MenuState.MAIN
+        self.playerState = PlayerState.STAND
         self.doorState = DoorState.CLOSED
         self.gameStack = GameStack()
         self.menuStack = MenuStack()
-    
+        self.playerStack = PlayerStack()
+
+    # CHORE: write mapping dict instead of conditions to alow direct access 
     def update(self, nextState):
-        if nextState == GameState.INIT:
-            self._update_game(GameState.MENU)
-            self._update_menu(MenuState.MAIN)
-            return True
-        elif nextState == GameState.MENU:
-            pass
-        elif nextState == GameState.PLAYING:
-            self._update_game(GameState.PLAYING)
-            return True
-        elif nextState == MenuState.CONTROLS:
-            self._update_game(GameState.MENU)
-            self._update_menu(MenuState.CONTROLS)
-            return True
-        elif nextState == MenuState.EXIT:
-            self._update_game(GameState.MENU)
-            self._update_menu(MenuState.EXIT)
-            return True
-        elif nextState == GameState.EXIT:
-            self._update_game(GameState.EXIT)
-            return False
-        elif nextState == GameState.BACK:
-            self._state_back()
-            return True
+        if nextState == GameState.EXIT:
+            self._update_game(nextState)
+            return LoopSignal.EXIT.value
+        else:
+            if isinstance(nextState, GameState):
+                if nextState == GameState.INIT:
+                    self._update_game(GameState.MENU)
+                    self._update_menu(MenuState.MAIN)
+                else:
+                    self._update_game(nextState)
+            elif isinstance(nextState, MenuState):
+                self._update_game(GameState.MENU)
+                self._update_menu(nextState)
+            elif isinstance(nextState, PlayerState):
+                self._update_player(nextState)
+            return LoopSignal.CONTINUE.value
     
     def _update_game(self, gameState):
         self.gameState = gameState
@@ -68,6 +68,10 @@ class StateManager:
     def _update_menu(self, menuState):
         self.menuState = menuState
         self.menuStack._push_stateStack(menuState)
+
+    def _update_player(self, playerState):
+        self.playerState = playerState
+        self.playerStack._push_stateStack(playerState)
     
     def _update_door(self, doorState):
         self.doorState = doorState
