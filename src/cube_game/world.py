@@ -12,27 +12,27 @@ class World:
         self.starting_room = self.green_room
 
     def init_rooms(self):
-       self.yellow_room = Room(
-           color = RoomColor.YELLOW,
-           width = 6,
-           length = 6,
+        self.yellow_room = Room(
+            color = RoomColor.YELLOW,
+            width = 6,
+            length = 6,
             pos = {
                 Corner.BOTTOM_LEFT: Position(6,0),
                 Corner.TOP_RIGHT: Position(12,6)
                 },
-           name = "Gelben Raum",
-           neighbors = {
-               Directions.NORTH: RoomColor.GREEN,
-               Directions.EAST: RoomColor.RED,
-               Directions.SOUTH: RoomColor.BLUE,
-               Directions.WEST: RoomColor.ORANGE
-           },
-          doors = {
-              Directions.NORTH: Door(leads_to=RoomColor.GREEN, pos=Position(8,6)),
-              Directions.SOUTH: Door(leads_to=RoomColor.WHITE, pos=Position(8,0))
-          }
-       )
-       self.white_room = Room(
+            name = "Gelben Raum",
+            neighbors = {
+                Directions.NORTH: RoomColor.GREEN,
+                Directions.EAST: RoomColor.RED,
+                Directions.SOUTH: RoomColor.BLUE,
+                Directions.WEST: RoomColor.ORANGE
+                },
+            doors = {
+                Directions.NORTH: Door(leads_to=RoomColor.GREEN, pos=Position(8,6)),
+                Directions.SOUTH: Door(leads_to=RoomColor.WHITE, pos=Position(8,0))
+                }
+            )
+        self.white_room = Room(
             color = RoomColor.WHITE,
             width = 6,
             length = 6,
@@ -51,9 +51,8 @@ class World:
                 Directions.SOUTH: Door(leads_to=RoomColor.GREEN, pos=Position(8,12)),
                 Directions.NORTH: Door(leads_to=RoomColor.YELLOW, pos=Position(8,18))
             }
-
-       )
-       self.green_room = Room(
+        )
+        self.green_room = Room(
             color = RoomColor.GREEN,
             width = 6,
             length = 6,
@@ -75,7 +74,7 @@ class World:
                 Directions.SOUTH: Door(leads_to=RoomColor.YELLOW, pos=Position(8,6))
             }
         )
-       self.red_room = Room(
+        self.red_room = Room(
             color = RoomColor.RED,
             width = 6,
             length = 6,
@@ -95,7 +94,7 @@ class World:
                 Directions.EAST: Door(leads_to=RoomColor.BLUE, pos=Position(18,8))
             }
         )
-       self.blue_room = Room(
+        self.blue_room = Room(
             color = RoomColor.BLUE,
             width = 6,
             length = 6,
@@ -116,7 +115,7 @@ class World:
 
             }
         )
-       self.orange_room = Room(
+        self.orange_room = Room(
             color = RoomColor.ORANGE,
             width = 6,
             length = 6,
@@ -135,8 +134,7 @@ class World:
                 Directions.WEST: Door(leads_to=RoomColor.BLUE, pos=Position(0,8)),
                 Directions.EAST: Door(leads_to=RoomColor.GREEN, pos=Position(6,8))
             }
-       )
-       
+        )
     
     def init_map(self):
         self.map_dict = {
