@@ -77,6 +77,7 @@ class PlayerState(Enum):
     STAND = auto()
     WALL = auto()
     DOOR = auto()
+    GO_DOOR = auto()
 
 class Directions(Enum):
 
@@ -95,9 +96,21 @@ class RoomColor(Enum):
     RED = auto()
     
 class Corner(Enum):
+
     BOTTOM_LEFT = auto()
     TOP_RIGHT = auto()
 
 class LoopSignal(Enum):
+
     CONTINUE = True
     EXIT = False
+
+class TranslateKey(Enum):
+
+    COMMAND_TO_DIRECTION = "commandMovetoDirection"
+    DIRECTION_TO_OFFSET = "directionToOffset"
+    OFFSET_TO_CORNER = "offsetToCorner"
+    CORNER_TO_AXIS = "cornerToAxis"
+
+    def __str__(self):
+        return self.value
