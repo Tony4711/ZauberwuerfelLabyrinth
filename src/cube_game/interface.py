@@ -73,11 +73,14 @@ class Interface:
         self.utility.centered(f"--- Du gehst einen Schritt nach {self.engine.player.direction.value} ---\n")
     
     def show_wall(self):
-        self.utility.centered(f"--- Du stößt gegen eine Wand! ---\n")
+        self.utility.centered("--- Du stößt gegen eine Wand ---\n")
     
-    def show_door(self):
+    def show_infront_door(self):
+        self.utility.centered("---- Du stehst vor einer Tür ---\n")
+
+    def show_room_entrance(self):
         self.utility.centered(f"--- Du gehst durch eine Tür in Richtung {self.engine.player.direction.value} ---\n")
-        self.utility.centered(f"--- Du betrittst den {self.player.current_room.name} ---\n")
+        self.utility.centered(f"--- Du betrittst den {self.engine.player.current_room.name} ---\n")
 
     def _menuState_handler(self, menuState):
         if menuState == MenuState.MAIN:
@@ -109,6 +112,11 @@ class Interface:
                 self.show_move()
             elif playerState == PlayerState.WALL:
                 self.show_wall()
+            elif playerState == PlayerState.DOOR:
+                self.show_move()
+                self.show_infront_door()
+            elif playerState == PlayerState.GO_DOOR:
+                self.show_room_entrance()
 
     def update(self):
         gameState = self.stateManager.gameState
