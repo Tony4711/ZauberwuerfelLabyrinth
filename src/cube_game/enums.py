@@ -35,7 +35,6 @@ class Command(TaggedEnum):
     MOVE_EAST = ("d", CommandTag.MOVEMENT) 
     MOVE_SOUTH = ("s", CommandTag.MOVEMENT)
     MOVE_WEST = ("a", CommandTag.MOVEMENT)
-    QUIT = ("x", CommandTag.META)
     OPEN_MAP = ("m", CommandTag.META)
     CONTROLS = ("c", CommandTag.META)
     OP1 = ("1", CommandTag.OPTION)
@@ -44,9 +43,9 @@ class Command(TaggedEnum):
     OP4 = ("4", CommandTag.OPTION)
     BACK = ("q", CommandTag.META)
     FORTH = ("e", CommandTag.META)
-    ACCEPT = ("j", CommandTag.CHOICE)
-    DENIE = ("n", CommandTag.CHOICE)
-    EXIT = ("x", CommandTag.META)
+    #ACCEPT = ("j", CommandTag.CHOICE)
+    #DENIE = ("n", CommandTag.CHOICE)
+    #EXIT = ("x", CommandTag.META)
 
 class DoorState(Enum):
 
@@ -54,20 +53,16 @@ class DoorState(Enum):
     CLOSED = auto()
     LOCKED = auto()
 
-class IsGlobal(Enum):
 
-    TRUE = True
-    FALSE = False
-
-class GameState(TaggedEnum):
+class GameState(Enum):
     
-    INIT = ("Init", IsGlobal.TRUE)
-    PLAYING = ("Start", IsGlobal.TRUE)
-    EXIT = ("Exit", IsGlobal.FALSE)
-    IDLE = ("Ruhend", IsGlobal.FALSE)
-    GLOBAL_CONTROLS = ("Globale Steuerungen", IsGlobal.TRUE)
-    MENU = ("Menu", IsGlobal.FALSE)
-    BACK = ("Zurück", IsGlobal.FALSE)
+    INIT = "Init"
+    PLAYING = "Start"
+    EXIT = "Exit"
+    IDLE = "Ruhend"
+    MENU = "Menu"
+    BACK = "Zurück"
+    MAP = "Karte"
 
 class MenuState(Enum):
 
@@ -75,6 +70,13 @@ class MenuState(Enum):
     SETTINGS = "Einstellungen"
     CONTROLS = "Steuerung"
     EXIT = "Verlassen"
+
+class PlayerState(Enum):
+
+    MOVE = auto()
+    STAND = auto()
+    WALL = auto()
+    DOOR = auto()
 
 class Directions(Enum):
 
@@ -95,3 +97,7 @@ class RoomColor(Enum):
 class Corner(Enum):
     BOTTOM_LEFT = auto()
     TOP_RIGHT = auto()
+
+class LoopSignal(Enum):
+    CONTINUE = True
+    EXIT = False
