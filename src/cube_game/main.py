@@ -6,11 +6,10 @@ class Main:
 
     def __init__(self):
         self.running = True
-        self.stateManager = StateManager() 
-        self.interface = Interface(self.stateManager)
-        self.engine = Engine(self.stateManager)
+        self.stateManager = StateManager()
+        self.engine = Engine(self.stateManager) 
+        self.interface = Interface(self.stateManager, self.engine)
         
-
     def run(self):
         while self.running:
             self.interface.update()
