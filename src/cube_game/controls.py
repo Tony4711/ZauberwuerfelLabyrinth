@@ -7,18 +7,27 @@ class Controls:
 
  
     def __init__(self, StateManager):
-        self.interface = Interface(StateManager)
         self.utility = Utility()
     
-    def process_input(self,  gameState: GameState, menuState: MenuState, isGlobal: False):
-        input = self.interface.read_input()
-        self.interface.write_input(input.upper())
+    def read_input(self):
+        from readchar import readkey, key
+        input = readkey().lower().strip()
+        return input
+    
+    def write_input(self, text):
+        print(f"Eingabe: [{text}]\n".rjust(self.utility.columns))
+    
+    def process_input(self,  gameState: GameState, menuState: MenuState):
+        input = self.read_input()
+        self.write_input(input.upper())
         # parse self.input to self.command
         command = self._get_command_from_input(input)
         if command is None:
-            return self._input_exception(gameState, command, isGlobal)
+            return self._input_exception(gameState, command)
         else:
-            valid_command = self._state_trooper(gameState, menuState, command, isGlobal)
+            valid_command = self._state_trooper(gameState, menuState, command)
+            if valid_command == None:
+                self._input_exception()
             return valid_command
     
     def _get_command_from_input(self, input: str):
@@ -27,16 +36,15 @@ class Controls:
                 return command
         return None
     
-    def _state_trooper(self, gameState, menuState, command, isGlobal) -> str:
+    def _state_trooper(self, gameState, menuState, command) -> str:
         if gameState == GameState.MENU:
             self._is_valid_for_menuState(menuState, command)
             return command
-        while not self._is_valid_for_gameState(gameState, command):
-            if isGlobal and self._is_valid_for_gameState(GameState.GLOBAL_CONTROLS, command):
-                return command
-            else:
-                command = self._input_exception(gameState, command, isGlobal)
-        return command
+        else: 
+            self._is_valid_for_gameState(gameState, command)
+            return command
+        return None
+
     
     # Prüft ob im aktuellen state der Input im dict 'mapping' vorhanden ist
     # Gibt dementsprechend True oder False zurück
@@ -57,8 +65,6 @@ class Controls:
         return dict.get(state)
     
     # Fehlermeldung für ungültige Eingaben
-    def _input_exception(self, state, command, isGlobal):
+    def _input_exception(self, state, command):
         self.utility.centered(f"--- Ungültige Eingabe. Bitte nutze: ---\n" )
         self.utility.print_dict(mapping, state)
-        command = self.process_input(state, isGlobal)
-        return command
