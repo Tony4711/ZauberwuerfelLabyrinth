@@ -41,31 +41,39 @@ class StateManager:
         self.gameStack = GameStack()
         self.menuStack = MenuStack()
         self.playerStack = PlayerStack()
-
-    # CHORE: write mapping dict instead of conditions to alow direct access 
-    def update(self, nextState):
-        if nextState == GameState.EXIT:
-            self._update_game(nextState)
-            return LoopSignal.EXIT.value
-        else:
-            if isinstance(nextState, GameState):
-                if nextState == GameState.INIT:
-                    self._update_game(GameState.MENU)
-                    self._update_menu(MenuState.MAIN)
-                else:
-                    self._update_game(nextState)
-            elif isinstance(nextState, MenuState):
-                self._update_game(GameState.MENU)
-                self._update_menu(nextState)
-            elif isinstance(nextState, PlayerState):
-                self._update_player(nextState)
-            return LoopSignal.CONTINUE.value
+    
+    def _init_stateHandlerDict(self, nextState):
+        stateHandler = {
+            GameState: self._update_game,
+            MenuState: self._update_menu,
+            PlayerState: self._update_player,
+            DoorState: self._update_door
+        }
+        return stateHandler
+    
+    def _stateHandler_logic(self, nextState, stateHandlerDict):
+        if nextState == GameState.INIT:
+                self._init_game(nextState)
+                return LoopSignal.CONTINUE
+        elif nextState == GameState.EXIT:
+                self._update_game(nextState)
+                return LoopSignal.EXIT
+        for states, handler in stateHandlerDict.items():
+            if isinstance(nextState, states):
+                handler(nextState)
+                return LoopSignal.CONTINUE
+    
+    def _init_game(self, gameState):
+        if gameState == GameState.INIT:
+            self._update_game(GameState.MENU)
+            self._update_menu(MenuState.MAIN)
     
     def _update_game(self, gameState):
         self.gameState = gameState
         self.gameStack._push_stateStack(gameState)
     
     def _update_menu(self, menuState):
+        self._update_game(GameState.MENU)
         self.menuState = menuState
         self.menuStack._push_stateStack(menuState)
 
@@ -82,3 +90,7 @@ class StateManager:
         if self.gameState == GameState.MENU:
             self.menuStack._pop_stateStack()
             self.menuState = self.menuStack._current_stateStack()
+
+    def update(self, nextState):
+        stateHandlerDict = self._init_stateHandlerDict(nextState)
+        return self._stateHandler_logic(nextState, stateHandlerDict)
