@@ -14,17 +14,6 @@ mapping = {
                     Command.OP2: "Nein"
                 }
             },
-            GameState.GLOBAL_CONTROLS: {
-                Command.BACK: "Zurück",
-                Command.FORTH: "Weiter",
-                Command.EXIT: "Spiel verlassen",
-                Command.OPEN_MAP: "Karte öffnen",
-                Command.CONTROLS: "Steuerung anzeigen"
-            },
-            GameState.EXIT: {
-                Command.ACCEPT: "Ja",
-                Command.DENIE: "Nein"
-            },
             GameState.PLAYING: {
                 Command.MOVE_NORTH: "Nach Norden gehen",
                 Command.MOVE_WEST: "Nach Westen gehen",
