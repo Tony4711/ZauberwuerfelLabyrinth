@@ -90,6 +90,13 @@ class Engine:
                 (0,-1): (Corner.BOTTOM_LEFT, lambda p: p.y),
                 (-1,0): (Corner.BOTTOM_LEFT, lambda p: p.x)
             },
+            TranslateKey.STATE_TRANSITION: {
+                (GameState.MENU, MenuState.MAIN,Command.OP1): GameState.PLAYING, 
+                (GameState.MENU, MenuState.MAIN,Command.OP2): MenuState.EXIT,
+                (GameState.MENU, MenuState.EXIT,Command.OP1): GameState.EXIT,
+                (GameState.MAP, MenuState.EXIT, Command.OP2): GameState.BACK,
+                (Command.CONTROLS): MenuState.CONTROLS
+            }
 
         }
         return translate[key][inner_key]
@@ -117,7 +124,8 @@ class Engine:
             return PlayerState.MOVE
         else:
             return PlayerState.WALL
-        
+
+    #translated    
     def menu_handler(self, command):
         menuState = self.stateManager.menuState
         if menuState == MenuState.MAIN:
@@ -125,12 +133,14 @@ class Engine:
         elif menuState == MenuState.EXIT:
             return self.exit_menu(command)
 
+    #translated
     def main_menu(self, command):
         if command == Command.OP1:
             return GameState.PLAYING
         elif command == Command.OP2:
             return MenuState.EXIT
     
+    #translated
     def exit_menu(self, command):
         # Wenn 'JA' dann beende das Spiel
         if command == Command.OP1:

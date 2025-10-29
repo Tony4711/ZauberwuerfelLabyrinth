@@ -111,6 +111,7 @@ class TranslateKey(Enum):
     DIRECTION_TO_OFFSET = "directionToOffset"
     OFFSET_TO_CORNER = "offsetToCorner"
     CORNER_TO_AXIS = "cornerToAxis"
+    STATE_TRANSITION = "commandToState"
 
     def __str__(self):
         return self.value

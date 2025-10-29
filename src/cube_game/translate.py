@@ -1,0 +1,30 @@
+import operator
+from enums import CommandTag, Command, GameState, MenuState, PlayerState, Directions, RoomColor, Corner, TranslateKey
+
+translate = {
+            TranslateKey.COMMAND_TO_DIRECTION: {
+            Command.MOVE_NORTH: (Directions.NORTH, operator.le),
+            Command.MOVE_EAST: (Directions.EAST, operator.le),
+            Command.MOVE_SOUTH: (Directions.SOUTH, operator.ge),
+            Command.MOVE_WEST: (Directions.WEST, operator.ge) 
+            },
+            TranslateKey.DIRECTION_TO_OFFSET: {
+            Directions.NORTH: (0,1),
+            Directions.EAST: (1,0),
+            Directions.SOUTH: (0, -1),
+            Directions.WEST: (-1,0) 
+            },
+            TranslateKey.OFFSET_TO_CORNER: {
+                (0,1): (Corner.TOP_RIGHT, lambda p: p.y),
+                (1,0): (Corner.TOP_RIGHT, lambda p: p.x),
+                (0,-1): (Corner.BOTTOM_LEFT, lambda p: p.y),
+                (-1,0): (Corner.BOTTOM_LEFT, lambda p: p.x)
+            },
+            TranslateKey.STATE_TRANSITION: {
+                (GameState.MENU, MenuState.MAIN,Command.OP1): GameState.PLAYING, 
+                (GameState.MENU, MenuState.MAIN,Command.OP2): MenuState.EXIT,
+                (GameState.MENU, MenuState.EXIT,Command.OP1): GameState.EXIT,
+                (GameState.MAP, MenuState.EXIT, Command.OP2): GameState.BACK,
+                (Command.CONTROLS): MenuState.CONTROLS
+            }
+}
