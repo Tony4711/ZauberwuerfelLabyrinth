@@ -5,7 +5,7 @@ from utility import Utility
 
 class Controls:
 
- 
+
     def __init__(self, StateManager):
         self.utility = Utility()
     

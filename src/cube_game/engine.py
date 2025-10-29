@@ -55,8 +55,7 @@ class Engine:
     # infront of the door
     def _door_infront(self, direction):
         (dx, dy) = self._translate_(TranslateKey.DIRECTION_TO_OFFSET, direction)
-        infront = copy.copy(self.player.pos)
-        infront.move(dx, dy)
+        infront = self.player.pos + (dx, dy)
         try:
             door = self._get_door(direction)
         except KeyError:
@@ -113,15 +112,19 @@ class Engine:
         # axis function for room position at corner
         room_axis_val   = axis_func(self.player.current_room.pos[corner])
         # if condition to compare player position with borders of current room before moving
+        print(f"Player: {player_axis_val}")
+        print(f"Room Border: {room_axis_val}")
+        print(f"Door: {self.player.current_room.doors[direction].pos}")
         if op(player_axis_val, room_axis_val):
             self.player.pos.move(dx,dy)
-            self.player.direction = direction 
+            self.player.direction = direction
             if self._door_infront(direction):
                 return PlayerState.DOOR
             elif self.player.pos == self._get_door(direction).pos:
                 self._change_room(direction)
                 return PlayerState.GO_DOOR
-            return PlayerState.MOVE
+            else:
+                return PlayerState.MOVE
         else:
             return PlayerState.WALL
 
