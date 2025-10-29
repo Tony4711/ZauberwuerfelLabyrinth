@@ -122,6 +122,7 @@ class Engine:
                 return PlayerState.DOOR
             elif self.player.pos == self._get_door(direction).pos:
                 self._change_room(direction)
+                self.player.pos.move(dx,dy)
                 return PlayerState.GO_DOOR
             else:
                 return PlayerState.MOVE
