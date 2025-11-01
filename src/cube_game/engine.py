@@ -1,10 +1,10 @@
 import copy
 import operator
-from enums import CommandTag, Command, DoorState, GameState, MenuState, PlayerState, Directions, RoomColor, Corner, TranslateKey
+from enums import CommandTag, Command, DoorState, GameState, MenuState, PlayerState, Directions, RoomColor, Corner, TranslateKey, SystemState
 from position import Position
 from room import Room
 from door import Door
-from controls import Controls
+from cube_game.inputController import InputController
 from player import Player
 from utility import Utility
 from world import World
@@ -15,11 +15,11 @@ from world import World
 
 class Engine:
 
-    def __init__(self, StateManager):
-        self.controls = Controls(StateManager)
+    def __init__(self, StateController):
+        self.controls = InputController(StateController)
         self.utility = Utility()
         self.world = World()
-        self.stateManager = StateManager
+        self.stateController = StateController
         self.init_player()
 
     def init_player(self):
@@ -44,7 +44,7 @@ class Engine:
         # kein Interface Update da kein return PlayerState.MOVE
         self.player.direction = direction
         self.player.current_room = next_room
-        self._cube_wrap_around()
+        
 
     ### BUG: The method only checks for doors for last moved direction
     # If player moves side ways to a door, it is not recognised. And if a room has more than one door,
@@ -56,9 +56,8 @@ class Engine:
     def _door_infront(self, direction):
         (dx, dy) = self._translate_(TranslateKey.DIRECTION_TO_OFFSET, direction)
         infront = self.player.pos + (dx, dy)
-        try:
-            door = self._get_door(direction)
-        except KeyError:
+        door = self._get_door(direction)
+        if door == None:
             return False
         if infront == door.pos:
             return True 
@@ -66,7 +65,10 @@ class Engine:
             False
 
     def _get_door(self, direction):
-        door = self.player.current_room.doors[direction]
+        try:
+            door = self.player.current_room.doors[direction]
+        except KeyError:
+            return None
         return door
     
     def _translate_(self, key, inner_key):
@@ -89,7 +91,7 @@ class Engine:
                 (0,-1): (Corner.BOTTOM_LEFT, lambda p: p.y),
                 (-1,0): (Corner.BOTTOM_LEFT, lambda p: p.x)
             },
-            TranslateKey.STATE_TRANSITION: {
+            TranslateKey.HANDLE_COMMAND: {
                 (GameState.MENU, MenuState.MAIN,Command.OP1): GameState.PLAYING, 
                 (GameState.MENU, MenuState.MAIN,Command.OP2): MenuState.EXIT,
                 (GameState.MENU, MenuState.EXIT,Command.OP1): GameState.EXIT,
@@ -112,26 +114,30 @@ class Engine:
         # axis function for room position at corner
         room_axis_val   = axis_func(self.player.current_room.pos[corner])
         # if condition to compare player position with borders of current room before moving
-        print(f"Player: {player_axis_val}")
-        print(f"Room Border: {room_axis_val}")
-        print(f"Door: {self.player.current_room.doors[direction].pos}")
+        door = self._get_door(direction)
+        #print(f"Door: {self.player.current_room.doors[direction].pos}")
         if op(player_axis_val, room_axis_val):
             self.player.pos.move(dx,dy)
             self.player.direction = direction
+            #print(f"Player: {self.player.pos}") #---DEBUG PRINT---
+            #print(f"Room: {self.player.current_room.pos[corner]}") #---DEBUG PRINT---
             if self._door_infront(direction):
-                return PlayerState.DOOR
-            elif self.player.pos == self._get_door(direction).pos:
-                self._change_room(direction)
                 self.player.pos.move(dx,dy)
-                return PlayerState.GO_DOOR
+                return PlayerState.DOOR
             else:
                 return PlayerState.MOVE
+        elif door is not None and self.player.pos == door.pos:
+            self._change_room(direction)
+            self.player.pos.move(dx,dy)
+            self._cube_wrap_around()
+            #print(f"Player: {self.player.pos}") #---DEBUG PRINT---
+            return PlayerState.GO_DOOR
         else:
             return PlayerState.WALL
 
     #translated    
     def menu_handler(self, command):
-        menuState = self.stateManager.menuState
+        menuState = self.stateController.menuState
         if menuState == MenuState.MAIN:
             return self.main_menu(command)
         elif menuState == MenuState.EXIT:
@@ -153,20 +159,23 @@ class Engine:
         if command == Command.OP2:
             return GameState.BACK
 
-    def process_command(self, command):
-            if command == Command.CONTROLS:
-                return MenuState.CONTROLS 
-            elif command == Command.OPEN_MAP:
-                return GameState.MAP
-            elif command.tag == CommandTag.MOVEMENT:
-                return self.move(command)
-            elif command.tag == CommandTag.OPTION:
-                return self.menu_handler(command)
+    def handle_command(self, command):
+        if command == Command.CONTROLS:
+            return MenuState.CONTROLS 
+        elif command == Command.OPEN_MAP:
+            return GameState.MAP
+        elif command.tag == CommandTag.MOVEMENT:
+            return self.move(command)
+        elif command.tag == CommandTag.OPTION:
+            return self.menu_handler(command)
 
     def update(self):
-        gameState = self.stateManager.gameState
-        menuState = self.stateManager.menuState
+        gameState = self.stateController.gameState
+        menuState = self.stateController.menuState
+        self.stateController.systemState = SystemState.OK
         if gameState == GameState.INIT:
             return gameState
         self.command = self.controls.process_input(gameState, menuState)
-        return self.process_command(self.command) 
+        if self.command == None:
+            return SystemState.EXCEPTION_INPUT_ERROR
+        return self.handle_command(self.command) 
