@@ -1,12 +1,12 @@
-from enums import Command, Directions, GameState, MenuState, PlayerState
+from enums import Command, Directions, GameState, MenuState, PlayerState, SystemState
 from utility import Utility
 from functools import lru_cache
 from mapping import mapping
 
 class Interface:
 
-    def __init__(self, StateManager, Engine):
-        self.stateManager = StateManager
+    def __init__(self, StateController, Engine):
+        self.stateController = StateController
         self.engine = Engine
         self.utility = Utility()
         self.init_menu_structure()
@@ -79,8 +79,13 @@ class Interface:
         self.utility.centered("---- Du stehst vor einer Tür ---\n")
 
     def show_room_entrance(self):
-        self.utility.centered(f"--- Du gehst durch eine Tür in Richtung {self.engine.player.direction.value} ---\n")
+        self.utility.centered(f"--- Du öffnest die Tür und gehst einen Schritt in Richtung {self.engine.player.direction.value} ---\n")
         self.utility.centered(f"--- Du betrittst den {self.engine.player.current_room.name} ---\n")
+    
+    def show_input_exception(self):
+        self.utility.print_dividing_line()
+        self.utility.centered(f"--- Ungültige Eingabe ---\n")
+        self.utility.print_dividing_line()
 
     def _menuState_handler(self, menuState):
         if menuState == MenuState.MAIN:
@@ -94,7 +99,7 @@ class Interface:
             self.show_menu_options(MenuState.EXIT)
 
     def gameState_handler(self, gameState):
-        playerState = self.stateManager.playerState
+        playerState = self.stateController.playerState
         if gameState == GameState.INIT:
             self.show_hello()
             return
@@ -107,6 +112,7 @@ class Interface:
         elif gameState == GameState.MAP:
             self.show_map()
 
+
     def _playerState_handler(self, playerState):    
             if playerState == PlayerState.MOVE:
                 self.show_move()
@@ -117,13 +123,22 @@ class Interface:
                 self.show_infront_door()
             elif playerState == PlayerState.GO_DOOR:
                 self.show_room_entrance()
+    
+    def _exception_handler(self, systemState):
+        if systemState == SystemState.EXCEPTION_INPUT_ERROR:
+            self.show_input_exception()
+
 
     def update(self):
-        gameState = self.stateManager.gameState
-        menuState = self.stateManager.menuState
-        if gameState == GameState.MENU:
+        gameState = self.stateController.gameState
+        menuState = self.stateController.menuState
+        systemState = self.stateController.systemState
+        if systemState != SystemState.OK:
+            self._exception_handler(systemState)
+        elif gameState == GameState.MENU:
             self._menuState_handler(menuState)
             return
-        self.gameState_handler(gameState)
+        else:
+            self.gameState_handler(gameState)
 
 
