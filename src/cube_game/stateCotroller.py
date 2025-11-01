@@ -1,4 +1,4 @@
-from enums import GameState, MenuState, PlayerState, DoorState, LoopSignal
+from enums import GameState, MenuState, PlayerState, DoorState, LoopSignal, SystemState
 
 class StateStack:
     
@@ -31,42 +31,63 @@ class PlayerStack(StateStack):
     def __init__(self):
         super().__init__(PlayerState.STAND)
 
-class StateManager:
+class SystemStack(StateStack):
+
+    def __init__(self):
+        super().__init__(SystemState.OK)
+
+class StateController:
     
     def __init__(self):
         self.gameState = GameState.INIT
         self.menuState = MenuState.MAIN
         self.playerState = PlayerState.STAND
         self.doorState = DoorState.CLOSED
+        self.systemState = SystemState.OK
         self.gameStack = GameStack()
         self.menuStack = MenuStack()
         self.playerStack = PlayerStack()
+        self.systemStack = SystemStack()
+        self.stateHandlerDict = self._init_stateHandlerDict()
+        self.exceptionHandlerDict = self._init_exceptionHandlerDict()
     
-    def _init_stateHandlerDict(self, nextState):
+    def _init_stateHandlerDict(self):
         stateHandler = {
             GameState: self._update_game,
             MenuState: self._update_menu,
             PlayerState: self._update_player,
-            DoorState: self._update_door
+            DoorState: self._update_door,
+            SystemState:self._reset_system,
         }
         return stateHandler
     
-    def _stateHandler_logic(self, nextState, stateHandlerDict):
-        if nextState == GameState.INIT:
-                self._init_game(nextState)
-                return LoopSignal.CONTINUE
-        elif nextState == GameState.EXIT:
-                self._update_game(nextState)
-                return LoopSignal.EXIT
-        for states, handler in stateHandlerDict.items():
-            if isinstance(nextState, states):
-                handler(nextState)
-                return LoopSignal.CONTINUE
+    def _init_exceptionHandlerDict(self):
+        exceptionHandler = {
+            GameState.INIT: self._init_game,
+            GameState.EXIT: self._exit_game,
+            GameState.BACK: self._state_back
+        }
+        return exceptionHandler
+    
+    def _state_handler_logic(self, nextState, stateHandlerDict, exceptionHandlerDict):
+        handler = exceptionHandlerDict.get(nextState)
+        if handler:
+            return handler(nextState) or LoopSignal.CONTINUE
+        handler = stateHandlerDict.get(type(nextState))
+        if handler:
+            return handler(nextState) or LoopSignal.CONTINUE
+        return LoopSignal.CONTINUE
+    
+
     
     def _init_game(self, gameState):
         if gameState == GameState.INIT:
             self._update_game(GameState.MENU)
             self._update_menu(MenuState.MAIN)
+    
+    def _exit_game(self, gameState):
+        self._update_game(gameState)
+        return LoopSignal.EXIT
     
     def _update_game(self, gameState):
         self.gameState = gameState
@@ -83,6 +104,11 @@ class StateManager:
     
     def _update_door(self, doorState):
         self.doorState = doorState
+
+    def _reset_system(self, systemState):
+        self.systemState = SystemState.OK if systemState != SystemState.OK else systemState 
+        self.systemStack._push_stateStack(systemState)
+        
     
     def _state_back(self):
         self.gameStack._pop_stateStack()
@@ -92,5 +118,5 @@ class StateManager:
             self.menuState = self.menuStack._current_stateStack()
 
     def update(self, nextState):
-        stateHandlerDict = self._init_stateHandlerDict(nextState)
-        return self._stateHandler_logic(nextState, stateHandlerDict)
+        
+        return self._state_handler_logic(nextState, self.stateHandlerDict, self.exceptionHandlerDict)

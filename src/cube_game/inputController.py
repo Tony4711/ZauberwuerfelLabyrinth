@@ -3,10 +3,10 @@ from interface import Interface
 from mapping import mapping
 from utility import Utility
 
-class Controls:
+class InputController:
 
 
-    def __init__(self, StateManager):
+    def __init__(self, StateController):
         self.utility = Utility()
     
     def read_input(self):
@@ -22,13 +22,8 @@ class Controls:
         self.write_input(input.upper())
         # parse self.input to self.command
         command = self._get_command_from_input(input)
-        if command is None:
-            return self._input_exception(gameState, command)
-        else:
-            valid_command = self._state_trooper(gameState, menuState, command)
-            if valid_command == None:
-                self._input_exception()
-            return valid_command
+        valid_command = self._state_trooper(gameState, menuState, command)
+        return valid_command
     
     def _get_command_from_input(self, input: str):
         for command in Command:
@@ -38,11 +33,11 @@ class Controls:
     
     def _state_trooper(self, gameState, menuState, command) -> str:
         if gameState == GameState.MENU:
-            self._is_valid_for_menuState(menuState, command)
-            return command
+            if self._is_valid_for_menuState(menuState, command):
+                return command
         else: 
-            self._is_valid_for_gameState(gameState, command)
-            return command
+            if self._is_valid_for_gameState(gameState, command):
+                return command
         return None
 
     
@@ -63,8 +58,3 @@ class Controls:
     # Gibt alle values eines dicts anhand des keys 'state' zuück
     def get_commands_for_state(self, dict, state) -> dict[str, str]:
         return dict.get(state)
-    
-    # Fehlermeldung für ungültige Eingaben
-    def _input_exception(self, state, command):
-        self.utility.centered(f"--- Ungültige Eingabe. Bitte nutze: ---\n" )
-        self.utility.print_dict(mapping, state)
