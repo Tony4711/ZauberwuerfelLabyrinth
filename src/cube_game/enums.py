@@ -53,6 +53,10 @@ class DoorState(Enum):
     CLOSED = auto()
     LOCKED = auto()
 
+class SystemState(Enum):
+
+    OK = "OK"
+    EXCEPTION_INPUT_ERROR = "Eingabefehler"
 
 class GameState(Enum):
     
@@ -63,6 +67,7 @@ class GameState(Enum):
     MENU = "Menu"
     BACK = "Zurück"
     MAP = "Karte"
+    
 
 class MenuState(Enum):
 
@@ -111,7 +116,7 @@ class TranslateKey(Enum):
     DIRECTION_TO_OFFSET = "directionToOffset"
     OFFSET_TO_CORNER = "offsetToCorner"
     CORNER_TO_AXIS = "cornerToAxis"
-    STATE_TRANSITION = "commandToState"
+    HANDLE_COMMAND = "commandToState"
 
     def __str__(self):
         return self.value
