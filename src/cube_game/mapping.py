@@ -19,5 +19,20 @@ mapping = {
                 Command.MOVE_WEST: "Nach Westen gehen",
                 Command.MOVE_SOUTH: "Nach Süden gehen ",
                 Command.MOVE_EAST: "Nach Osten gehen "
+            },
+            GameState.INIT:{
+
+            },
+            GameState.EXIT:{
+
+            },
+            GameState.IDLE:{
+
+            },
+            GameState.BACK:{
+
+            },
+            GameState.MAP:{
+
             }
         }

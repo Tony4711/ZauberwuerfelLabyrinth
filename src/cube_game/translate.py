@@ -20,11 +20,10 @@ translate = {
                 (0,-1): (Corner.BOTTOM_LEFT, lambda p: p.y),
                 (-1,0): (Corner.BOTTOM_LEFT, lambda p: p.x)
             },
-            TranslateKey.STATE_TRANSITION: {
+            TranslateKey.HANDLE_COMMAND: {
                 (GameState.MENU, MenuState.MAIN,Command.OP1): GameState.PLAYING, 
                 (GameState.MENU, MenuState.MAIN,Command.OP2): MenuState.EXIT,
                 (GameState.MENU, MenuState.EXIT,Command.OP1): GameState.EXIT,
                 (GameState.MAP, MenuState.EXIT, Command.OP2): GameState.BACK,
-                (Command.CONTROLS): MenuState.CONTROLS
             }
 }
