@@ -26,16 +26,16 @@ class Interface:
     def show_controls(self, state = None):
         self.utility.print_dict(mapping, state)
 
+    def show_text(self, text):
+        for line in text:
+            self.utility.centered(line)
+        self.utility.print_dividing_line()
+
     def _menuState_handler(self, menuState):
         signal = self.menu_routerSignal.get(menuState)
         key = self.router.get(signal)
         self.displayController(key, menuState)
         return
-
-    def show_text(self, text):
-        for line in text:
-            self.utility.centered(line)
-        self.utility.print_dividing_line()
 
     def gameState_handler(self, gameState):
         signal = self.game_routerSignal.get(gameState)
