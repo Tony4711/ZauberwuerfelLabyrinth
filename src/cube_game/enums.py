@@ -43,9 +43,6 @@ class Command(TaggedEnum):
     OP4 = ("4", CommandTag.OPTION)
     BACK = ("q", CommandTag.META)
     FORTH = ("e", CommandTag.META)
-    #ACCEPT = ("j", CommandTag.CHOICE)
-    #DENIE = ("n", CommandTag.CHOICE)
-    #EXIT = ("x", CommandTag.META)
 
 class DoorState(Enum):
 
@@ -61,7 +58,7 @@ class SystemState(Enum):
 class GameState(Enum):
     
     INIT = "Init"
-    PLAYING = "Start"
+    PLAYING = "spielt"
     EXIT = "Exit"
     IDLE = "Ruhend"
     MENU = "Menu"
@@ -75,9 +72,11 @@ class MenuState(Enum):
     SETTINGS = "Einstellungen"
     CONTROLS = "Steuerung"
     EXIT = "Verlassen"
+    MAP = "Karte"
 
 class PlayerState(Enum):
 
+    INIT = auto()
     MOVE = auto()
     STAND = auto()
     WALL = auto()
@@ -93,12 +92,12 @@ class Directions(Enum):
 
 class RoomColor(Enum):
     
-    YELLOW = auto()
-    WHITE = auto()
-    GREEN = auto()
-    ORANGE = auto()
-    BLUE = auto()
-    RED = auto()
+    YELLOW = "Gelb"
+    WHITE = "Weiß"
+    GREEN = "Grün"
+    ORANGE = "Orange"
+    BLUE = "Blau"
+    RED = "Rot"
     
 class Corner(Enum):
 
@@ -120,3 +119,40 @@ class TranslateKey(Enum):
 
     def __str__(self):
         return self.value
+
+class RouterSignal(Enum):
+
+    SHOW_HELLO = "show_hello"
+    SHOW_START = "show_start"
+    SHOW_CONTROLS = "show_controls"
+    SHOW_MENU_OPTIONS = "show_menu_options"
+    SHOW_MAP = "show_map"
+    SHOW_EXIT_MENU = "show_exit_menu"
+    SHOW_EXIT_CONFIRMED = "show_exit_confirmed"
+    SHOW_MOVE = "show_move"
+    SHOW_WALL = "show_wall"
+    SHOW_INFRONT_DOOR = "show_infront_door"
+    SHOW_ROOM_ENTRANCE = "show_room_entrance"
+    SHOW_INPUT_EXCEPTION = "show_input_exception"
+
+    def __str__(self):
+        return self.value
+    
+class DisplayKey(Enum):
+
+    HELLO_TEXT = "hello"
+    START_TEXT = "start"
+    CONTROLS_TEXT = "controls"
+    MENU_OPTIONS_TEXT = "menu_options"
+    MAP_TEXT = "map"
+    EXIT_MENU_TEXT = "exit_menu"
+    EXIT_CONFIRMED_TEXT = "exit_confirmed"
+    MOVE_TEXT = "move"
+    WALL_TEXT = "wall"
+    INFRONT_DOOR_TEXT = "infront_door"
+    ROOM_ENTRANCE_TEXT = "room_entrance"
+    INPUT_EXCEPTION_TEXT = "input_exception"
+
+class OutputFunction(Enum):
+
+    SHOW_MENU_OPTION = auto()
