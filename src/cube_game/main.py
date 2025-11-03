@@ -1,6 +1,6 @@
 from interface import Interface
 from engine import Engine
-from cube_game.stateCotroller import StateController
+from stateController import StateController
 
 class Main:
 
