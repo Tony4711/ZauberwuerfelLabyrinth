@@ -12,13 +12,15 @@ mapping = {
                 MenuState.EXIT:{
                     Command.OP1: "Ja",
                     Command.OP2: "Nein"
-                }
+                },
+                MenuState.MAP:{}
             },
             GameState.PLAYING: {
                 Command.MOVE_NORTH: "Nach Norden gehen",
                 Command.MOVE_WEST: "Nach Westen gehen",
                 Command.MOVE_SOUTH: "Nach Süden gehen ",
-                Command.MOVE_EAST: "Nach Osten gehen "
+                Command.MOVE_EAST: "Nach Osten gehen ",
+                Command.OPEN_MAP: "Öffne die Karte"
             },
             GameState.INIT:{
 
@@ -30,9 +32,6 @@ mapping = {
 
             },
             GameState.BACK:{
-
-            },
-            GameState.MAP:{
 
             }
         }
