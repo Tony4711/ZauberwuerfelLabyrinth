@@ -163,3 +163,16 @@ class World:
             return None
         return target
     
+    def map(self, room):
+        front = room.color
+        left = self._lookup_neighbor(room, Directions.WEST)
+        right = self._lookup_neighbor(room, Directions.EAST)
+        up = self._lookup_neighbor(room, Directions.NORTH)
+        down = self._lookup_neighbor(room, Directions.SOUTH)
+        back = self._lookup_neighbor(self.map_dict.get(right), Directions.EAST)
+        display = (
+            f"[{self.map_dict.get(up).name}]",
+            f"          [{self.map_dict.get(left).name}][{self.map_dict.get(front).name}][{self.map_dict.get(right).name}][{self.map_dict.get(back).name}]",
+            f"[{self.map_dict.get(down).name}]\n"
+        )
+        return display
