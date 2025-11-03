@@ -31,15 +31,6 @@ class Interface:
         key = self.router.get(signal)
         self.displayController(key, menuState)
         return
-    
-    def displayController(self, key, state):
-        for section, subdict in self.display.init(self.engine).items():
-            if key in subdict:
-                value = subdict[key]
-                if section is DisplayKey:
-                    self.show_text(value)
-                elif section is OutputFunction:
-                    self.utility.print_dict(value, state)
 
     def show_text(self, text):
         for line in text:
@@ -58,9 +49,19 @@ class Interface:
         self.displayController(key, playerState)
         return
     
+    ### CHORE: refactor to use new translate_system.py and displayController
     def _exception_handler(self, systemState):
         if systemState == SystemState.EXCEPTION_INPUT_ERROR:
             self.show_input_exception()
+    
+    def displayController(self, key, state):
+        for section, subdict in self.display.init(self.engine).items():
+            if key in subdict:
+                value = subdict[key]
+                if section is DisplayKey:
+                    self.show_text(value)
+                elif section is OutputFunction:
+                    self.utility.print_dict(value, state)
 
     def update(self):
         gameState = self.stateController.gameState
