@@ -41,7 +41,7 @@ class StateController:
     def __init__(self):
         self.gameState = GameState.INIT
         self.menuState = MenuState.MAIN
-        self.playerState = PlayerState.STAND
+        self.playerState = PlayerState.INIT
         self.doorState = DoorState.CLOSED
         self.systemState = SystemState.OK
         self.gameStack = GameStack()
@@ -78,12 +78,9 @@ class StateController:
             return handler(nextState) or LoopSignal.CONTINUE
         return LoopSignal.CONTINUE
     
-
-    
     def _init_game(self, gameState):
-        if gameState == GameState.INIT:
-            self._update_game(GameState.MENU)
-            self._update_menu(MenuState.MAIN)
+        self._update_game(GameState.MENU)
+        self._update_menu(MenuState.MAIN)
     
     def _exit_game(self, gameState):
         self._update_game(gameState)
@@ -106,11 +103,11 @@ class StateController:
         self.doorState = doorState
 
     def _reset_system(self, systemState):
-        self.systemState = SystemState.OK if systemState != SystemState.OK else systemState 
-        self.systemStack._push_stateStack(systemState)
-        
+        self.systemState = systemState 
+        self.systemStack._push_stateStack(systemState) 
+        self.systemStack._push_stateStack(SystemState.OK)
     
-    def _state_back(self):
+    def _state_back(self, *_):
         self.gameStack._pop_stateStack()
         self.gameState = self.gameStack._current_stateStack()
         if self.gameState == GameState.MENU:
@@ -118,5 +115,4 @@ class StateController:
             self.menuState = self.menuStack._current_stateStack()
 
     def update(self, nextState):
-        
         return self._state_handler_logic(nextState, self.stateHandlerDict, self.exceptionHandlerDict)
