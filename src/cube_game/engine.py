@@ -1,10 +1,10 @@
 import copy
 import operator
-from enums import CommandTag, Command, DoorState, GameState, MenuState, PlayerState, Directions, RoomColor, Corner, TranslateKey, SystemState
+from enums import CommandTag, Command, DoorState, GameState, MenuState, PlayerState, Directions, RoomColor, Corner, RouterSignal, SystemState, TranslateKey
 from position import Position
 from room import Room
 from door import Door
-from cube_game.inputController import InputController
+from inputController import InputController
 from player import Player
 from utility import Utility
 from world import World
@@ -46,13 +46,6 @@ class Engine:
         self.player.current_room = next_room
         
 
-    ### BUG: The method only checks for doors for last moved direction
-    # If player moves side ways to a door, it is not recognised. And if a room has more than one door,
-    # the door which has the same direction as the last move of a player  get recognised even if it is not
-    # the door right next to the player. 
-    ### CHORE: Methods need to check surrounding for doors
-    # The door direction needs to fit the player direction too while the postion of the player needs to be right
-    # infront of the door
     def _door_infront(self, direction):
         (dx, dy) = self._translate_(TranslateKey.DIRECTION_TO_OFFSET, direction)
         infront = self.player.pos + (dx, dy)
@@ -95,7 +88,7 @@ class Engine:
                 (GameState.MENU, MenuState.MAIN,Command.OP1): GameState.PLAYING, 
                 (GameState.MENU, MenuState.MAIN,Command.OP2): MenuState.EXIT,
                 (GameState.MENU, MenuState.EXIT,Command.OP1): GameState.EXIT,
-                (GameState.MAP, MenuState.EXIT, Command.OP2): GameState.BACK,
+                #(GameState.MAP, MenuState.EXIT, Command.OP2): GameState.BACK,
                 (Command.CONTROLS): MenuState.CONTROLS
             }
 
@@ -146,6 +139,7 @@ class Engine:
     #translated
     def main_menu(self, command):
         if command == Command.OP1:
+            #return GameState.STARTING
             return GameState.PLAYING
         elif command == Command.OP2:
             return MenuState.EXIT
@@ -163,7 +157,7 @@ class Engine:
         if command == Command.CONTROLS:
             return MenuState.CONTROLS 
         elif command == Command.OPEN_MAP:
-            return GameState.MAP
+            return MenuState.MAP
         elif command.tag == CommandTag.MOVEMENT:
             return self.move(command)
         elif command.tag == CommandTag.OPTION:
