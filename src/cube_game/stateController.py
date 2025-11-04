@@ -105,8 +105,7 @@ class StateController:
     def _reset_system(self, systemState):
         self.systemState = systemState 
         self.systemStack._push_stateStack(systemState) 
-        self.systemStack._push_stateStack(SystemState.OK)
-    
+        
     def _state_back(self, *_):
         self.gameStack._pop_stateStack()
         self.gameState = self.gameStack._current_stateStack()
