@@ -12,7 +12,8 @@ def init(interface):
         RouterSignal.SHOW_MOVE: DisplayKey.MOVE_TEXT,
         RouterSignal.SHOW_WALL: DisplayKey.WALL_TEXT,
         RouterSignal.SHOW_INFRONT_DOOR: DisplayKey.INFRONT_DOOR_TEXT,
-        RouterSignal.SHOW_ROOM_ENTRANCE: DisplayKey.ROOM_ENTRANCE_TEXT
+        RouterSignal.SHOW_ROOM_ENTRANCE: DisplayKey.ROOM_ENTRANCE_TEXT,
+        RouterSignal.SHOW_INPUT_EXCEPTION: DisplayKey.INPUT_EXCEPTION_TEXT
     }
 
 
