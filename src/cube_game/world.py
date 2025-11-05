@@ -173,6 +173,6 @@ class World:
         display = (
             f"[{self.map_dict.get(up).name}]",
             f"          [{self.map_dict.get(left).name}][{self.map_dict.get(front).name}][{self.map_dict.get(right).name}][{self.map_dict.get(back).name}]",
-            f"[{self.map_dict.get(down).name}]\n"
+            f"[{self.map_dict.get(down).name}]"
         )
         return display
