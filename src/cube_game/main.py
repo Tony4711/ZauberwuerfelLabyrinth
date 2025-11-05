@@ -1,17 +1,18 @@
 from interface import Interface
 from engine import Engine
 from stateController import StateController
+from enums import LoopSignal
 
 class Main:
 
     def __init__(self):
-        self.running = True
+        self.running = LoopSignal.CONTINUE
         self.stateController = StateController()
         self.engine = Engine(self.stateController) 
         self.interface = Interface(self.stateController, self.engine)
         
     def run(self):
-        while self.running:
+        while self.running is LoopSignal.CONTINUE:
             self.interface.update()
             next_state = self.engine.update()
             self.running = self.stateController.update(next_state)
