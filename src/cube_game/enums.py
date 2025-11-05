@@ -32,9 +32,9 @@ class CommandTag(Enum):
 class Command(TaggedEnum):
 
     MOVE_NORTH = ("w", CommandTag.MOVEMENT)
-    MOVE_EAST = ("d", CommandTag.MOVEMENT) 
-    MOVE_SOUTH = ("s", CommandTag.MOVEMENT)
     MOVE_WEST = ("a", CommandTag.MOVEMENT)
+    MOVE_SOUTH = ("s", CommandTag.MOVEMENT)
+    MOVE_EAST = ("d", CommandTag.MOVEMENT) 
     OPEN_MAP = ("m", CommandTag.META)
     CONTROLS = ("c", CommandTag.META)
     OP1 = ("1", CommandTag.OPTION)
@@ -43,6 +43,9 @@ class Command(TaggedEnum):
     OP4 = ("4", CommandTag.OPTION)
     BACK = ("q", CommandTag.META)
     FORTH = ("e", CommandTag.META)
+    ACCEPT = ("j", CommandTag.OPTION)
+    DENIE = ("n", CommandTag.OPTION)
+    EXIT = ("x", CommandTag.META)
 
 class DoorState(Enum):
 
@@ -58,7 +61,7 @@ class SystemState(Enum):
 class GameState(Enum):
     
     INIT = "Init"
-    PLAYING = "spielt"
+    PLAYING = "Spiel"
     EXIT = "Exit"
     IDLE = "Ruhend"
     MENU = "Menu"
@@ -73,6 +76,7 @@ class MenuState(Enum):
     CONTROLS = "Steuerung"
     EXIT = "Verlassen"
     MAP = "Karte"
+    ALL_CONTROLS = "Alle Steuerungen"
 
 class PlayerState(Enum):
 
@@ -134,11 +138,12 @@ class RouterSignal(Enum):
     SHOW_INFRONT_DOOR = "show_infront_door"
     SHOW_ROOM_ENTRANCE = "show_room_entrance"
     SHOW_INPUT_EXCEPTION = "show_input_exception"
+    SHOW_ALL_CONTROLS = "show_all_controls"
 
     def __str__(self):
         return self.value
     
-class DisplayKey(Enum):
+class DisplayStrings(Enum):
 
     HELLO_TEXT = "hello"
     START_TEXT = "start"
@@ -153,6 +158,12 @@ class DisplayKey(Enum):
     ROOM_ENTRANCE_TEXT = "room_entrance"
     INPUT_EXCEPTION_TEXT = "input_exception"
 
-class OutputFunction(Enum):
+class DisplayMenuStructure(Enum):
 
-    SHOW_MENU_OPTION = auto()
+    MENU_OPTION = auto()
+    CONTROLS = auto()
+
+class DisplayControls(Enum):
+
+    CONTROLS = auto()
+    ALL_CONTROLS = auto()
