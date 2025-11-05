@@ -1,9 +1,31 @@
-from enums import Command, Directions, GameState, MenuState, PlayerState, SystemState, RouterSignal, DisplayKey, OutputFunction
+from enums import Command, Directions, GameState, MenuState, PlayerState, SystemState, RouterSignal, DisplayStrings, DisplayMenuStructure, DisplayControls
 from utility import Utility
 from functools import lru_cache
-from mapping import mapping
+from mapping import state_command_mapping
 from translate.Interface import translate_game, translate_menu, translate_player, translate_system
+import os
 
+
+class WindowBuffer:
+
+    def __init__(self):
+        self.stack = []
+        self.current = []
+
+    def push(self):
+        self.stack.append(self.current)
+
+    def pop(self):
+        if self.stack:
+            self.stack.pop()
+
+    def update(self, lines):
+        self.current = lines
+
+    def render(self):
+        os.system('cls')
+        for line in self.current:
+            return line
 
 class Interface:
 
@@ -18,18 +40,25 @@ class Interface:
         self.stateController = StateController
         self.engine = Engine
         self.utility = Utility()
-        self.utility.print_dividing_line()
+        self.window = WindowBuffer()
 
     def show_pos(self, text, objekt):
         print(text, objekt.pos)
 
     def show_controls(self, state = None):
-        self.utility.print_dict(mapping, state)
+        self.utility.format_dict(state_command_mapping, state)
 
     def show_text(self, text):
+        self.window.push()
+        self.window.update(text)
         for line in text:
             self.utility.centered(line)
-        self.utility.print_dividing_line()
+    
+    def show_table(self, left, right):
+        self.window.push()
+        self.window.update(left)
+        self.window.update(right)
+        
 
     def _menuState_handler(self, menuState):
         signal = self.menu_routerSignal.get(menuState)
@@ -59,10 +88,31 @@ class Interface:
         for section, subdict in self.display.init(self.engine).items():
             if key in subdict:
                 value = subdict[key]
-                if section is DisplayKey:
-                    self.show_text(value)
-                elif section is OutputFunction:
-                    self.utility.print_dict(value, state)
+                if section is DisplayStrings:
+                    t = ""
+                    t += ",".join(value)
+                    txt = self.utility.format_text_in_box(t, "^", "*")
+                    self.show_text(txt)
+                    print()
+                elif section is DisplayMenuStructure:
+                    txt = self.utility.format_dict(value, state)
+                    menu = self.utility.format_text_in_box(txt)
+                    menu_tuple = tuple(menu)
+                    self.show_text(menu_tuple)
+                elif section is DisplayControls:
+                    if state == MenuState.ALL_CONTROLS:
+                        txt = self.utility.format_dict(value[MenuState])
+                        txt += self.utility.format_dict(value[GameState])
+                    else:
+                        self.stateController.gameStack._pop_stateStack()
+                        previousState = self.stateController.gameStack._current_stateStack()
+                        if isinstance(previousState, MenuState):
+                            txt = self.utility.format_dict(value[MenuState],previousState)
+                        else:
+                            txt = self.utility.format_dict(value[GameState], previousState)
+                    menu = self.utility.format_text_in_box(txt)
+                    menu_tuple = tuple(menu)
+                    self.show_text(menu_tuple)
 
     def update(self):
         gameState = self.stateController.gameState
