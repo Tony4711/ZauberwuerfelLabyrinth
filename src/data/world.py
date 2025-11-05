@@ -1,5 +1,5 @@
 from position import Position
-from enums import RoomColor, Corner, Directions
+from cube_game.enums import RoomColor, Corner, Directions
 from door import Door
 from room import Room
 import random

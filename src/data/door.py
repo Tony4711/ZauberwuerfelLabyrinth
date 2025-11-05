@@ -1,4 +1,4 @@
-from enums import DoorState, Directions
+from cube_game.enums import DoorState, Directions
 from position import Position
 from dataclasses import dataclass, field
 

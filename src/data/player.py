@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
 from position import Position
 from room import Room
-from enums import Directions
+from cube_game.enums import Directions
 
 @dataclass
 class Player:
