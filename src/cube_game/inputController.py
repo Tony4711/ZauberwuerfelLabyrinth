@@ -1,6 +1,6 @@
 from enums import Command, GameState, MenuState
 from interface import Interface
-from mapping import mapping
+from mapping import state_command_mapping
 from utility import Utility
 
 class InputController:
@@ -8,6 +8,7 @@ class InputController:
 
     def __init__(self, StateController):
         self.utility = Utility()
+        self.mapping = state_command_mapping.mapping
     
     def read_input(self):
         from readchar import readkey, key
@@ -44,13 +45,13 @@ class InputController:
     # Prüft ob im aktuellen state der Input im dict 'mapping' vorhanden ist
     # Gibt dementsprechend True oder False zurück
     def _is_valid_for_menuState(self, menuState, command) -> bool:
-        if command in mapping[GameState.MENU][menuState]:              
+        if command in self.mapping[MenuState][menuState]:              
             return True                                 
         else:
             return False
     
     def _is_valid_for_gameState(self, gameState, command) -> bool:
-        if command in mapping[gameState].keys():              
+        if command in self.mapping[GameState][gameState].keys():              
             return True                                 
         else:
             return False
