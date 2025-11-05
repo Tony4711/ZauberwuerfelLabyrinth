@@ -8,6 +8,7 @@ from inputController import InputController
 from player import Player
 from utility import Utility
 from world import World
+from translate.Engine import offset, geometry, direction
 
 # Ein Spiel zum Verstehen der Grundmechaniken eines Rubiks Würfels.
 # Der kleine Zauberer Garry ist in einem 3 dimensionalem Labyrinth gefangen und muss die Räume richtig miteinander verbinden, um herauszufinden.
@@ -20,6 +21,9 @@ class Engine:
         self.utility = Utility()
         self.world = World()
         self.stateController = StateController
+        self.offset = offset
+        self.geometry = geometry
+        self.direction = direction
         self.init_player()
 
     def init_player(self):
@@ -63,45 +67,14 @@ class Engine:
         except KeyError:
             return None
         return door
-    
-    def _translate_(self, key, inner_key):
-        translate = {
-            TranslateKey.COMMAND_TO_DIRECTION: {
-            Command.MOVE_NORTH: (Directions.NORTH, operator.le),
-            Command.MOVE_EAST: (Directions.EAST, operator.le),
-            Command.MOVE_SOUTH: (Directions.SOUTH, operator.ge),
-            Command.MOVE_WEST: (Directions.WEST, operator.ge) 
-            },
-            TranslateKey.DIRECTION_TO_OFFSET: {
-            Directions.NORTH: (0,1),
-            Directions.EAST: (1,0),
-            Directions.SOUTH: (0, -1),
-            Directions.WEST: (-1,0) 
-            },
-            TranslateKey.OFFSET_TO_CORNER: {
-                (0,1): (Corner.TOP_RIGHT, lambda p: p.y),
-                (1,0): (Corner.TOP_RIGHT, lambda p: p.x),
-                (0,-1): (Corner.BOTTOM_LEFT, lambda p: p.y),
-                (-1,0): (Corner.BOTTOM_LEFT, lambda p: p.x)
-            },
-            TranslateKey.HANDLE_COMMAND: {
-                (GameState.MENU, MenuState.MAIN,Command.OP1): GameState.PLAYING, 
-                (GameState.MENU, MenuState.MAIN,Command.OP2): MenuState.EXIT,
-                (GameState.MENU, MenuState.EXIT,Command.OP1): GameState.EXIT,
-                #(GameState.MAP, MenuState.EXIT, Command.OP2): GameState.BACK,
-                (Command.CONTROLS): MenuState.CONTROLS
-            }
-
-        }
-        return translate[key][inner_key]
 
     def move(self, directional_command):
         # Use directional_command to translate into direction and comparison operator
-        direction, op = self._translate_(TranslateKey.COMMAND_TO_DIRECTION, directional_command)
+        direction , op = self.direction.command_direction[directional_command]
         # Use direction to translate into offset
-        (dx,dy) = self._translate_(TranslateKey.DIRECTION_TO_OFFSET, direction)
+        (dx,dy) = self.offset.offset_translate[direction]
         # Use offset to translate into corner and axis lambda function
-        corner, axis_func = self._translate_(TranslateKey.OFFSET_TO_CORNER, (dx,dy))
+        corner, axis_func = self.geometry.corner_translate[(dx,dy)]
         # axis function for player position + offset
         player_axis_val = axis_func(self.player.pos + (dx, dy))
         # axis function for room position at corner
@@ -143,14 +116,16 @@ class Engine:
             return GameState.PLAYING
         elif command == Command.OP2:
             return MenuState.EXIT
+        elif command == Command.OP3:
+            return MenuState.ALL_CONTROLS
     
     #translated
     def exit_menu(self, command):
         # Wenn 'JA' dann beende das Spiel
-        if command == Command.OP1:
+        if command == Command.ACCEPT: #OP1
             return GameState.EXIT
         # Wenn 'NEIN' dann zurück
-        if command == Command.OP2:
+        if command == Command.DENIE: #OP2
             return GameState.BACK
 
     def handle_command(self, command):
@@ -158,6 +133,10 @@ class Engine:
             return MenuState.CONTROLS 
         elif command == Command.OPEN_MAP:
             return MenuState.MAP
+        elif command == Command.BACK:
+            return GameState.BACK
+        elif command == Command.EXIT:
+            return MenuState.EXIT
         elif command.tag == CommandTag.MOVEMENT:
             return self.move(command)
         elif command.tag == CommandTag.OPTION:
