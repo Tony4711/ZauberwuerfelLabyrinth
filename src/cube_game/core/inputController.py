@@ -1,7 +1,7 @@
 from enums import Command, GameState, MenuState
-from interface import Interface
+from core.interface import Interface
 from mapping import state_command_mapping
-from utility import Utility
+from utils.utility import Utility
 
 class InputController:
 

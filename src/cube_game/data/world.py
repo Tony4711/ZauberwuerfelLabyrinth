@@ -1,7 +1,7 @@
-from position import Position
-from cube_game.enums import RoomColor, Corner, Directions
-from door import Door
-from room import Room
+from data.position import Position
+from enums import RoomColor, Corner, Directions
+from data.door import Door
+from data.room import Room
 import random
 
 class World:

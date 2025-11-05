@@ -1,6 +1,6 @@
-from interface import Interface
-from engine import Engine
-from stateController import StateController
+from core.interface import Interface
+from core.engine import Engine
+from core.stateController import StateController
 from enums import LoopSignal
 
 class Main:

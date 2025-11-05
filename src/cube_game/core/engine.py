@@ -1,13 +1,11 @@
-import copy
-import operator
 from enums import CommandTag, Command, DoorState, GameState, MenuState, PlayerState, Directions, RoomColor, Corner, RouterSignal, SystemState, TranslateKey
-from position import Position
-from room import Room
-from door import Door
-from inputController import InputController
-from player import Player
-from utility import Utility
-from world import World
+from data.position import Position
+from data.room import Room
+from data.door import Door
+from core.inputController import InputController
+from data.player import Player
+from utils.utility import Utility
+from data.world import World
 from translate.Engine import offset, geometry, direction
 
 # Ein Spiel zum Verstehen der Grundmechaniken eines Rubiks Würfels.
@@ -51,7 +49,7 @@ class Engine:
         
 
     def _door_infront(self, direction):
-        (dx, dy) = self._translate_(TranslateKey.DIRECTION_TO_OFFSET, direction)
+        (dx, dy) = self.offset.offset_translate[direction]
         infront = self.player.pos + (dx, dy)
         door = self._get_door(direction)
         if door == None:

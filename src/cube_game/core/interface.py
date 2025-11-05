@@ -1,6 +1,5 @@
 from enums import Command, Directions, GameState, MenuState, PlayerState, SystemState, RouterSignal, DisplayStrings, DisplayMenuStructure, DisplayControls
-from utility import Utility
-from functools import lru_cache
+from utils.utility import Utility
 from mapping import state_command_mapping
 from translate.Interface import translate_game, translate_menu, translate_player, translate_system
 import os
