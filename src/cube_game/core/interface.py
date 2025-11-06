@@ -57,7 +57,33 @@ class Interface:
         self.window.push()
         self.window.update(left)
         self.window.update(right)
-        
+
+    def show_displayStrings(self, value):
+        strg = ""
+        strg += ",".join(value)
+        txt = self.utility.format_text_in_box(strg, "^", "*")
+        self.show_text(txt)
+        print()
+    
+    def show_displayMenuStructure(self, value, state):
+        txt = self.utility.format_dict(value, state)
+        menu = self.utility.format_text_in_box(txt)
+        menu_tuple = tuple(menu)
+        self.show_text(menu_tuple)
+    
+    def show_displayControls(self, value, state):
+        if state == MenuState.ALL_CONTROLS:
+            txt = self.utility.format_dict(value[MenuState])
+            txt += self.utility.format_dict(value[GameState])
+        else:
+            previousState = self.stateController.gameStack._previous_stateStack()
+            if isinstance(previousState, MenuState):
+                txt = self.utility.format_dict(value[MenuState],previousState)
+            else:
+                txt = self.utility.format_dict(value[GameState], previousState)
+        menu = self.utility.format_text_in_box(txt)
+        menu_tuple = tuple(menu)
+        self.show_text(menu_tuple)
 
     def _menuState_handler(self, menuState):
         signal = self.menu_routerSignal.get(menuState)
@@ -86,49 +112,24 @@ class Interface:
     def displayController(self, key, state):
         for section, subdict in self.display.init(self.engine).items():
             if key in subdict:
+                d = {
+                    DisplayStrings: lambda value, state = None: self.show_displayStrings(value),
+                    DisplayMenuStructure: lambda value, state = None: self.show_displayMenuStructure(value, state),
+                    DisplayControls: lambda value, state = None: self.show_displayControls(value, state)
+                }
                 value = subdict[key]
-                if section is DisplayStrings:
-                    t = ""
-                    t += ",".join(value)
-                    txt = self.utility.format_text_in_box(t, "^", "*")
-                    self.show_text(txt)
-                    print()
-                elif section is DisplayMenuStructure:
-                    txt = self.utility.format_dict(value, state)
-                    menu = self.utility.format_text_in_box(txt)
-                    menu_tuple = tuple(menu)
-                    self.show_text(menu_tuple)
-                elif section is DisplayControls:
-                    if state == MenuState.ALL_CONTROLS:
-                        txt = self.utility.format_dict(value[MenuState])
-                        txt += self.utility.format_dict(value[GameState])
-                    else:
-                        self.stateController.gameStack._pop_stateStack()
-                        previousState = self.stateController.gameStack._current_stateStack()
-                        if isinstance(previousState, MenuState):
-                            txt = self.utility.format_dict(value[MenuState],previousState)
-                        else:
-                            txt = self.utility.format_dict(value[GameState], previousState)
-                    menu = self.utility.format_text_in_box(txt)
-                    menu_tuple = tuple(menu)
-                    self.show_text(menu_tuple)
+                handler = d.get(section)
+                if handler:
+                    handler(value, state)
+                return
 
-    def update(self):
-        gameState = self.stateController.gameState
-        menuState = self.stateController.menuState
-        systemState = self.stateController.systemState
-        playerState = self.stateController.playerState 
-        if systemState != SystemState.OK:
-            self._exception_handler(systemState)
-            return
-        elif gameState == GameState.MENU:
-            self._menuState_handler(menuState)
-            return
-        elif playerState != PlayerState.INIT:
-            self._playerState_handler(playerState)
-            return
-        else:
-            self.gameState_handler(gameState)
-            return
-
+    def update(self): 
+        sc = self.stateController
+        if sc.systemState != SystemState.OK:
+            return self._exception_handler(sc.systemState)
+        if sc.gameState == GameState.MENU:
+            return self._menuState_handler(sc.menuState)
+        if sc.playerState != PlayerState.INIT:
+            return self._playerState_handler(sc.playerState)
+        return self.gameState_handler(sc.gameState)
 
