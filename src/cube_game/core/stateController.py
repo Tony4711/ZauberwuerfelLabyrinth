@@ -16,6 +16,10 @@ class StateStack:
     def _current_stateStack(self):
         return self.stateStack[-1]
     
+    def _previous_stateStack(self):
+        if len(self.stateStack)>1:
+            return self.stateStack[-2]
+    
 class GameStack(StateStack):
 
     def __init__(self):
