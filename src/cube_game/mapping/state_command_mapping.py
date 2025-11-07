@@ -15,10 +15,10 @@ mapping = {
                 MenuState.MAP:{
                     Command.BACK: "Zurück"
                 },
-                MenuState.CONTROLS: {
+                MenuState.NAVIGATION: {
                     Command.BACK: "Zurück"
                 },
-                MenuState.ALL_CONTROLS: {
+                MenuState.ALL_NAVIGATIONS: {
                     Command.BACK: "Zurück"
                 }
             },
@@ -30,7 +30,7 @@ mapping = {
                     Command.MOVE_EAST: "Nach Osten gehen ",
                     Command.OPEN_MAP: "Öffne die Karte",
                     Command.EXIT: "Spiel beenden",
-                    Command.CONTROLS: "Steuerungen"
+                    Command.NAVIGATION: "Steuerungen"
                 },
                 GameState.INIT:{
 
