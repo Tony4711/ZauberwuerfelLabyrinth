@@ -1,13 +1,13 @@
-from enums import DisplayStrings, DisplayMenuStructure, Command, DisplayControls, MenuState
+from enums import DisplayStrings, DisplayMenuStructure, Command, DisplayNavigation, MenuState
 from mapping import menuStructure_mapping, state_command_mapping
 
-def init(engine):
+def render(engine):
 
     return {
         DisplayStrings: {
                     DisplayStrings.HELLO_TEXT: ("--- Willkommen zu 'Gefangen im Zauberwürfel Labyrinth'! ---", "",
                                             "--- Zum steuern bitte die in [ ] geschriebene Taste drücken ---", "",
-                                            f"--- Benutze [{Command.CONTROLS.value.upper()}] um dir die Steuerung anzeigen zu lassen ---"),                    
+                                            f"--- Benutze [{Command.NAVIGATION.value.upper()}] um dir die Steuerung anzeigen zu lassen ---"),                    
                     DisplayStrings.START_TEXT: ("--- Spiel wird gestartet ---",),
                     DisplayStrings.EXIT_MENU_TEXT: ("--- Spiel wirklich beenden? [J/N] ---",),
                     DisplayStrings.EXIT_CONFIRMED_TEXT: ("--- Spiel wird beendet ---",),
@@ -22,9 +22,9 @@ def init(engine):
         DisplayMenuStructure: {
                     DisplayMenuStructure.MENU_OPTION: menuStructure_mapping.menuStructure,
         },
-        DisplayControls:{
-                    DisplayControls.CONTROLS: state_command_mapping.mapping,
-                    DisplayControls.ALL_CONTROLS: state_command_mapping.mapping
+        DisplayNavigation:{
+                    DisplayNavigation.NAVIGATION: state_command_mapping.mapping,
+                    DisplayNavigation.ALL_NAVIGATION: state_command_mapping.mapping
         }
 }
 
