@@ -36,7 +36,7 @@ class Command(TaggedEnum):
     MOVE_SOUTH = ("s", CommandTag.MOVEMENT)
     MOVE_EAST = ("d", CommandTag.MOVEMENT) 
     OPEN_MAP = ("m", CommandTag.META)
-    CONTROLS = ("c", CommandTag.META)
+    NAVIGATION = ("c", CommandTag.META)
     OP1 = ("1", CommandTag.OPTION)
     OP2 = ("2", CommandTag.OPTION)
     OP3 = ("3", CommandTag.OPTION)
@@ -73,10 +73,10 @@ class MenuState(Enum):
 
     MAIN = "Hauptmenu"
     SETTINGS = "Einstellungen"
-    CONTROLS = "Steuerung"
+    NAVIGATION = "Steuerung"
     EXIT = "Verlassen"
     MAP = "Karte"
-    ALL_CONTROLS = "Alle Steuerungen"
+    ALL_NAVIGATIONS = "Alle Steuerungen"
 
 class PlayerState(Enum):
 
@@ -126,28 +126,28 @@ class TranslateKey(Enum):
 
 class RouterSignal(Enum):
 
-    SHOW_HELLO = "show_hello"
-    SHOW_START = "show_start"
-    SHOW_CONTROLS = "show_controls"
-    SHOW_MENU_OPTIONS = "show_menu_options"
-    SHOW_MAP = "show_map"
-    SHOW_EXIT_MENU = "show_exit_menu"
-    SHOW_EXIT_CONFIRMED = "show_exit_confirmed"
-    SHOW_MOVE = "show_move"
-    SHOW_WALL = "show_wall"
-    SHOW_INFRONT_DOOR = "show_infront_door"
-    SHOW_ROOM_ENTRANCE = "show_room_entrance"
-    SHOW_INPUT_EXCEPTION = "show_input_exception"
-    SHOW_ALL_CONTROLS = "show_all_controls"
-
-    def __str__(self):
-        return self.value
+    SHOW_HELLO = auto()
+    SHOW_START = auto()
+    SHOW_NAVIGATION = auto()
+    SHOW_MENU_OPTIONS = auto()
+    SHOW_MAP = auto()
+    SHOW_EXIT_MENU = auto()
+    SHOW_EXIT_CONFIRMED = auto()
+    SHOW_MOVE = auto()
+    SHOW_WALL = auto()
+    SHOW_INFRONT_DOOR = auto() 
+    SHOW_ROOM_ENTRANCE = auto()
+    SHOW_INPUT_EXCEPTION = auto()
+    SHOW_ALL_NAVIGATION = auto()
+    META_HANDLER = auto()
+    MOVEMENT_HANDLER = auto()
+    OPTION_HANDLER = auto()
     
 class DisplayStrings(Enum):
 
     HELLO_TEXT = "hello"
     START_TEXT = "start"
-    CONTROLS_TEXT = "controls"
+    NAVIGATION_TEXT = "navigation"
     MENU_OPTIONS_TEXT = "menu_options"
     MAP_TEXT = "map"
     EXIT_MENU_TEXT = "exit_menu"
@@ -161,9 +161,24 @@ class DisplayStrings(Enum):
 class DisplayMenuStructure(Enum):
 
     MENU_OPTION = auto()
-    CONTROLS = auto()
+    NAVIGATION = auto()
 
-class DisplayControls(Enum):
+class DisplayNavigation(Enum):
 
-    CONTROLS = auto()
-    ALL_CONTROLS = auto()
+    NAVIGATION = auto()
+    ALL_NAVIGATION = auto()
+
+class CommandHandler(Enum):
+
+    META_COMMAND = auto()
+    MOVEMENT_COMMAND = auto()
+    OPTION_COMMAND = auto()
+
+class MenuOptionHandler(Enum):
+
+    MAIN = auto()
+    EXIT = auto()
+
+class MovementHandler(Enum):
+    
+    MOVE_STRAIGHT = auto()
