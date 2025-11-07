@@ -1,12 +1,11 @@
 from enums import Command, GameState, MenuState
-from core.interface import Interface
 from mapping import state_command_mapping
 from utils.utility import Utility
 
 class InputController:
 
 
-    def __init__(self, StateController):
+    def __init__(self):
         self.utility = Utility()
         self.mapping = state_command_mapping.mapping
     
