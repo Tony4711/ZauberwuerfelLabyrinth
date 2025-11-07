@@ -1,8 +1,8 @@
-from enums import DisplayStrings, DisplayMenuStructure, Command, DisplayNavigation, MenuState
+from enums import DisplayStrings, DisplayMenuStructure, Command, DisplayNavigation, DisplayMap
 from mapping import menuStructure_mapping, state_command_mapping
 
 def render(engine):
-
+    ##CHORE: import error when moving ot bounce since MAP_TEXT points at map function which leads to an error when standing infront of an door of a room that represents the outermost room in 2D
     return {
         DisplayStrings: {
                     DisplayStrings.HELLO_TEXT: ("--- Willkommen zu 'Gefangen im Zauberwürfel Labyrinth'! ---", "",
@@ -16,8 +16,8 @@ def render(engine):
                     DisplayStrings.INFRONT_DOOR_TEXT: (f"--- Du gehst einen Schritt nach {engine.player.direction.value} ---", "---- Du stehst vor einer Tür ---",),                    DisplayStrings.ROOM_ENTRANCE_TEXT: (f"--- Du öffnest die Tür und gehst einen Schritt in Richtung {engine.player.direction.value} ---","",
                                                     f"--- Du betrittst den {engine.player.current_room.name} ---",),
                     DisplayStrings.INPUT_EXCEPTION_TEXT: ("--- Ungültige Eingabe ---",),
-                    DisplayStrings.MAP_TEXT: (engine.world.map(engine.player.current_room)),
-                    #DisplayStrings.CONTROLS_TEXT: commandList
+                    #DisplayStrings.MAP_TEXT: (engine.world.map(engine.player.current_room)),
+
                 },
         DisplayMenuStructure: {
                     DisplayMenuStructure.MENU_OPTION: menuStructure_mapping.menuStructure,
@@ -25,6 +25,6 @@ def render(engine):
         DisplayNavigation:{
                     DisplayNavigation.NAVIGATION: state_command_mapping.mapping,
                     DisplayNavigation.ALL_NAVIGATION: state_command_mapping.mapping
-        }
+        },
 }
 
