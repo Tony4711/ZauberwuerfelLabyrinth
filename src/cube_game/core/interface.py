@@ -1,7 +1,7 @@
-from enums import Command, Directions, GameState, MenuState, PlayerState, SystemState, RouterSignal, DisplayStrings, DisplayMenuStructure, DisplayControls
+from enums import Command, Directions, GameState, MenuState, PlayerState, SystemState, RouterSignal, DisplayStrings, DisplayMenuStructure, DisplayNavigation
 from utils.utility import Utility
 from mapping import state_command_mapping
-from translate.Interface import translate_game, translate_menu, translate_player, translate_system
+from translate.Interface import translate_game, translate_menu, translate_player, translate_system, router, display
 import os
 
 
@@ -29,34 +29,25 @@ class WindowBuffer:
 class Interface:
 
     def __init__(self, StateController, Engine):
-        from translate.Interface import router, display
-        self.router = router.init(self)
-        self.display = display
-        self.menu_routerSignal = translate_menu.menuState_routerSignal
-        self.game_routerSignal = translate_game.gameState_routerSignal
-        self.player_routerSignal = translate_player.playerState_routerSignal
-        self.system_routerSignal = translate_system.systemState_routerSignal
-        self.stateController = StateController
         self.engine = Engine
+        self.stateController = StateController
         self.utility = Utility()
         self.window = WindowBuffer()
-
+        self.router = router.routing
+        self.renderDisplay = display
+        self.menuToSignal = translate_menu.menuState_routerSignal
+        self.gameToSignal = translate_game.gameState_routerSignal
+        self.playerToSignal = translate_player.playerState_routerSignal
+        self.systemToSignal = translate_system.systemState_routerSignal
+        
     def show_pos(self, text, objekt):
         print(text, objekt.pos)
-
-    def show_controls(self, state = None):
-        self.utility.format_dict(state_command_mapping, state)
 
     def show_text(self, text):
         self.window.push()
         self.window.update(text)
         for line in text:
             self.utility.centered(line)
-    
-    def show_table(self, left, right):
-        self.window.push()
-        self.window.update(left)
-        self.window.update(right)
 
     def show_displayStrings(self, value):
         strg = ""
@@ -71,8 +62,8 @@ class Interface:
         menu_tuple = tuple(menu)
         self.show_text(menu_tuple)
     
-    def show_displayControls(self, value, state):
-        if state == MenuState.ALL_CONTROLS:
+    def show_displayNavigation(self, value, state):
+        if state == MenuState.ALL_NAVIGATIONS:
             txt = self.utility.format_dict(value[MenuState])
             txt += self.utility.format_dict(value[GameState])
         else:
@@ -86,36 +77,37 @@ class Interface:
         self.show_text(menu_tuple)
 
     def _menuState_handler(self, menuState):
-        signal = self.menu_routerSignal.get(menuState)
+        signal = self.menuToSignal.get(menuState)
         key = self.router.get(signal)
-        self.displayController(key, menuState)
+        self.display_controller(key, menuState)
         return
 
     def gameState_handler(self, gameState):
-        signal = self.game_routerSignal.get(gameState)
+        signal = self.gameToSignal.get(gameState)
         key = self.router.get(signal)
-        self.displayController(key, gameState)
+        self.display_controller(key, gameState)
         return
 
     def _playerState_handler(self, playerState):   
-        signal = self.player_routerSignal.get(playerState)
+        signal = self.playerToSignal.get(playerState)
         key = self.router.get(signal)
-        self.displayController(key, playerState)
+        self.display_controller(key, playerState)
         return
     
     def _exception_handler(self, systemState):
-        signal = self.system_routerSignal.get(systemState)
+        signal = self.systemToSignal.get(systemState)
         key = self.router.get(signal)
-        self.displayController(key, systemState)
+        self.display_controller(key, systemState)
         return
     
-    def displayController(self, key, state):
-        for section, subdict in self.display.init(self.engine).items():
+    def display_controller(self, key, state):
+        rD =  self.renderDisplay.render(self.engine)
+        for section, subdict in rD.items():
             if key in subdict:
                 d = {
                     DisplayStrings: lambda value, state = None: self.show_displayStrings(value),
                     DisplayMenuStructure: lambda value, state = None: self.show_displayMenuStructure(value, state),
-                    DisplayControls: lambda value, state = None: self.show_displayControls(value, state)
+                    DisplayNavigation: lambda value, state = None: self.show_displayNavigation(value, state)
                 }
                 value = subdict[key]
                 handler = d.get(section)
