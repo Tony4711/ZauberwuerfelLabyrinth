@@ -1,10 +1,10 @@
 from enums import Directions, RoomColor, Corner
 from dataclasses import dataclass, field
 from typing import Literal
-from position import Position
-from door import Door
+from data.position import Position
+from data.door import Door
 
-@dataclass(frozen=True)
+@dataclass
 class Room:
     
     color: RoomColor
