@@ -11,6 +11,10 @@ venv/
 .vscode/
 .idea/
 
+# Worspace Dateien
+*.code-workspace
+
+
 # Logs und temporäre Dateien
 *.log
 *.tmp
