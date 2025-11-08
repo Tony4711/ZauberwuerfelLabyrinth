@@ -168,9 +168,6 @@ class DisplayNavigation(Enum):
     NAVIGATION = auto()
     ALL_NAVIGATION = auto()
 
-class DisplayMap(Enums):
-
-    MINI_MAP = auto()
 
 class CommandHandler(Enum):
 

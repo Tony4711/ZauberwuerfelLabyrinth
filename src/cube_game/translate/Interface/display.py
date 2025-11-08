@@ -1,4 +1,4 @@
-from enums import DisplayStrings, DisplayMenuStructure, Command, DisplayNavigation, DisplayMap
+from enums import DisplayStrings, DisplayMenuStructure, Command, DisplayNavigation
 from mapping import menuStructure_mapping, state_command_mapping
 
 def render(engine):
