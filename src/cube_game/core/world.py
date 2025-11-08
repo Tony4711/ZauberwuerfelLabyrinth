@@ -153,9 +153,7 @@ class World:
         random.shuffle(room_pos)
         for (color, room), new_pos in zip(self.map_dict.items(), room_pos):
             room.pos = new_pos
-        
-    def calc_neighbor(self):
-        pass
+
 
     def _lookup_neighbor(self, room, direction):
         target = room.neighbors.get(direction)

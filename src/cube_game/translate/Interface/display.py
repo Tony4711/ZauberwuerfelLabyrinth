@@ -2,7 +2,9 @@ from enums import DisplayStrings, DisplayMenuStructure, Command, DisplayNavigati
 from mapping import menuStructure_mapping, state_command_mapping
 
 def render(engine):
-    ##CHORE: import error when moving ot bounce since MAP_TEXT points at map function which leads to an error when standing infront of an door of a room that represents the outermost room in 2D
+    current_room = engine.player.current_room.name
+    starting_room = engine.world.map(engine.world.starting_room)
+    player_direction = engine.player.direction.value
     return {
         DisplayStrings: {
                     DisplayStrings.HELLO_TEXT: ("--- Willkommen zu 'Gefangen im Zauberwürfel Labyrinth'! ---", "",
@@ -11,12 +13,13 @@ def render(engine):
                     DisplayStrings.START_TEXT: ("--- Spiel wird gestartet ---",),
                     DisplayStrings.EXIT_MENU_TEXT: ("--- Spiel wirklich beenden? [J/N] ---",),
                     DisplayStrings.EXIT_CONFIRMED_TEXT: ("--- Spiel wird beendet ---",),
-                    DisplayStrings.MOVE_TEXT: (f"--- Du gehst einen Schritt nach {engine.player.direction.value} ---",),
+                    DisplayStrings.MOVE_TEXT: (f"--- Du gehst einen Schritt nach {player_direction} ---",),
                     DisplayStrings.WALL_TEXT: ("--- Du stößt gegen eine Wand ---",),
-                    DisplayStrings.INFRONT_DOOR_TEXT: (f"--- Du gehst einen Schritt nach {engine.player.direction.value} ---", "---- Du stehst vor einer Tür ---",),                    DisplayStrings.ROOM_ENTRANCE_TEXT: (f"--- Du öffnest die Tür und gehst einen Schritt in Richtung {engine.player.direction.value} ---","",
-                                                    f"--- Du betrittst den {engine.player.current_room.name} ---",),
+                    DisplayStrings.INFRONT_DOOR_TEXT: (f"--- Du gehst einen Schritt nach {player_direction} ---", "---- Du stehst vor einer Tür ---",),                    
+                    DisplayStrings.ROOM_ENTRANCE_TEXT: (f"--- Du öffnest die Tür und gehst einen Schritt in Richtung {player_direction} ---","",
+                                                    f"--- Du betrittst den {current_room} ---",),
                     DisplayStrings.INPUT_EXCEPTION_TEXT: ("--- Ungültige Eingabe ---",),
-                    #DisplayStrings.MAP_TEXT: (engine.world.map(engine.player.current_room)),
+                    DisplayStrings.MAP_TEXT: starting_room,
 
                 },
         DisplayMenuStructure: {
