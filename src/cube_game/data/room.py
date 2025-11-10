@@ -1,4 +1,4 @@
-from enums import Directions, RoomColor, Corner
+from enums.geometry import Directions, RoomColor, Corner
 from dataclasses import dataclass, field
 from typing import Literal
 from data.position import Position

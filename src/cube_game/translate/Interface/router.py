@@ -1,4 +1,5 @@
-from enums import RouterSignal, DisplayStrings, DisplayMenuStructure, DisplayNavigation
+from enums.routing import RouterSignal
+from enums.display import DisplayStrings, DisplayMenuStructure, DisplayNavigation
 
 
 routing = {

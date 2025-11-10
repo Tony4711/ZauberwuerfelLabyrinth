@@ -1,4 +1,5 @@
-from enums import GameState, MenuState, PlayerState, DoorState, LoopSignal, SystemState
+from enums.states import GameState, MenuState, PlayerState, DoorState, SystemState
+from enums.system import LoopSignal
 
 class StateStack:
     

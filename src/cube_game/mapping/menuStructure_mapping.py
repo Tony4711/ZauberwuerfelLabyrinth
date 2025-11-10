@@ -1,4 +1,5 @@
-from enums import MenuState, Command
+from enums.states import MenuState
+from enums.commands import Command
 
 menuStructure = {
         MenuState.MAIN: {

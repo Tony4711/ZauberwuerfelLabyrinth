@@ -1,4 +1,7 @@
-from enums import Command, Directions, GameState, MenuState, PlayerState, SystemState, RouterSignal, DisplayStrings, DisplayMenuStructure, DisplayNavigation
+from enums.commands import Command
+from enums.geometry import Directions
+from enums.states import GameState, MenuState, PlayerState, SystemState
+from enums.display import DisplayStrings, DisplayMenuStructure, DisplayNavigation
 from utils.utility import Utility
 from mapping import state_command_mapping
 from translate.Interface import translate_game, translate_menu, translate_player, translate_system, router, display

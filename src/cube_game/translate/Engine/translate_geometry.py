@@ -1,4 +1,4 @@
-from enums import Corner
+from enums.geometry import Corner
 
 corner_translate = {
     (0, 1):  (Corner.TOP_RIGHT,  lambda p: p.y),

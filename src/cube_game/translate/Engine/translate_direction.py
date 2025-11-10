@@ -1,4 +1,5 @@
-from enums import Command, Directions
+from enums.commands import Command
+from enums.geometry import Directions
 import operator
 
 command_direction = {

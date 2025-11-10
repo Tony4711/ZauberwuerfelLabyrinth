@@ -1,4 +1,5 @@
-from enums import PlayerState, RouterSignal
+from enums.states import PlayerState
+from enums.routing import RouterSignal
 
 playerState_routerSignal = {
     PlayerState.MOVE: RouterSignal.SHOW_MOVE,

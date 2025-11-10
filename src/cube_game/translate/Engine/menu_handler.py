@@ -1,4 +1,6 @@
-from enums import MenuOptionHandler, Command, GameState, MenuState
+from enums.handler import MenuOptionHandler
+from enums.commands import Command
+from enums.states import GameState, MenuState
 
 menuOption = {
     MenuOptionHandler.MAIN: {

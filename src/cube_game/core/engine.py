@@ -1,4 +1,8 @@
-from enums import CommandTag, Command, DoorState, GameState, MenuState, PlayerState, Directions, RoomColor, Corner, RouterSignal, SystemState, TranslateKey, CommandHandler, MovementHandler, MenuOptionHandler
+from enums.commands import CommandTag, Command
+from enums.states import DoorState, GameState, MenuState, PlayerState, SystemState
+from enums.geometry import Directions, RoomColor, Corner
+from enums.routing import RouterSignal
+from enums.handler import CommandHandler, MovementHandler, MenuOptionHandler
 from data.position import Position
 from data.room import Room
 from data.door import Door

@@ -1,4 +1,5 @@
-from enums import Command, MovementHandler
+from enums.commands import Command
+from enums.handler import MovementHandler
 
 def handler(engine):
     

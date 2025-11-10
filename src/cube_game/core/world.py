@@ -1,5 +1,5 @@
 from data.position import Position
-from enums import RoomColor, Corner, Directions
+from enums.geometry import RoomColor, Corner, Directions
 from data.door import Door
 from data.room import Room
 import random

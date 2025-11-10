@@ -1,7 +1,7 @@
 from core.interface import Interface
 from core.engine import Engine
 from core.state_controller import StateController
-from enums import LoopSignal
+from enums.system import LoopSignal
 
 class Main:
 

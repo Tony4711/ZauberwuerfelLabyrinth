@@ -1,4 +1,4 @@
-from enums import Directions
+from enums.geometry import Directions
 
 offset_translate = {
     Directions.NORTH: (0,1),

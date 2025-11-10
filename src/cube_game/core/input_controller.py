@@ -1,4 +1,5 @@
-from enums import Command, GameState, MenuState
+from enums.commands import Command
+from enums.states import GameState, MenuState
 from mapping import state_command_mapping
 from utils.utility import Utility
 

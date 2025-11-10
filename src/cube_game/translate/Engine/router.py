@@ -1,4 +1,5 @@
-from enums import RouterSignal, CommandHandler
+from enums.routing import RouterSignal
+from enums.handler import CommandHandler
 
 routing = {
     RouterSignal.META_HANDLER: CommandHandler.META_COMMAND,

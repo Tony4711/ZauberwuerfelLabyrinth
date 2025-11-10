@@ -1,4 +1,5 @@
-from enums import MenuState, RouterSignal
+from enums.states import MenuState
+from enums.routing import RouterSignal
 
 menuState_routerSignal = {
     MenuState.MAIN: RouterSignal.SHOW_MENU_OPTIONS,
