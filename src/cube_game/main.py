@@ -10,12 +10,16 @@ class Main:
         self.stateController = StateController()
         self.engine = Engine(self.stateController) 
         self.interface = Interface(self.stateController, self.engine)
+    
+    def tick(self) -> LoopSignal:
+        self.interface.update()
+        next_state = self.engine.update()
+        self.running = self.stateController.update(next_state)
+        return self.running
         
     def run(self):
         while self.running is LoopSignal.CONTINUE:
-            self.interface.update()
-            next_state = self.engine.update()
-            self.running = self.stateController.update(next_state)
+            self.tick()
             
 if __name__ == "__main__":
     main = Main()
