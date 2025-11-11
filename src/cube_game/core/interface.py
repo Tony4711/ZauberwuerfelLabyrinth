@@ -1,7 +1,7 @@
 from enums.commands import Command
 from enums.geometry import Directions
 from enums.states import GameState, MenuState, PlayerState, SystemState
-from enums.display import DisplayStrings, DisplayMenuStructure, DisplayNavigation
+from enums.display import Display, DisplayMenuStructure, DisplayNavigation
 from utils.utility import Utility
 from mapping import state_command_mapping
 from translate.Interface import translate_game, translate_menu, translate_player, translate_system, router, display
@@ -108,7 +108,7 @@ class Interface:
         for section, subdict in rD.items():
             if key in subdict:
                 d = {
-                    DisplayStrings: lambda value, state = None: self.show_displayStrings(value),
+                    Display: lambda value, state = None: self.show_displayStrings(value),
                     DisplayMenuStructure: lambda value, state = None: self.show_displayMenuStructure(value, state),
                     DisplayNavigation: lambda value, state = None: self.show_displayNavigation(value, state)
                 }
