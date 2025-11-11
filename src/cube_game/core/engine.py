@@ -4,8 +4,6 @@ from enums.geometry import Directions, RoomColor, Corner
 from enums.routing import RouterSignal
 from enums.handler import CommandHandler, MovementHandler, MenuOptionHandler
 from data.position import Position
-from data.room import Room
-from data.door import Door
 from core.input_controller import InputController
 from data.player import Player
 from utils.utility import Utility
