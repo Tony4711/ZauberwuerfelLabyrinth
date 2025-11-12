@@ -9,7 +9,7 @@ menuOption = {
         Command.OP3: MenuState.ALL_NAVIGATIONS
     },
     MenuOptionHandler.EXIT: {
-        Command.ACCEPT: GameState.EXIT,
-        Command.DENIE: GameState.BACK 
+        Command.OP1: GameState.EXIT,
+        Command.OP2: GameState.BACK 
     }
 }

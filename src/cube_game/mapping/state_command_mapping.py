@@ -10,8 +10,8 @@ mapping = {
                     Command.OP3: "Option 3"
                 },
                 MenuState.EXIT:{
-                    Command.ACCEPT: "Ja",
-                    Command.DENIE: "Nein"
+                    Command.OP1: "Ja",
+                    Command.OP2: "Nein"
                 },
                 MenuState.MAP:{
                     Command.BACK: "Zurück"
