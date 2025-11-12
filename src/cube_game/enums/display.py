@@ -13,29 +13,72 @@ class StartString(Enum):
 class MoveString(Enum):
     STRING = ("--- Du gehst einen Schritt nach {player_direction} ---",)
 
+class WallString(Enum):
+    STRING = ("--- Du stößt gegen eine Wand ---",)
+
+class ExitMenuString(Enum):
+    STRING = ("--- Spiel wirklich beenden? [J/N] ---",)
+
+class ExitConfirmedString(Enum):
+    STRING = ("--- Spiel wird beendet ---",)
+
+class InfrontDoorString(Enum):
+    STRING = ("--- Du gehst einen Schritt nach {player_direction} ---", "---- Du stehst vor einer Tür ---",)
+
+class RoomEntranceString(Enum):
+    STRING = (
+                "--- Du öffnest die Tür und gehst einen Schritt in Richtung {player_direction} ---","",
+                "--- Du betrittst den {current_room} ---",
+            )
+
+class InputExceptionString(Enum):
+    STRING = ("--- Ungültige Eingabe ---",)
+
+class MapString(Enum):
+    STRING = (
+                "--- Die Karte des Zauberwürferl Labyrinths ---",
+                "{map}"
+            )
+
 class Display(Enum):
 
     HELLO_TEXT = HelloString
     START_TEXT = StartString
-    NAVIGATION_TEXT = "navigation"
-    MENU_OPTIONS_TEXT = "menu_options"
-    MAP_TEXT = "map"
-    EXIT_MENU_TEXT = "exit_menu"
-    EXIT_CONFIRMED_TEXT = "exit_confirmed"
+    MAP_TEXT = MapString
+    EXIT_MENU_TEXT = ExitMenuString
+    EXIT_CONFIRMED_TEXT = ExitConfirmedString
     MOVE_TEXT = MoveString
-    WALL_TEXT = "wall"
-    INFRONT_DOOR_TEXT = "infront_door"
-    ROOM_ENTRANCE_TEXT = "room_entrance"
-    INPUT_EXCEPTION_TEXT = "input_exception"
+    WALL_TEXT = WallString
+    INFRONT_DOOR_TEXT = WallString
+    ROOM_ENTRANCE_TEXT = RoomEntranceString
+    INPUT_EXCEPTION_TEXT = InputExceptionString
 
     @property
     def string(self):
         return self.value.STRING.value
 
-class DisplayMenuStructure(Enum):
+class MainMenu(Enum):
+    OP1 = "Spiel Starten"
+    OP2 = "Spiel Verlassen"
+    OP3 = "Steuerung"
 
-    MENU_OPTION = auto()
-    NAVIGATION = auto()
+class ExitMenu(Enum):
+    OP1 = "Ja"
+    OP2 = "Nein"
+
+class NavMenu(Enum):
+    pass
+
+class Menus(Enum):
+
+    MAIN = MainMenu
+    EXIT = ExitMenu
+    NAVIGATION = NavMenu
+
+class MenuPoints(Enum):
+
+    MENU_OPTION = Menus
+    NAVIGATION = "nav"
 
 class DisplayNavigation(Enum):
 
