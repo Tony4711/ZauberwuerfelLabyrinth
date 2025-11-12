@@ -1,8 +1,7 @@
 from enums.commands import Command
 from enums.geometry import Directions
 from enums.states import GameState, MenuState, PlayerState, SystemState
-from enums.display import Display, DisplayMenuStructure, DisplayNavigation
-from utils.utility import Utility
+from enums.display import Display, MenuPoints, DisplayNavigation, Menus, MainMenu, ExitMenu
 from mapping import state_command_mapping
 from translate.Interface import translate_game, translate_menu, translate_player, translate_system, router, display
 import os
@@ -31,10 +30,8 @@ class WindowBuffer:
 
 class Interface:
 
-    def __init__(self, StateController, Engine):
-        self.engine = Engine
-        self.stateController = StateController
-        self.utility = Utility()
+    def __init__(self, gameContext):
+        self.GameContext = gameContext
         self.window = WindowBuffer()
         self.router = router.routing
         self.renderDisplay = display
@@ -43,6 +40,8 @@ class Interface:
         self.playerToSignal = translate_player.playerState_routerSignal
         self.systemToSignal = translate_system.systemState_routerSignal
         
+        
+        
     def show_pos(self, text, objekt):
         print(text, objekt.pos)
 
@@ -50,40 +49,61 @@ class Interface:
         self.window.push()
         self.window.update(text)
         for line in text:
-            self.utility.centered(line)
+            self.GameContext.utility.centered(line)
+        
+    def _template(self):
+        return {
+            "navigation_command": Command.NAVIGATION.value.upper(),
+            "player_direction": self.GameContext.player.direction.value,
+            "current_room": self.GameContext.player.current_room.name,
+            "map": self.GameContext.world.map(self.GameContext.starting_room)
+        }
 
     def show_displayStrings(self, value):
+        context = self._template()
         strg = ""
         strg += ",".join(value)
-        txt = self.utility.format_text_in_box(strg, "^", "*")
+        strg = strg.format(**context)
+        txt = self.GameContext.utility.format_text_in_box(strg, "^", "*")
         self.show_text(txt)
         print()
     
     def show_displayMenuStructure(self, value, state):
-        txt = self.utility.format_dict(value, state)
-        menu = self.utility.format_text_in_box(txt)
+        txt = self.GameContext.utility.format_dict(value, state)
+        menu = self.GameContext.utility.format_text_in_box(txt)
         menu_tuple = tuple(menu)
         self.show_text(menu_tuple)
     
     def show_displayNavigation(self, value, state):
         if state == MenuState.ALL_NAVIGATIONS:
-            txt = self.utility.format_dict(value[MenuState])
-            txt += self.utility.format_dict(value[GameState])
+            txt = self.GameContext.game_context.utility.format_dict(value[MenuState])
+            txt += self.GameContext.utility.format_dict(value[GameState])
         else:
-            previousState = self.stateController.gameStack._previous_stateStack()
+            previousState = self.GameContext.stateController.gameStack._previous_stateStack()
             if isinstance(previousState, MenuState):
-                txt = self.utility.format_dict(value[MenuState],previousState)
+                txt = self.GameContext.utility.format_dict(value[MenuState],previousState)
             else:
-                txt = self.utility.format_dict(value[GameState], previousState)
-        menu = self.utility.format_text_in_box(txt)
+                txt = self.GameContext.utility.format_dict(value[GameState], previousState)
+        menu = self.GameContext.utility.format_text_in_box(txt)
         menu_tuple = tuple(menu)
         self.show_text(menu_tuple)
 
     def _menuState_handler(self, menuState):
-        signal = self.menuToSignal.get(menuState)
-        key = self.router.get(signal)
-        self.display_controller(key, menuState)
-        return
+        m = {
+            MenuState.MAIN: Menus.MAIN,
+            MenuState.EXIT: Menus.EXIT
+        }
+        menu = m[menuState]
+        option_string = ""
+        option_tuple = (f"--- {menuState.value} ---",)
+        i = 1
+        for option in menu.value:
+            option_string =  f"[{i}] {option.value}"
+            i += 1
+            option_tuple += (option_string,) 
+        self.show_displayStrings(option_tuple)
+        #self.display_controller(key, menuState)
+        return 
 
     def gameState_handler(self, gameState):
         signal = self.gameToSignal.get(gameState)
@@ -104,12 +124,11 @@ class Interface:
         return
     
     def display_controller(self, key, state):
-        rD =  self.renderDisplay.render(self.engine)
+        rD =  self.renderDisplay.render()
         for section, subdict in rD.items():
             if key in subdict:
                 d = {
-                    Display: lambda value, state = None: self.show_displayStrings(value),
-                    DisplayMenuStructure: lambda value, state = None: self.show_displayMenuStructure(value, state),
+                    MenuPoints: lambda value, state = None: self.show_displayMenuStructure(value, state),
                     DisplayNavigation: lambda value, state = None: self.show_displayNavigation(value, state)
                 }
                 value = subdict[key]
@@ -117,9 +136,12 @@ class Interface:
                 if handler:
                     handler(value, state)
                 return
+            else:
+                self.show_displayStrings(key.string)
+                return
 
     def update(self): 
-        sc = self.stateController
+        sc = self.GameContext.stateController
         if sc.systemState != SystemState.OK:
             return self._exception_handler(sc.systemState)
         if sc.gameState == GameState.MENU:

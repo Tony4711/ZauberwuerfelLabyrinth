@@ -1,9 +1,9 @@
 from enums.routing import RouterSignal
-from enums.display import Display, DisplayMenuStructure, DisplayNavigation
+from enums.display import Display, MenuPoints, DisplayNavigation
 
 
 routing = {
-        RouterSignal.SHOW_MENU_OPTIONS: DisplayMenuStructure.MENU_OPTION,
+        RouterSignal.SHOW_MENU_OPTIONS: MenuPoints.MENU_OPTION,
         RouterSignal.SHOW_NAVIGATION: DisplayNavigation.NAVIGATION,
         RouterSignal.SHOW_EXIT_MENU: Display.EXIT_MENU_TEXT,
         RouterSignal.SHOW_HELLO: Display.HELLO_TEXT,
