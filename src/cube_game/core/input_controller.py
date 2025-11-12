@@ -1,13 +1,12 @@
 from enums.commands import Command
 from enums.states import GameState, MenuState
 from mapping import state_command_mapping
-from utils.utility import Utility
 
 class InputController:
 
 
-    def __init__(self):
-        self.utility = Utility()
+    def __init__(self, gameContext):
+        self.GameContext = gameContext
         self.mapping = state_command_mapping.mapping
     
     def read_input(self):
@@ -16,7 +15,7 @@ class InputController:
         return input
     
     def write_input(self, text):
-        print(f"Eingabe: [{text}]\n".rjust(self.utility.columns))
+        print(f"Eingabe: [{text}]\n".rjust(self.GameContext.utility.columns))
     
     def process_input(self,  gameState: GameState, menuState: MenuState):
         input = self.read_input()

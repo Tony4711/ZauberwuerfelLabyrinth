@@ -43,7 +43,7 @@ class SystemStack(StateStack):
 
 class StateController:
     
-    def __init__(self):
+    def __init__(self, gameContext):
         self.gameState = GameState.INIT
         self.menuState = MenuState.MAIN
         self.playerState = PlayerState.INIT
