@@ -1,15 +1,17 @@
 from core.interface import Interface
 from core.engine import Engine
 from core.state_controller import StateController
+from core.gamecontext import GameContext
 from enums.system import LoopSignal
 
 class Main:
 
     def __init__(self):
+        gameContext = GameContext()
         self.running = LoopSignal.CONTINUE
-        self.stateController = StateController()
-        self.engine = Engine(self.stateController) 
-        self.interface = Interface(self.stateController, self.engine)
+        self.stateController = gameContext.stateController
+        self.engine = gameContext.engine
+        self.interface = gameContext.interface
         
     def run(self):
         while self.running is LoopSignal.CONTINUE:
