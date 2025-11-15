@@ -1,6 +1,5 @@
 from enums.geometry import Directions, RoomColor, Corner
-from dataclasses import dataclass, field
-from typing import Literal
+from dataclasses import dataclass
 from data.position import Position
 from data.door import Door
 
@@ -17,4 +16,5 @@ class Room:
     
     def __repr__(self):
         return f"{self.name} at {self.pos} with {self.neighbors} as neighbors" 
+
 
