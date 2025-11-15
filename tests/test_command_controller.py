@@ -1,4 +1,4 @@
-from cube_game.core.gamecontext import GameContext
+from cube_game.core.game_context import GameContext
 from cube_game.enums.commands import Command
 from cube_game.enums.states import PlayerState
 

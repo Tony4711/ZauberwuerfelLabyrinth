@@ -1,4 +1,4 @@
-from core.gamecontext import GameContext
+from core.game_context import GameContext
 from enums.system import LoopSignal
 
 class Main:
@@ -8,7 +8,7 @@ class Main:
         self.state_controller = self.game_context.state_controller
         self.input_controller = self.game_context.input_controller
         self.command_controller = self.game_context.command_controller
-        self.engine = self.game_context.engine
+        self.player_movement = self.game_context.player_movement
         self.interface = self.game_context.interface
         self.display_controller = self.game_context.display_controller
         
