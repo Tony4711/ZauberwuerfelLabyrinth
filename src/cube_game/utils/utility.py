@@ -1,6 +1,8 @@
 import readchar
 import shutil
-from enums import GameState, Directions, RoomColor, Command, MenuState
+from enums.states import GameState, MenuState
+from enums.geometry import Directions, RoomColor
+from enums.commands import Command
 
 class Utility:
 

@@ -1,4 +1,5 @@
-from enums import DoorState, Directions
+from enums.states import DoorState
+from enums.geometry import Directions
 from data.position import Position
 from dataclasses import dataclass, field
 
