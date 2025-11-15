@@ -3,7 +3,7 @@ from enums.states import GameState, MenuState
 
 
 mapping = {
-            MenuState:{
+            GameState.MENU:{
                 MenuState.MAIN:{
                     Command.OP1: "Option 1",
                     Command.OP2: "Option 2",
@@ -13,15 +13,6 @@ mapping = {
                     Command.OP1: "Ja",
                     Command.OP2: "Nein"
                 },
-                MenuState.MAP:{
-                    Command.BACK: "Zurück"
-                },
-                MenuState.NAVIGATION: {
-                    Command.BACK: "Zurück"
-                },
-                MenuState.ALL_NAVIGATIONS: {
-                    Command.BACK: "Zurück"
-                }
             },
             GameState:{
                 GameState.PLAYING: {
@@ -46,3 +37,4 @@ mapping = {
                 }   
             }
         }
+

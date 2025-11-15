@@ -6,3 +6,4 @@ routing = {
     RouterSignal.MOVEMENT_HANDLER: CommandHandler.MOVEMENT_COMMAND,
     RouterSignal.OPTION_HANDLER: CommandHandler.OPTION_COMMAND
 }
+
