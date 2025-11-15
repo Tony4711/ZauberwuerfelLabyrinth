@@ -1,4 +1,5 @@
 from enum import Enum, auto
+from enums.commands import Command
 
 class HelloString(Enum):
     STRING = (
@@ -49,7 +50,7 @@ class Display(Enum):
     EXIT_CONFIRMED_TEXT = ExitConfirmedString
     MOVE_TEXT = MoveString
     WALL_TEXT = WallString
-    INFRONT_DOOR_TEXT = WallString
+    INFRONT_DOOR_TEXT = InfrontDoorString
     ROOM_ENTRANCE_TEXT = RoomEntranceString
     INPUT_EXCEPTION_TEXT = InputExceptionString
 
@@ -57,28 +58,10 @@ class Display(Enum):
     def string(self):
         return self.value.STRING.value
 
-class MainMenu(Enum):
-    OP1 = "Spiel Starten"
-    OP2 = "Spiel Verlassen"
-    OP3 = "Steuerung"
-
-class ExitMenu(Enum):
-    OP1 = "Ja"
-    OP2 = "Nein"
 
 class NavMenu(Enum):
-    pass
+    ALL = Command
 
-class Menus(Enum):
-
-    MAIN = MainMenu
-    EXIT = ExitMenu
-    NAVIGATION = NavMenu
-
-class MenuPoints(Enum):
-
-    MENU_OPTION = Menus
-    NAVIGATION = "nav"
 
 class DisplayNavigation(Enum):
 

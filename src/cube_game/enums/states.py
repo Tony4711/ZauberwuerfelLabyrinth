@@ -22,15 +22,11 @@ class GameState(Enum):
     BACK = "Zurück"
     MAP = "Karte"
     
-
 class MenuState(Enum):
 
     MAIN = "Hauptmenu"
     SETTINGS = "Einstellungen"
-    NAVIGATION = "Steuerung"
-    EXIT = "Verlassen"
-    MAP = "Karte"
-    ALL_NAVIGATIONS = "Alle Steuerungen"
+    EXIT = "Beenden"
 
 class PlayerState(Enum):
 
@@ -40,3 +36,9 @@ class PlayerState(Enum):
     WALL = auto()
     DOOR = auto()
     GO_DOOR = auto()
+
+class DisplayState(Enum):
+    
+    INIT = "INIT"
+    MAP = "Karte"
+    NAVIGATION = "Steuerungen"

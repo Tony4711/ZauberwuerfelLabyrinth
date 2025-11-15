@@ -5,7 +5,7 @@ class RouterSignal(Enum):
     SHOW_HELLO = auto()
     SHOW_START = auto()
     SHOW_NAVIGATION = auto()
-    SHOW_MENU_OPTIONS = auto()
+    SHOW_MAIN_MENU = auto()
     SHOW_MAP = auto()
     SHOW_EXIT_MENU = auto()
     SHOW_EXIT_CONFIRMED = auto()
