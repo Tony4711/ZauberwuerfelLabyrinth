@@ -1,5 +1,5 @@
 from enums.commands import Command
-from enums.states import GameState, MenuState, PlayerState, SystemState
+from enums.states import DisplayState
 import os
 
 
@@ -30,41 +30,40 @@ class Interface:
         self.game_context = gameContext
         self.window = WindowBuffer()      
 
-    def show_pos(self, text, objekt):
-        print(text, objekt.pos)
-
-    def show_text(self, text):
-        self.window.push()
-        self.window.update(text)
-        for line in text:
-            self.game_context.utility.centered(line)
-        return
-
-    def _format_tuple(self, value):
+    def format_display(self, string_tuple):
         context = self.game_context.template(self.game_context)
-        strg = ""
-        strg += ",".join(value)
-        strg = strg.format(**context)
-        txt = self.game_context.utility.format_text_in_box(strg, "^", "*")
-        self.show_text(txt)
-        print()
-    
-    def _create_menu_tuple(self, menu, menu_state):
-        trans_key = self.game_context.template(self.game_context)
         string = ""
-        menu_tuple = (f"--- {menu_state.value} ---",)
+        string += "\n".join(string_tuple)
+        string = string.format(**context)
+        self.game_context.console.render_welcome_panel(string)
+    
+    def create_menu(self, menu, menu_state):
+        trans_key = self.game_context.template(self.game_context)
+        lines = f"--- {menu_state.value} ---"
         for option in menu.value:
             key_char = option.name
             enum = option.value
-            string =  f"[{'{' + key_char + '}' }] {enum}"
-            string = string.format(**trans_key)
-            menu_tuple += (string,)
-        self._format_tuple(menu_tuple)
+            line =  f"[{'{' + key_char + '}' }] {enum}"
+            lines += "\n" + line
+            lines = lines.format(**trans_key)
+        self.game_context.console.render_panel(lines)
     
-    ##CHORE 
-    def _navigation_tuple(self):
-        pass
+    def create_navigation(self):
+        state = self.game_context.previous_state
+        trans_enum = self.game_context.template(self.game_context)
+        state_command = self.game_context.state_command[type(state)][state]
+        lines = f"--- {DisplayState.NAVIGATION.value} ---"
+        for command in Command:
+            key_char = command.value.upper()
+            enum = command.name
+            if state_command.get(command):
+                line =  f"[bold blue][{key_char}] {'{' + enum + '}'}[/bold blue]"
+            else:
+                line =  f"[{key_char}] {'{' + enum + '}'}"
+            lines += "\n" + line
+            lines = lines.format(**trans_enum)
+        self.game_context.console.render_panel(lines)
     
     ##CHORE
-    def _map_tuple(self):
+    def create_map(self):
         pass

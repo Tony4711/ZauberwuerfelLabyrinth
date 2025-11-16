@@ -2,14 +2,14 @@ from enum import Enum
 
 class MainMenu(Enum):
 
-    OP1 = "Spiel Starten"
-    OP2 = "Spiel Beenden"
-    OP3 = "Steuerung"
+    OPTION1 = "Spiel Starten"
+    OPTION2 = "Spiel Beenden"
+    OPTION3 = "Steuerung"
 
 class ExitMenu(Enum):
 
-    OP1 = "Ja"
-    OP2 = "Nein"
+    OPTION1 = "Ja"
+    OPTION2 = "Nein"
 
 class Menus(Enum):
 

@@ -60,7 +60,7 @@ class Utility:
         return display_list
     
     def centered(self, text: str):
-        print(text.center(self.columns))
+        return (text.center(self.columns))
     
     def print_dividing_line(self):
         print(f"_"*self.columns)

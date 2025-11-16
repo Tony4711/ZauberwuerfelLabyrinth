@@ -145,6 +145,7 @@ class StateController:
         self.game_context.running = loopsignal
 
     def update(self, next_state):
+        self.game_context.previous_state = self.game_context.next_state
         state = self._state_handler_logic(next_state, self.state_handler_dict, self.exception_handler_dict)
         self.game_context.next_state = state
 

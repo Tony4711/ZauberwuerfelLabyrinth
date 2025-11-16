@@ -1,6 +1,6 @@
 from enums.system import LoopSignal
 from enums.geometry import Directions
-from enums.states import GameState
+from enums.states import GameState, SystemState
 from core.player_movement import PlayerMovement
 from core.interface import Interface
 from core.controller.input_controller import InputController
@@ -8,6 +8,7 @@ from core.controller.state_controller import StateController
 from core.controller.command_controller import CommandController
 from core.controller.display_controller import DisplayController
 from core.world import World
+from core.rich_console import RichConsole
 from utils.utility import Utility
 from data.player import Player
 from data.position import Position
@@ -15,16 +16,19 @@ from translate.command_controller import command_handler, command_router, transl
 from translate import offset, geometry, direction
 from translate.interface import translate_game, translate_menu, translate_player, translate_system, interface_router
 from template import interface
+from mapping import state_command
 
 class GameContext:
     
     def __init__(self):
         
-        # Main instances
+        # Main Objects
         self.running = LoopSignal.CONTINUE
         self.next_state = GameState.INIT
+        self.previous_state = GameState.INIT
         self.player_movement = PlayerMovement(self)
         self.interface = Interface(self)
+        self.console = RichConsole()
 
         # Game Objects
         self.world = World(self)
@@ -61,6 +65,9 @@ class GameContext:
 
         # Template
         self.template = interface.template
+
+        # Mapping
+        self.state_command = state_command.mapping
 
     
     def _new_player(self):

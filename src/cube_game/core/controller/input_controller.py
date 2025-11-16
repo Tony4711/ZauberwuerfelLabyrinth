@@ -46,13 +46,13 @@ class InputController:
     # Prüft ob im aktuellen state der Input im dict 'mapping' vorhanden ist
     # Gibt dementsprechend True oder False zurück
     def _is_valid_for_menu_state(self, menu_state, command) -> bool:
-        if command in self.mapping[GameState.MENU][menu_state]:              
+        if command in self.mapping[type(menu_state)][menu_state]:              
             return True                                 
         else:
             return False
     
     def _is_valid_for_game_state(self, game_state, command) -> bool:
-        if command in self.mapping[GameState][game_state].keys():              
+        if command in self.mapping[type(game_state)][game_state].keys():              
             return True                                 
         else:
             return False

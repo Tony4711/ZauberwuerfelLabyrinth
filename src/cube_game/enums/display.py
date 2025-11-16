@@ -3,9 +3,9 @@ from enums.commands import Command
 
 class HelloString(Enum):
     STRING = (
-                "--- Willkommen zu 'Gefangen im Zauberwürfel Labyrinth'! ---", "",
-                "--- Zum steuern bitte die in [ ] geschriebene Taste drücken ---", "",
-                "--- Benutze [{navigation_command}] um dir die Steuerung anzeigen zu lassen ---"
+                "--- Willkommen zu 'Gefangen im Zauberwürfel Labyrinth'! ---\n",
+                "Zum steuern bitte die in [ ] geschriebene Taste drücken\n",
+                "Benutze im Spiel [{navigation_command}] um dir die Steuerung anzeigen zu lassen"
             )
     
 class StartString(Enum):
@@ -24,11 +24,14 @@ class ExitConfirmedString(Enum):
     STRING = ("--- Spiel wird beendet ---",)
 
 class InfrontDoorString(Enum):
-    STRING = ("--- Du gehst einen Schritt nach {player_direction} ---", "---- Du stehst vor einer Tür ---",)
+    STRING = (
+            "--- Du gehst einen Schritt nach {player_direction} ---\n",
+            "---- Du stehst vor einer Tür ---",
+            )
 
 class RoomEntranceString(Enum):
     STRING = (
-                "--- Du öffnest die Tür und gehst einen Schritt in Richtung {player_direction} ---","",
+                "--- Du öffnest die Tür und gehst einen Schritt in Richtung {player_direction} ---\n",
                 "--- Du betrittst den {current_room} ---",
             )
 
