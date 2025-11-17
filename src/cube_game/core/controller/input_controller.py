@@ -19,7 +19,7 @@ class InputController:
     
     def process_input(self):
         input = self.read_input()
-        self.write_input(input.upper())
+        #self.write_input(input.upper())
         # parse self.input to self.command
         command = self._get_command_from_input(input)
         valid_command = self._state_trooper( command)

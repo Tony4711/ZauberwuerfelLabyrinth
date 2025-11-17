@@ -20,8 +20,8 @@ class DisplayController:
 
     def _display_state_handler(self, display_state):
         handler = {
-            DisplayState.NAVIGATION: self.game_context.interface.create_navigation,
-            DisplayState.MAP: self.game_context.interface.create_map,
+            DisplayState.NAVIGATION: self.game_context.interface.format_navigation,
+            DisplayState.MAP: self.game_context.interface.format_map,
         }
         func = handler.get(display_state)
         if func:
@@ -40,7 +40,7 @@ class DisplayController:
     def _menu_state_handler(self, menu_state):
         signal = self.game_context.menu_to_signal.get(menu_state)
         menu = self.game_context.interface_router.get(signal)
-        self.game_context.interface.create_menu(menu, menu_state)
+        self.game_context.interface.format_menu(menu, menu_state)
     
     def _system_state_handler(self, system_state):
         signal = self.game_context.system_to_signal.get(system_state)

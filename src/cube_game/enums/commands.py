@@ -4,12 +4,9 @@ from enums.tagged_enum import TaggedEnum
 
 class CommandTag(Enum):
 
-    MOVEMENT = auto()
-    META= auto()
-    OPTION = auto()
-    CHOICE = auto()
-    HORIZONTAL = auto()
-    VERTICAL = auto()
+    MOVEMENT = "Bewegung"
+    META= "Meta"
+    OPTION = "Auswahl"
 
 class Command(TaggedEnum):
 
@@ -21,8 +18,6 @@ class Command(TaggedEnum):
     OP2 = ("2", CommandTag.OPTION)
     OP3 = ("3", CommandTag.OPTION)
     OP4 = ("4", CommandTag.OPTION)
-    ACCEPT = ("j", CommandTag.OPTION)
-    DENIE = ("n", CommandTag.OPTION)
     BACK = ("q", CommandTag.META)
     FORTH = ("e", CommandTag.META)
     EXIT = ("x", CommandTag.META)

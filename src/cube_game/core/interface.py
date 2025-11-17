@@ -35,35 +35,60 @@ class Interface:
         string = ""
         string += "\n".join(string_tuple)
         string = string.format(**context)
-        self.game_context.console.render_welcome_panel(string)
+        self.game_context.console.render_display_panel(string)
     
-    def create_menu(self, menu, menu_state):
+    def format_menu(self, menu, menu_state):
         trans_key = self.game_context.template(self.game_context)
-        lines = f"--- {menu_state.value} ---"
+        lines = ""
+        title = f"--- {menu_state.value} ---"
         for option in menu.value:
             key_char = option.name
             enum = option.value
-            line =  f"[{'{' + key_char + '}' }] {enum}"
-            lines += "\n" + line
+            line =  f"[[yellow]{'{' + key_char + '}' }[/]] {enum}"
+            lines += line + "\n" 
             lines = lines.format(**trans_key)
-        self.game_context.console.render_panel(lines)
+        lines = lines.rstrip("\n")
+        self.game_context.console.render_menu_table(title,lines)
     
-    def create_navigation(self):
+    def format_navigation(self):
         state = self.game_context.previous_state
         trans_enum = self.game_context.template(self.game_context)
-        state_command = self.game_context.state_command[type(state)][state]
-        lines = f"--- {DisplayState.NAVIGATION.value} ---"
+        title = f"--- {DisplayState.NAVIGATION.value} ---"
+        lines = None
+        headers = []
+        rows = []
         for command in Command:
-            key_char = command.value.upper()
-            enum = command.name
-            if state_command.get(command):
-                line =  f"[bold blue][{key_char}] {'{' + enum + '}'}[/bold blue]"
-            else:
-                line =  f"[{key_char}] {'{' + enum + '}'}"
-            lines += "\n" + line
+            header = command.tag.value
+            if header not in headers: 
+                headers.append(header)
+                if lines:
+                    rows.append(lines.rstrip("\n"))
+                lines = ""
+            line = self._format_state_command(state, command)
+            lines += line + "\n"
             lines = lines.format(**trans_enum)
-        self.game_context.console.render_panel(lines)
+        rows.append(lines.rstrip("\n"))
+        self.game_context.console.render_navigation_table(title, headers, rows)
     
+    def _format_state_command(self, state, command):
+        state_command = self._try_state_command(state)
+        key_char = command.value.upper()
+        enum = command.name
+        if state_command and state_command.get(command):
+            line = f"[[yellow]{key_char}[/]] [bold underline cyan]{'{' + enum + '}'}[/]"
+            return line
+        else:
+            line = f"[[yellow]{key_char}[/]] {'{' + enum + '}'}"
+            return line
+
+    
+    def _try_state_command(self, state):
+        try:
+            state_command = self.game_context.state_command[type(state)][state]
+            return state_command
+        except:
+            KeyError
+            return None
     ##CHORE
-    def create_map(self):
+    def format_map(self):
         pass

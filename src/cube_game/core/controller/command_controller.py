@@ -41,7 +41,6 @@ class CommandController:
         
     def process_command(self):
         if self.game_context.state_controller.game_stack._current_state_stack() == GameState.INIT:
-            #self.game_context.next_state = GameState.MENU
             return GameState.INIT
         command = self.get_command()
         if command:
