@@ -3,10 +3,10 @@ from rich.panel import Panel
 from rich.align import Align
 from rich.text import Text
 from rich.table import Table
-from rich.markdown import Markdown
 
 from rich import box
 from rich import print
+from enums.geometry import Directions
 
 class RichConsole:
 
@@ -53,3 +53,23 @@ class RichConsole:
         table.add_row(*rows)
         print(Align.center(table))
     
+    def map_layout(self, map):
+        face_size = 12
+        table = Table.grid()
+        for faces in map:
+            row_cells = []
+            for face in faces:
+                if face == "":
+                    row_cells.append(" " * (face_size * 2))
+                else:
+                    row_cells.append(
+                        Panel(
+                            " ",
+                            border_style = face.hex_color,
+                            box = box.HEAVY,
+                            width = face_size * 2,
+                            height = face_size,
+                        )
+                    )
+            table.add_row(*row_cells)
+        print(Align.center(table))

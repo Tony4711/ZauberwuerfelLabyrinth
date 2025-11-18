@@ -41,7 +41,6 @@ class InputExceptionString(Enum):
 class MapString(Enum):
     STRING = (
                 "--- Die Karte des Zauberwürferl Labyrinths ---",
-                "{map}"
             )
 
 class Display(Enum):

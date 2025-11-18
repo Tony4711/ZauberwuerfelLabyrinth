@@ -10,6 +10,7 @@ class Room:
     width: int
     length: int
     name: str
+    hex_color: hex
     doors: dict[Directions, Door]
     neighbors: dict[Directions, RoomColor]
     pos : dict[Corner, Position]

@@ -21,6 +21,7 @@ class World:
                 Corner.BOTTOM_LEFT: Position(6,0),
                 Corner.TOP_RIGHT: Position(12,6)
                 },
+            hex_color = "#FFD900",
             name = "Gelben Raum",
             neighbors = {
                 Directions.NORTH: RoomColor.GREEN,
@@ -41,6 +42,7 @@ class World:
                 Corner.BOTTOM_LEFT: Position(6,12),
                 Corner.TOP_RIGHT: Position(12,18)
                 },
+            hex_color = "#FFFFFF",
             name = "Weißen Raum",
             neighbors = {
                 Directions.NORTH: RoomColor.BLUE,
@@ -61,6 +63,7 @@ class World:
                 Corner.BOTTOM_LEFT: Position(6,6),
                 Corner.TOP_RIGHT: Position(12,12)
                 },
+            hex_color = "#04FF00",
             name = "Grünen Raum",
             neighbors = {
                 Directions.NORTH: RoomColor.WHITE,
@@ -83,6 +86,7 @@ class World:
                 Corner.BOTTOM_LEFT: Position(12,6),
                 Corner.TOP_RIGHT: Position(18,12)
                 },
+            hex_color = "#FF0000",
             name = "Roten Raum",
             neighbors = {
                 Directions.NORTH: RoomColor.WHITE,
@@ -103,6 +107,7 @@ class World:
                 Corner.BOTTOM_LEFT: Position(18,6),
                 Corner.TOP_RIGHT: Position(24,12)
                 },
+            hex_color = "#0008FF",
             name = "Blauen Raum",
             neighbors = {
                 Directions.NORTH: RoomColor.WHITE,
@@ -124,6 +129,7 @@ class World:
                 Corner.BOTTOM_LEFT: Position(0,6),
                 Corner.TOP_RIGHT: Position(6,12)
                 },
+            hex_color = "#FF8C00",
             name = "Orangen Raum",
             neighbors = {
                 Directions.NORTH: RoomColor.WHITE,
@@ -163,18 +169,18 @@ class World:
         return target
     
     def map(self, room):
-        front = room.color
-        left = self._lookup_neighbor(room, Directions.WEST)
-        right = self._lookup_neighbor(room, Directions.EAST)
-        up = self._lookup_neighbor(room, Directions.NORTH)
-        down = self._lookup_neighbor(room, Directions.SOUTH)
-        back = self._lookup_neighbor(self.map_dict.get(right), Directions.EAST)
-        display = (
-            f"[{self.map_dict.get(up).name}]",
-            f"          [{self.map_dict.get(left).name}][{self.map_dict.get(front).name}][{self.map_dict.get(right).name}][{self.map_dict.get(back).name}]",
-            f"[{self.map_dict.get(down).name}]"
-        )
-        return display
+        front = room
+        left = self.map_dict[self._lookup_neighbor(room, Directions.WEST)]
+        right = self.map_dict[self._lookup_neighbor(room, Directions.EAST)]
+        top = self.map_dict[self._lookup_neighbor(room, Directions.NORTH)]
+        down = self.map_dict[self._lookup_neighbor(room, Directions.SOUTH)]
+        back = self.map_dict[self._lookup_neighbor(self.map_dict.get(right.color), Directions.EAST)]
+        gap = ""
+        upper = [gap, top, gap, gap]
+        middle = [left, front, right, back]
+        lower = [gap, down, gap, gap]
+        map = [upper, middle, lower]
+        return map
 
     # If player coordinate goes out of bounce due to switching rooms that are neighbors but are not located next to each other in 2D map
     # the player coordinates get updated based on the current room and its two corner coordinates.

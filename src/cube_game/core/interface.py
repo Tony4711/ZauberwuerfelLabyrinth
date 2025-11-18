@@ -1,5 +1,6 @@
 from enums.commands import Command
 from enums.states import DisplayState
+from enums.display import Display
 import os
 
 
@@ -89,6 +90,8 @@ class Interface:
         except:
             KeyError
             return None
-    ##CHORE
+        
     def format_map(self):
-        pass
+        self.format_display(Display.MAP_TEXT.string)
+        map = self.game_context.world.map(self.game_context.starting_room)
+        self.game_context.console.map_layout(map)
