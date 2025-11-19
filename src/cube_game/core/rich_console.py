@@ -53,23 +53,41 @@ class RichConsole:
         table.add_row(*rows)
         print(Align.center(table))
     
-    def map_layout(self, map):
-        face_size = 12
-        table = Table.grid()
-        for faces in map:
-            row_cells = []
-            for face in faces:
+    def map_layout(self, map): 
+        face_size = 9 
+        table = Table.grid() 
+        for faces in map: 
+            row_cells = [] 
+            for face in faces: 
                 if face == "":
-                    row_cells.append(" " * (face_size * 2))
-                else:
-                    row_cells.append(
-                        Panel(
-                            " ",
-                            border_style = face.hex_color,
-                            box = box.HEAVY,
-                            width = face_size * 2,
-                            height = face_size,
-                        )
-                    )
-            table.add_row(*row_cells)
+                    row_cells.append("") 
+                else: 
+                    row_cells.append( 
+                        Panel( 
+                            self.build_coord_grid(3), 
+                            box = box.MINIMAL, 
+                            style= f"on {face.hex_color}", 
+                            width = face_size * 2, 
+                            height = face_size, 
+                            expand=True, 
+                            padding=0 
+                        ) 
+                    ) 
+            table.add_row(*row_cells) 
         print(Align.center(table))
+            
+    def build_coord_grid(self, size): 
+        table = Table( 
+            show_header=False, 
+            show_lines=True, 
+            padding=0, # kein Zellen-Padding 
+            pad_edge=False, # kein Rand außen 
+            box=box.DOUBLE, 
+            expand=True, 
+            border_style="black", 
+        ) 
+        for _ in range(size): 
+            table.add_column() 
+        for _ in range(size): 
+            table.add_row() 
+        return table

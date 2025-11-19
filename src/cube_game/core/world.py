@@ -21,7 +21,7 @@ class World:
                 Corner.BOTTOM_LEFT: Position(6,0),
                 Corner.TOP_RIGHT: Position(12,6)
                 },
-            hex_color = "#FFD900",
+            hex_color = "#F7E642",
             name = "Gelben Raum",
             neighbors = {
                 Directions.NORTH: RoomColor.GREEN,
@@ -42,7 +42,7 @@ class World:
                 Corner.BOTTOM_LEFT: Position(6,12),
                 Corner.TOP_RIGHT: Position(12,18)
                 },
-            hex_color = "#FFFFFF",
+            hex_color = "#FDFDFD",
             name = "Weißen Raum",
             neighbors = {
                 Directions.NORTH: RoomColor.BLUE,
@@ -63,7 +63,7 @@ class World:
                 Corner.BOTTOM_LEFT: Position(6,6),
                 Corner.TOP_RIGHT: Position(12,12)
                 },
-            hex_color = "#04FF00",
+            hex_color = "#43A047",
             name = "Grünen Raum",
             neighbors = {
                 Directions.NORTH: RoomColor.WHITE,
@@ -86,7 +86,7 @@ class World:
                 Corner.BOTTOM_LEFT: Position(12,6),
                 Corner.TOP_RIGHT: Position(18,12)
                 },
-            hex_color = "#FF0000",
+            hex_color = "#E53935",
             name = "Roten Raum",
             neighbors = {
                 Directions.NORTH: RoomColor.WHITE,
@@ -107,7 +107,7 @@ class World:
                 Corner.BOTTOM_LEFT: Position(18,6),
                 Corner.TOP_RIGHT: Position(24,12)
                 },
-            hex_color = "#0008FF",
+            hex_color = "#1976D2",
             name = "Blauen Raum",
             neighbors = {
                 Directions.NORTH: RoomColor.WHITE,
@@ -129,7 +129,7 @@ class World:
                 Corner.BOTTOM_LEFT: Position(0,6),
                 Corner.TOP_RIGHT: Position(6,12)
                 },
-            hex_color = "#FF8C00",
+            hex_color = "#FF9800",
             name = "Orangen Raum",
             neighbors = {
                 Directions.NORTH: RoomColor.WHITE,

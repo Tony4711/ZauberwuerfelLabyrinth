@@ -92,6 +92,5 @@ class Interface:
             return None
         
     def format_map(self):
-        self.format_display(Display.MAP_TEXT.string)
         map = self.game_context.world.map(self.game_context.starting_room)
         self.game_context.console.map_layout(map)
