@@ -9,7 +9,8 @@ def handler():
         Command.NAVIGATION: DisplayState.NAVIGATION,
         Command.OPEN_MAP: DisplayState.MAP,
         Command.BACK: GameState.BACK,
-        Command.EXIT: MenuState.EXIT
+        Command.EXIT: MenuState.EXIT,
+        Command.SHUFFLE_MAP: DisplayState.SHUFFLE_MAP,
     },
     CommandHandler.OPTION_COMMAND: {
         MenuState.MAIN: MenuOptionHandler.MAIN,

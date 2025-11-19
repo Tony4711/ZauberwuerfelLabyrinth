@@ -94,3 +94,7 @@ class Interface:
     def format_map(self):
         map = self.game_context.world.map(self.game_context.starting_room)
         self.game_context.console.map_layout(map)
+    
+    def shuffle_map(self):
+        self.game_context.world.shuffle_map()
+        self.format_map()

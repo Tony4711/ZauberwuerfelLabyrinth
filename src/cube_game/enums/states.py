@@ -20,7 +20,6 @@ class GameState(Enum):
     IDLE = "Ruhend"
     MENU = "Menu"
     BACK = "Zurück"
-    MAP = "Karte"
     
 class MenuState(Enum):
 
@@ -42,3 +41,4 @@ class DisplayState(Enum):
     INIT = "INIT"
     MAP = "Karte"
     NAVIGATION = "Steuerungen"
+    SHUFFLE_MAP = "Mischen"

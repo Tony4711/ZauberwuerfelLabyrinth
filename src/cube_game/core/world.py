@@ -31,7 +31,9 @@ class World:
                 },
             doors = {
                 Directions.NORTH: Door(leads_to=RoomColor.GREEN, pos=Position(8,6)),
-                Directions.SOUTH: Door(leads_to=RoomColor.WHITE, pos=Position(8,0))
+                Directions.EAST: Door(leads_to=RoomColor.RED, pos=Position(12,4)),
+                Directions.SOUTH: Door(leads_to=RoomColor.BLUE, pos=Position(8,0)),
+                Directions.WEST: Door(leads_to=RoomColor.ORANGE, pos=Position(6,4))
                 }
             )
         self.white_room = Room(
@@ -51,8 +53,10 @@ class World:
                 Directions.WEST: RoomColor.ORANGE
             },
             doors = {
+                Directions.NORTH: Door(leads_to=RoomColor.BLUE, pos=Position(8,18)),
+                Directions.EAST: Door(leads_to=RoomColor.RED, pos=Position(12,16)),
                 Directions.SOUTH: Door(leads_to=RoomColor.GREEN, pos=Position(8,12)),
-                Directions.NORTH: Door(leads_to=RoomColor.YELLOW, pos=Position(8,18))
+                Directions.WEST: Door(leads_to=RoomColor.ORANGE, pos=Position(6,16))   
             }
         )
         self.green_room = Room(
@@ -72,10 +76,10 @@ class World:
                 Directions.WEST: RoomColor.ORANGE
             },
             doors = {
-                Directions.WEST: Door(leads_to=RoomColor.ORANGE , pos=Position(6,8)),
-                Directions.EAST: Door(leads_to=RoomColor.RED, pos=Position(12,8)),
                 Directions.NORTH: Door(leads_to=RoomColor.WHITE, pos=Position(8,12)),
-                Directions.SOUTH: Door(leads_to=RoomColor.YELLOW, pos=Position(8,6))
+                Directions.EAST: Door(leads_to=RoomColor.RED, pos=Position(12,8)),
+                Directions.SOUTH: Door(leads_to=RoomColor.YELLOW, pos=Position(8,6)),
+                Directions.WEST: Door(leads_to=RoomColor.ORANGE , pos=Position(6,8)) 
             }
         )
         self.red_room = Room(
@@ -95,8 +99,10 @@ class World:
                 Directions.WEST: RoomColor.GREEN
             },
             doors = {
-                Directions.WEST: Door(leads_to=RoomColor.GREEN, pos=Position(12,8)),
-                Directions.EAST: Door(leads_to=RoomColor.BLUE, pos=Position(18,8))
+                Directions.NORTH: Door(leads_to=RoomColor.WHITE, pos=Position(15,12)),
+                Directions.EAST: Door(leads_to=RoomColor.BLUE, pos=Position(18,8)),
+                Directions.SOUTH: Door(leads_to=RoomColor.YELLOW, pos=Position(15,6)),
+                Directions.WEST: Door(leads_to=RoomColor.GREEN, pos=Position(12,8))
             }
         )
         self.blue_room = Room(
@@ -116,9 +122,10 @@ class World:
                 Directions.SOUTH: RoomColor.RED
             },
             doors = {
-                Directions.WEST: Door(leads_to=RoomColor.RED, pos=Position(18,8)),
-                Directions.EAST: Door(leads_to=RoomColor.ORANGE, pos=Position(24,8))
-
+                Directions.NORTH: Door(leads_to=RoomColor.WHITE, pos=Position(21,12)),
+                Directions.EAST: Door(leads_to=RoomColor.ORANGE, pos=Position(24,8)),
+                Directions.SOUTH: Door(leads_to=RoomColor.YELLOW, pos=Position(21,6)),
+                Directions.WEST: Door(leads_to=RoomColor.RED, pos=Position(18,8))
             }
         )
         self.orange_room = Room(
@@ -138,8 +145,10 @@ class World:
                 Directions.WEST: RoomColor.BLUE
             },
             doors = {
-                Directions.WEST: Door(leads_to=RoomColor.BLUE, pos=Position(0,8)),
-                Directions.EAST: Door(leads_to=RoomColor.GREEN, pos=Position(6,8))
+                Directions.NORTH: Door(leads_to=RoomColor.WHITE, pos=Position(3,12)),
+                Directions.EAST: Door(leads_to=RoomColor.GREEN, pos=Position(6,8)),
+                Directions.SOUTH: Door(leads_to=RoomColor.YELLOW, pos=Position(3,6)),
+                Directions.WEST: Door(leads_to=RoomColor.BLUE, pos=Position(0,8))
             }
         )
     
@@ -163,10 +172,10 @@ class World:
 
 
     def _lookup_neighbor(self, room, direction):
-        target = room.neighbors.get(direction)
-        if target is None:
+        neighbor = room.neighbors.get(direction)
+        if neighbor is None:
             return None
-        return target
+        return neighbor
     
     def map(self, room):
         front = room

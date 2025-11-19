@@ -22,7 +22,8 @@ mapping = {
                     Command.MOVE_EAST: "Nach Osten gehen ",
                     Command.OPEN_MAP: "Öffne die Karte",
                     Command.EXIT: "Spiel beenden",
-                    Command.NAVIGATION: "Steuerungen"
+                    Command.NAVIGATION: "Steuerungen",
+                    Command.SHUFFLE_MAP: "Räume mischen"
                 },
                 GameState.INIT:{
 

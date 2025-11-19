@@ -23,5 +23,6 @@ class Command(TaggedEnum):
     EXIT = ("x", CommandTag.META)
     OPEN_MAP = ("m", CommandTag.META)
     NAVIGATION = ("c", CommandTag.META)
+    SHUFFLE_MAP = ("y", CommandTag.META)
 
 
