@@ -1,4 +1,4 @@
-from enums.geometry import Directions, RoomColor, Corner
+from enums.geometry import Directions, RoomColor, Corner, Edge
 from dataclasses import dataclass
 from data.position import Position
 from data.door import Door
@@ -12,7 +12,8 @@ class Room:
     name: str
     hex_color: hex
     doors: dict[Directions, Door]
-    neighbors: dict[Directions, RoomColor]
+    direction_edge: dict[Directions, Edge]
+    neighbors: dict[Edge, RoomColor]
     pos : dict[Corner, Position]
     
     def __repr__(self):

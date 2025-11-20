@@ -8,6 +8,7 @@ def template(game_context):
             "MOVE_EAST": "Gehe nach Osten",
             "OPEN_MAP": "Karte öffnen",
             "NAVIGATION": "Steuerung anzeigen",
+            "SHUFFLE_MAP": "Räume mischen",
             "OP1": "Menu Auswahl 1",
             "OP2": "Menu Auswahl 2",
             "OP3": "Menu Auswahl 3",
@@ -24,5 +25,5 @@ def template(game_context):
             "navigation_command": f"[yellow]{Command.NAVIGATION.value.upper()}[/]",
             "player_direction": game_context.player.direction.value,
             "current_room": game_context.player.current_room.name,
-            "map": game_context.world.map(game_context.starting_room)
+            #"map": game_context.world.map(game_context.starting_room)
         }

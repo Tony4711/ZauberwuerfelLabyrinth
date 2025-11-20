@@ -1,5 +1,4 @@
-from enums.states import GameState, PlayerState, SystemState
-from enums.geometry import Corner
+from enums.states import PlayerState
 
 # Ein Spiel zum Verstehen der Grundmechaniken eines Rubiks Würfels.
 # Der kleine Zauberer Garry ist in einem 3 dimensionalem Labyrinth gefangen und muss die Räume richtig miteinander verbinden, um herauszufinden.
@@ -37,12 +36,20 @@ class PlayerMovement:
             else:
                 return PlayerState.MOVE
         elif door is not None and self.game_context.player.pos == door.pos:
+            self.cube_rotation(direction)
             self.game_context.world.change_room(direction)
+            ##CHORE instead of moving player one step, relocate player at the door pos of next room
             self.game_context.player.pos.move(dx,dy)
+            ##BUG current wrap around does not work with three dimensional cube, should get unneccesary after CHORE is done
             self.game_context.world.cube_wrap_around()
             #print(f"Player: {self.player.pos}") #---DEBUG PRINT---
             return PlayerState.GO_DOOR
         else:
             return PlayerState.WALL
 
-
+    def cube_rotation(self, direction):
+        edge = self.game_context.player.current_room.direction_edge[direction]
+        if edge.value == None:
+            self.game_context.player.direction = direction
+        else:
+            self.game_context.player.direction = edge.value

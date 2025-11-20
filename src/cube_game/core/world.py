@@ -1,5 +1,5 @@
 from data.position import Position
-from enums.geometry import RoomColor, Corner, Directions
+from enums.geometry import RoomColor, Corner, Directions, Edge
 from data.door import Door
 from data.room import Room
 import random
@@ -23,11 +23,17 @@ class World:
                 },
             hex_color = "#F7E642",
             name = "Gelben Raum",
+            direction_edge = {
+                Directions.NORTH: Edge.BOTTOM_FRONT,
+                Directions.EAST: Edge.RIGHT_BOTTOM,
+                Directions.SOUTH: Edge.BOTTOM_BACK,
+                Directions.WEST: Edge.LEFT_BOTTOM
+            },
             neighbors = {
-                Directions.NORTH: RoomColor.GREEN,
-                Directions.EAST: RoomColor.RED,
-                Directions.SOUTH: RoomColor.BLUE,
-                Directions.WEST: RoomColor.ORANGE
+                Edge.BOTTOM_FRONT: RoomColor.GREEN,
+                Edge.RIGHT_BOTTOM: RoomColor.RED,
+                Edge.BOTTOM_BACK: RoomColor.BLUE,
+                Edge.LEFT_BOTTOM: RoomColor.ORANGE
                 },
             doors = {
                 Directions.NORTH: Door(leads_to=RoomColor.GREEN, pos=Position(8,6)),
@@ -46,11 +52,17 @@ class World:
                 },
             hex_color = "#FDFDFD",
             name = "Weißen Raum",
+            direction_edge = {
+                Directions.NORTH: Edge.BACK_TOP,
+                Directions.EAST: Edge.RIGHT_TOP,
+                Directions.SOUTH: Edge.FRONT_TOP,
+                Directions.WEST: Edge.LEFT_TOP
+            },
             neighbors = {
-                Directions.NORTH: RoomColor.BLUE,
-                Directions.EAST: RoomColor.RED,
-                Directions.SOUTH: RoomColor.GREEN,
-                Directions.WEST: RoomColor.ORANGE
+                Edge.BACK_TOP: RoomColor.BLUE,
+                Edge.RIGHT_TOP: RoomColor.RED,
+                Edge.FRONT_TOP: RoomColor.GREEN,
+                Edge.LEFT_TOP: RoomColor.ORANGE
             },
             doors = {
                 Directions.NORTH: Door(leads_to=RoomColor.BLUE, pos=Position(8,18)),
@@ -69,11 +81,17 @@ class World:
                 },
             hex_color = "#43A047",
             name = "Grünen Raum",
+            direction_edge = {
+                Directions.NORTH: Edge.FRONT_TOP,
+                Directions.EAST: Edge.RIGHT_TOP,
+                Directions.SOUTH: Edge.BOTTOM_FRONT,
+                Directions.WEST: Edge.LEFT_FRONT
+            },
             neighbors = {
-                Directions.NORTH: RoomColor.WHITE,
-                Directions.EAST: RoomColor.RED,
-                Directions.SOUTH: RoomColor.YELLOW,
-                Directions.WEST: RoomColor.ORANGE
+                Edge.FRONT_TOP: RoomColor.WHITE,
+                Edge.RIGHT_TOP: RoomColor.RED,
+                Edge.BOTTOM_FRONT: RoomColor.YELLOW,
+                Edge.LEFT_FRONT: RoomColor.ORANGE
             },
             doors = {
                 Directions.NORTH: Door(leads_to=RoomColor.WHITE, pos=Position(8,12)),
@@ -92,11 +110,17 @@ class World:
                 },
             hex_color = "#E53935",
             name = "Roten Raum",
+            direction_edge = {
+                Directions.NORTH: Edge.RIGHT_TOP,
+                Directions.EAST: Edge.RIGHT_BACK,
+                Directions.SOUTH: Edge.RIGHT_BOTTOM,
+                Directions.WEST: Edge.FRONT_RIGHT
+            },
             neighbors = {
-                Directions.NORTH: RoomColor.WHITE,
-                Directions.EAST: RoomColor.BLUE,
-                Directions.SOUTH: RoomColor.YELLOW,
-                Directions.WEST: RoomColor.GREEN
+                Edge.RIGHT_TOP: RoomColor.WHITE,
+                Edge.RIGHT_BACK: RoomColor.BLUE,
+                Edge.RIGHT_BOTTOM: RoomColor.YELLOW,
+                Edge.FRONT_RIGHT: RoomColor.GREEN
             },
             doors = {
                 Directions.NORTH: Door(leads_to=RoomColor.WHITE, pos=Position(15,12)),
@@ -115,11 +139,17 @@ class World:
                 },
             hex_color = "#1976D2",
             name = "Blauen Raum",
+            direction_edge = {
+                Directions.NORTH: Edge.BACK_TOP,
+                Directions.EAST: Edge.LEFT_BACK,
+                Directions.SOUTH: Edge.BOTTOM_BACK,
+                Directions.WEST: Edge.RIGHT_BACK
+            },
             neighbors = {
-                Directions.NORTH: RoomColor.WHITE,
-                Directions.EAST: RoomColor.ORANGE,
-                Directions.SOUTH: RoomColor.YELLOW,
-                Directions.SOUTH: RoomColor.RED
+                Edge.BACK_TOP: RoomColor.WHITE,
+                Edge.LEFT_BACK: RoomColor.ORANGE,
+                Edge.BOTTOM_BACK: RoomColor.YELLOW,
+                Edge.RIGHT_BACK: RoomColor.RED
             },
             doors = {
                 Directions.NORTH: Door(leads_to=RoomColor.WHITE, pos=Position(21,12)),
@@ -138,11 +168,17 @@ class World:
                 },
             hex_color = "#FF9800",
             name = "Orangen Raum",
+            direction_edge = {
+                Directions.NORTH: Edge.RIGHT_TOP, 
+                Directions.EAST: Edge.FRONT_RIGHT,
+                Directions.SOUTH: Edge.BOTTOM_BACK,
+                Directions.WEST: Edge.LEFT_BACK
+            },
             neighbors = {
-                Directions.NORTH: RoomColor.WHITE,
-                Directions.EAST: RoomColor.GREEN,
-                Directions.SOUTH: RoomColor.YELLOW,
-                Directions.WEST: RoomColor.BLUE
+                Edge.RIGHT_TOP: RoomColor.WHITE,
+                Edge.FRONT_RIGHT: RoomColor.GREEN,
+                Edge.BOTTOM_BACK: RoomColor.YELLOW,
+                Edge.LEFT_BACK: RoomColor.BLUE
             },
             doors = {
                 Directions.NORTH: Door(leads_to=RoomColor.WHITE, pos=Position(3,12)),
@@ -171,13 +207,13 @@ class World:
             room.pos = new_pos
 
 
-    def _lookup_neighbor(self, room, direction):
+    #def _lookup_neighbor(self, room, direction):
         neighbor = room.neighbors.get(direction)
         if neighbor is None:
             return None
         return neighbor
     
-    def map(self, room):
+    #def map(self, room):
         front = room
         left = self.map_dict[self._lookup_neighbor(room, Directions.WEST)]
         right = self.map_dict[self._lookup_neighbor(room, Directions.EAST)]
@@ -212,7 +248,7 @@ class World:
         # Use RoomColor.ENUM as key to return Room object from map_dict{}
         next_room = self.game_context.world.map_dict.get(next_room_color)
         # Update direction player is looking
-        self.game_context.player.direction = direction
+        #self.game_context.player.direction = direction
         # Update Room where player is located now 
         self.game_context.player.current_room = next_room
         

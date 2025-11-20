@@ -31,7 +31,7 @@ class InfrontDoorString(Enum):
 
 class RoomEntranceString(Enum):
     STRING = (
-                "--- Du öffnest die Tür und gehst einen Schritt in Richtung {player_direction} ---\n",
+                "--- Du öffnest die Tür und gehst hindurch ---\n",
                 "--- Du betrittst den {current_room} ---",
             )
 
