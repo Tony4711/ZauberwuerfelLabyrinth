@@ -3,10 +3,8 @@ from rich.panel import Panel
 from rich.align import Align
 from rich.text import Text
 from rich.table import Table
-
 from rich import box
 from rich import print
-from enums.geometry import Directions
 
 class RichConsole:
 

@@ -10,10 +10,10 @@ class CommandTag(Enum):
 
 class Command(TaggedEnum):
 
-    MOVE_NORTH = ("w", CommandTag.MOVEMENT)
-    MOVE_WEST = ("a", CommandTag.MOVEMENT)
-    MOVE_SOUTH = ("s", CommandTag.MOVEMENT)
-    MOVE_EAST = ("d", CommandTag.MOVEMENT) 
+    MOVE_FORWARD = ("w", CommandTag.MOVEMENT)
+    TURN_LEFT = ("a", CommandTag.MOVEMENT)
+    MOVE_BACK = ("s", CommandTag.MOVEMENT)
+    TURN_RIGHT = ("d", CommandTag.MOVEMENT) 
     OP1 = ("1", CommandTag.OPTION)
     OP2 = ("2", CommandTag.OPTION)
     OP3 = ("3", CommandTag.OPTION)

@@ -11,6 +11,7 @@ routing = {
         RouterSignal.SHOW_START: Display.START_TEXT,
         RouterSignal.SHOW_EXIT_CONFIRMED: Display.EXIT_CONFIRMED_TEXT,
         RouterSignal.SHOW_MOVE: Display.MOVE_TEXT,
+        RouterSignal.SHOW_TURN: Display.TURN_TEXT,
         RouterSignal.SHOW_WALL: Display.WALL_TEXT,
         RouterSignal.SHOW_INFRONT_DOOR: Display.INFRONT_DOOR_TEXT,
         RouterSignal.SHOW_ROOM_ENTRANCE: Display.ROOM_ENTRANCE_TEXT,

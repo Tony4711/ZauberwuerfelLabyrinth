@@ -3,8 +3,8 @@ from enums.geometry import Directions
 import operator
 
 command_direction = {
-            Command.MOVE_NORTH: (Directions.NORTH, operator.le),
-            Command.MOVE_EAST: (Directions.EAST, operator.le),
-            Command.MOVE_SOUTH: (Directions.SOUTH, operator.ge),
-            Command.MOVE_WEST: (Directions.WEST, operator.ge) 
+            Command.MOVE_FORWARD: (Directions.FORWARD, operator.le),
+            Command.TURN_RIGHT: (Directions.RIGHT, operator.le),
+            Command.MOVE_BACK: (Directions.BACK, operator.ge),
+            Command.TURN_LEFT: (Directions.LEFT, operator.ge) 
             }

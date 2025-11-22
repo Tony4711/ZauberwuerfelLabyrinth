@@ -31,10 +31,11 @@ class PlayerState(Enum):
 
     INIT = auto()
     MOVE = auto()
+    TURN = auto()
     STAND = auto()
     WALL = auto()
     DOOR = auto()
-    GO_DOOR = auto()
+    ROOM_ENTRANCE = auto()
 
 class DisplayState(Enum):
     

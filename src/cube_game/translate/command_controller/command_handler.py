@@ -18,12 +18,13 @@ def handler():
     },
     CommandHandler.MOVEMENT_COMMAND: {
         (
-            Command.MOVE_EAST, 
-            Command.MOVE_NORTH, 
-            Command.MOVE_SOUTH, 
-            Command.MOVE_WEST
-        )                       : MovementHandler.MOVE_STRAIGHT
+            Command.MOVE_FORWARD, 
+            Command.MOVE_BACK
+        )                       : MovementHandler.MOVE,
+        (
+            Command.TURN_LEFT,
+            Command.TURN_RIGHT
+        )                       : MovementHandler.TURN
     }
-}
-    
+}    
 

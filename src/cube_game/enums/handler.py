@@ -13,4 +13,5 @@ class MenuOptionHandler(Enum):
 
 class MovementHandler(Enum):
     
-    MOVE_STRAIGHT = auto()
+    MOVE = auto()
+    TURN = auto()

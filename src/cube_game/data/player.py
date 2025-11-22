@@ -7,7 +7,7 @@ from enums.geometry import Directions
 class Player:
 
     name: str
-    direction: Directions
+    facing: Directions
     current_room: Room | None = None
     pos: Position = field(default_factory=lambda: Position(7,7)) 
     

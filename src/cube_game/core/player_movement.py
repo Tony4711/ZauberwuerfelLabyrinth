@@ -22,34 +22,23 @@ class PlayerMovement:
         # axis function for room position at corner
         room_axis_val   = axis_func(self.game_context.player.current_room.pos[corner])
         # try to find a door at the direction the player is facing and store it as local variable
-        door = self.game_context.world.get_door(direction)
-        #print(f"Door: {self.player.current_room.doors[direction].pos}")
+        door = self.game_context.world.get_door()
         # Compare player position with borders of current room before moving
         if op(player_axis_val, room_axis_val):
             self.game_context.player.pos.move(dx,dy)
-            self.game_context.player.direction = direction
-            #print(f"Player: {self.player.pos}") #---DEBUG PRINT---
-            #print(f"Room: {self.player.current_room.pos[corner]}") #---DEBUG PRINT---
-            if self.game_context.world.door_infront(direction):
-                self.game_context.player.pos.move(dx,dy)
-                return PlayerState.DOOR
-            else:
-                return PlayerState.MOVE
-        elif door is not None and self.game_context.player.pos == door.pos:
-            self.cube_rotation(direction)
-            self.game_context.world.change_room(direction)
-            ##CHORE instead of moving player one step, relocate player at the door pos of next room
-            self.game_context.player.pos.move(dx,dy)
-            ##BUG current wrap around does not work with three dimensional cube, should get unneccesary after CHORE is done
-            self.game_context.world.cube_wrap_around()
-            #print(f"Player: {self.player.pos}") #---DEBUG PRINT---
-            return PlayerState.GO_DOOR
+            self.game_context.player.facing = direction
+            print(f"Player: {self.game_context.player.pos}") #---DEBUG PRINT---
+            #print(f"Room: {self.game_context.player.current_room.doors[direction]}") #---DEBUG PRINT---
+            return PlayerState.MOVE
+        elif self.game_context.world.has_door():
+            self.game_context.world.change_room(door)
+            #print(f"Player after room switch: {self.game_context.player.pos}") #---DEBUG PRINT---
+            #print(f"Player direction: {self.game_context.player.direction}") #---DEBUG PRINT---
+            return PlayerState.ROOM_ENTRANCE
         else:
             return PlayerState.WALL
-
-    def cube_rotation(self, direction):
-        edge = self.game_context.player.current_room.direction_edge[direction]
-        if edge.value == None:
-            self.game_context.player.direction = direction
-        else:
-            self.game_context.player.direction = edge.value
+    
+    def turn_player(self, directional_command):
+        direction , op = self.game_context.command_to_direction[directional_command]
+        self.game_context.player.facing = direction
+        return PlayerState.TURN

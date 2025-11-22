@@ -12,7 +12,10 @@ class StartString(Enum):
     STRING = ("--- Spiel wird gestartet ---",)
 
 class MoveString(Enum):
-    STRING = ("--- Du gehst einen Schritt nach {player_direction} ---",)
+    STRING = ("--- Du gehst einen Schritt {player_direction} ---",)
+
+class TurnString(Enum):
+    STRING = ("--- Du drehst dich nach {player_direction}---",)
 
 class WallString(Enum):
     STRING = ("--- Du stößt gegen eine Wand ---",)
@@ -31,8 +34,8 @@ class InfrontDoorString(Enum):
 
 class RoomEntranceString(Enum):
     STRING = (
-                "--- Du öffnest die Tür und gehst hindurch ---\n",
-                "--- Du betrittst den {current_room} ---",
+                "--- Du gehst durch eine Tür und betrittst ---\n",
+                "--- den {current_room} ---",
             )
 
 class InputExceptionString(Enum):
@@ -51,6 +54,7 @@ class Display(Enum):
     EXIT_MENU_TEXT = ExitMenuString
     EXIT_CONFIRMED_TEXT = ExitConfirmedString
     MOVE_TEXT = MoveString
+    TURN_TEXT = TurnString
     WALL_TEXT = WallString
     INFRONT_DOOR_TEXT = InfrontDoorString
     ROOM_ENTRANCE_TEXT = RoomEntranceString

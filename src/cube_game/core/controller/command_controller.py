@@ -33,9 +33,9 @@ class CommandController:
         if handler_key == CommandHandler.MOVEMENT_COMMAND:
             for command_tuple, handler in command_handler_key.items():
                 if command in command_tuple:
-                    movement_key = handler
+                    movement_handler_key = handler
             # This key is then used to return a callable of move_player method
-            handler = self.game_context.movement_handler.get(movement_key)
+            handler = self.game_context.movement_handler.get(movement_handler_key)
             # Call move method with command
             return handler(command)
         

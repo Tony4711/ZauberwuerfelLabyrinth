@@ -10,6 +10,7 @@ class RouterSignal(Enum):
     SHOW_EXIT_MENU = auto()
     SHOW_EXIT_CONFIRMED = auto()
     SHOW_MOVE = auto()
+    SHOW_TURN = auto()
     SHOW_WALL = auto()
     SHOW_INFRONT_DOOR = auto() 
     SHOW_ROOM_ENTRANCE = auto()
