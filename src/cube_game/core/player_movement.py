@@ -8,8 +8,8 @@ from enums.geometry import Moved
 
 class PlayerMovement:
 
-    def __init__(self, gameContext):
-        self.game_context = gameContext
+    def __init__(self, game_context):
+        self.game_context = game_context
     
     # Movement method with steps for each direction.
     def move_player(self, directional_command):
@@ -40,12 +40,15 @@ class PlayerMovement:
         # Compare player position with borders of current room before moving
         if op(player_axis_val, room_axis_val):
             self.game_context.player.pos.move(dx,dy)
-            print(f"Player: {self.game_context.player.pos}") #---DEBUG PRINT---
+            #print(f"Player: {self.game_context.player.pos}") #---DEBUG PRINT---
             #print(f"Room: {self.game_context.player.current_room.doors[direction]}") #---DEBUG PRINT---
             return PlayerState.MOVE
         elif self.game_context.world.has_door():
+            if door.entry_facing:
+                self.game_context.player.facing = door.entry_facing
             self.game_context.world.change_room(door)
-            print(f"Player: {self.game_context.player.pos}") #---DEBUG PRINT---
+            self.game_context.player
+            #print(f"Player: {self.game_context.player.pos}") #---DEBUG PRINT---
             #print(f"Player after room switch: {self.game_context.player.pos}") #---DEBUG PRINT---
             #print(f"Player direction: {self.game_context.player.direction}") #---DEBUG PRINT---
             return PlayerState.ROOM_ENTRANCE

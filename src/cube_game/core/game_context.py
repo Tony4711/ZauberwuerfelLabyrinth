@@ -51,7 +51,6 @@ class GameContext:
         self.facing_offset = facing_offset.offset
         self.offset_corner = offset_corner.corner
         self.opposite_facing = opposite.facing
-        self.opposite_faces = opposite.faces
         self.turn_left = turn.left
         self.turn_right = turn.right
         self.facing_op = facing_op.op

@@ -5,8 +5,8 @@ from mapping import state_command
 class InputController:
 
 
-    def __init__(self, gameContext):
-        self.game_context = gameContext
+    def __init__(self, game_context):
+        self.game_context = game_context
         self.mapping = state_command.mapping
     
     def read_input(self):

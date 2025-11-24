@@ -27,8 +27,8 @@ class WindowBuffer:
 
 class Interface:
 
-    def __init__(self, gameContext):
-        self.game_context = gameContext
+    def __init__(self, game_context):
+        self.game_context = game_context
         self.window = WindowBuffer()      
 
     def format_display(self, string_tuple):

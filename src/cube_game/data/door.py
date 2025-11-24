@@ -1,4 +1,5 @@
 from enums.states import DoorState
+from enums.geometry import Facing
 from data.position import Position
 from dataclasses import dataclass, field
 
@@ -6,6 +7,7 @@ from dataclasses import dataclass, field
 class Door:
 
     leads_to: str
+    entry_facing: Facing | None = None
     key_req: bool = False
     state: DoorState = DoorState.OPEN
     pos: Position = field(default_factory=lambda: Position(-1,-1))
