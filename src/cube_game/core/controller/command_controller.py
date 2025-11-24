@@ -13,7 +13,7 @@ class CommandController:
     # Begins with sorting the command by commandTag, which divides comments into categories.
     def command_handler(self, command):
         # Retrieve a signal from dict whichs matches with the command tag
-        signal = self.game_context.commandtag_to_signal.get(command.tag)
+        signal = self.game_context.commandtag_signal.get(command.tag)
         # Use that signal to get the key for the next dict
         handler_key = self.game_context.command_router.get(signal)
         # handlerKey is now a command interpret by its tag which than got forwarded by a router to handle the command based on its categorie

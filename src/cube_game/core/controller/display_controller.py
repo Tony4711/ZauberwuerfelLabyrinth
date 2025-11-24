@@ -29,22 +29,22 @@ class DisplayController:
             func()
 
     def _game_state_handler(self, game_state):
-        signal = self.game_context.game_to_signal.get(game_state)
+        signal = self.game_context.game_state_signal.get(game_state)
         key = self.game_context.interface_router.get(signal)
         self.game_context.interface.format_display(key.string)
 
     def _player_state_handler(self, player_state):   
-        signal = self.game_context.player_to_signal.get(player_state)
+        signal = self.game_context.player_state_signal.get(player_state)
         key = self.game_context.interface_router.get(signal)
         self.game_context.interface.format_display(key.string)
 
     def _menu_state_handler(self, menu_state):
-        signal = self.game_context.menu_to_signal.get(menu_state)
+        signal = self.game_context.menu_state_signal.get(menu_state)
         menu = self.game_context.interface_router.get(signal)
         self.game_context.interface.format_menu(menu, menu_state)
     
     def _system_state_handler(self, system_state):
-        signal = self.game_context.system_to_signal.get(system_state)
+        signal = self.game_context.system_state_signal.get(system_state)
         key = self.game_context.interface_router.get(signal)
         self.game_context.interface.format_display(key.string)
     

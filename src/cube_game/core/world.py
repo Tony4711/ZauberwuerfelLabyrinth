@@ -1,5 +1,5 @@
 from data.position import Position
-from enums.geometry import RoomColor, Corner, Directions, Edge, Faces
+from enums.geometry import RoomColor, Corner, Moved, Edge, Faces
 from data.door import Door
 from data.room import Room
 import random
@@ -127,9 +127,9 @@ class World:
                 Faces.BOTTOM
             ],
             doors = [
-                Door(leads_to = Faces.TOP, pos=Position(21,6)),
+                Door(leads_to = Faces.TOP, pos=Position(21,12)),
                 Door(leads_to = Faces.LEFT, pos=Position(24,8)),
-                Door(leads_to = Faces.BOTTOM, pos=Position(21,12)),
+                Door(leads_to = Faces.BOTTOM, pos=Position(21,6)),
                 Door(leads_to = Faces.RIGHT, pos=Position(18,8))
             ]
         )
@@ -207,8 +207,6 @@ class World:
         next_room = self.game_context.world.map_dict.get(next_room_face)
         # Update Room where player is located now
         self.game_context.player.pos = self.get_entry_pos(next_room)
-        # Update direction player is looking to face for forward to the middle of the room
-        self.game_context.player.direction = Directions.FORWARD
         # Update room the player is currently inside
         self.game_context.player.current_room = next_room
 

@@ -2,7 +2,7 @@ from enums.routing import RouterSignal
 from enums.display import Display, DisplayNavigation
 from enums.menus import Menus
 
-routing = {
+router = {
         RouterSignal.SHOW_MAIN_MENU: Menus.MAIN,
         RouterSignal.SHOW_EXIT_MENU: Menus.EXIT,
         RouterSignal.SHOW_MAP: Display.MAP_TEXT,

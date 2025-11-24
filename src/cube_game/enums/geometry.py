@@ -1,11 +1,19 @@
 from enum import Enum, auto
 
-class Directions(Enum):
+class Moved(Enum):
 
-    FORWARD = "geradeaus"
     RIGHT = "rechts"
-    BACK = "zurück"
     LEFT = "links"
+    BACK = "hinten"
+    FORWARD = "vorn"
+    NONE = "none"
+
+class Facing(Enum):
+    
+    NORTH = "Norden"
+    EAST = "Osten"
+    SOUTH = "Süden"
+    WEST = "Westen"
 
 class RoomColor(Enum):
     

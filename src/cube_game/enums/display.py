@@ -12,10 +12,10 @@ class StartString(Enum):
     STRING = ("--- Spiel wird gestartet ---",)
 
 class MoveString(Enum):
-    STRING = ("--- Du gehst einen Schritt {player_direction} ---",)
+    STRING = ("--- Du gehst einen Schritt nach {player_moved} ---",)
 
 class TurnString(Enum):
-    STRING = ("--- Du drehst dich nach {player_direction}---",)
+    STRING = ("--- Du drehst dich nach {player_moved}---",)
 
 class WallString(Enum):
     STRING = ("--- Du stößt gegen eine Wand ---",)
@@ -28,7 +28,7 @@ class ExitConfirmedString(Enum):
 
 class InfrontDoorString(Enum):
     STRING = (
-            "--- Du gehst einen Schritt nach {player_direction} ---\n",
+            "--- Du gehst einen Schritt nach {player_facing} ---\n",
             "---- Du stehst vor einer Tür ---",
             )
 
