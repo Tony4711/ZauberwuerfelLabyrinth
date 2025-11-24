@@ -13,7 +13,7 @@ from data.player import Player
 from data.position import Position
 from translate.command_controller import command_handler, command_router, movement_handler, menu_handler, commandtag_router_signal
 from translate import opposite, turn, facing_op, facing_offset, offset_corner
-from translate.interface import interface_router, game_state_router_signal, menu_state_router_signal, player_state_router_signal, system_state_router_signal
+from translate.Interface import interface_router, game_state_router_signal, menu_state_router_signal, player_state_router_signal, system_state_router_signal
 from template import interface
 from mapping import state_command
 

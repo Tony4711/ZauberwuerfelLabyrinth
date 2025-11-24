@@ -204,19 +204,18 @@ class World:
         return neighbor
     
     def map(self, room):
-        # front = room
-        # left = self.map_dict[self._lookup_neighbor(room, Directions.LEFT)]
-        # right = self.map_dict[self._lookup_neighbor(room, Directions.RIGHT)]
-        # top = self.map_dict[self._lookup_neighbor(room, Directions.FRONT)]
-        # down = self.map_dict[self._lookup_neighbor(room, Directions.BACK)]
-        # back = self.map_dict[self._lookup_neighbor(self.map_dict.get(right.color), Directions.RIGHT)]
-        # gap = ""
-        # upper = [gap, top, gap, gap]
-        # middle = [left, front, right, back]
-        # lower = [gap, down, gap, gap]
-        # map = [upper, middle, lower]
-        # return map
-        pass
+        front = room
+        left = self.left_room
+        right = self.right_room
+        top = self.top_room
+        bottom  = self.bottom_room
+        back = self.back_room
+        gap = ""
+        upper = [gap, top, gap, gap]
+        middle = [left, front, right, back]
+        lower = [gap, bottom, gap, gap]
+        map = [upper, middle, lower]
+        return map
 
 
     # Change room in wich player is located based on the neighbor room at the direction the player is facing
