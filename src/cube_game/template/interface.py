@@ -1,11 +1,12 @@
 from enums.commands import Command
+from enums.geometry import Moved
 
 def template(game_context):
     return {
-            "MOVE_NORTH": "Gehe nach Norden",
-            "MOVE_WEST": "Gehe nach Westen",
-            "MOVE_SOUTH": "Gehe nach Süden",
-            "MOVE_EAST": "Gehe nach Osten",
+            "MOVE_FORWARD": f"Einen Schritt nach {Moved.FORWARD.value}",
+            "TURN_LEFT": f"Drehe dich nach {Moved.LEFT.value}",
+            "MOVE_BACK": f"Einen Schritt nach {Moved.BACK.value}",
+            "TURN_RIGHT": f"Drehe dich nach {Moved.RIGHT.value}",
             "OPEN_MAP": "Karte öffnen",
             "NAVIGATION": "Steuerung anzeigen",
             "SHUFFLE_MAP": "Räume mischen",

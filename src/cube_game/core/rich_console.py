@@ -62,12 +62,10 @@ class RichConsole:
                 else: 
                     row_cells.append( 
                         Panel( 
-                            self.build_coord_grid(6), 
+                            self.build_coord_grid(6),
                             box = box.MINIMAL, 
                             style= f"on {face.hex_color}", 
-                            width = face_size * 2, 
-                            height = face_size, 
-                            expand = True, 
+                            expand = False, 
                             padding = 0
                         ) 
                     ) 
@@ -78,12 +76,12 @@ class RichConsole:
         table = Table( 
             show_header=False, 
             show_lines=True, 
-            padding=0, # kein Zellen-Padding 
-            pad_edge=False, # kein Rand außen 
+            padding=0, 
+            pad_edge=False,
             box=box.DOUBLE, 
-            expand=True, 
+            expand=False, 
             border_style="black",
-            min_width=34, 
+            width = size * 5
         ) 
         for _ in range(size): 
             table.add_column() 

@@ -190,18 +190,11 @@ class World:
     
     def shuffle_map(self):
         room_pos = []
-        for key, value in self.map_dict.items():
-            room_pos.append(value.pos)
+        for faces, room in self.map_dict.items():
+            room_pos.append(room.pos)
         random.shuffle(room_pos)
-        for (color, room), new_pos in zip(self.map_dict.items(), room_pos):
+        for (faces, room), new_pos in zip(self.map_dict.items(), room_pos):
             room.pos = new_pos
-
-
-    def _lookup_neighbor(self, room, direction):
-        neighbor = room.neighbors.get(direction)
-        if neighbor is None:
-            return None
-        return neighbor
     
     def map(self, room):
         front = room
