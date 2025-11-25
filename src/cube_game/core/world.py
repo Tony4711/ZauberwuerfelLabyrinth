@@ -188,13 +188,17 @@ class World:
             Faces.RIGHT: self.right_room
         }
     
-    def shuffle_map(self):
-        room_pos = []
-        for faces, room in self.map_dict.items():
-            room_pos.append(room.pos)
-        random.shuffle(room_pos)
-        for (faces, room), new_pos in zip(self.map_dict.items(), room_pos):
-            room.pos = new_pos
+    def shuffle_room_color(self):
+        room_colors = []
+        color_theme = []
+        for _ , room in self.map_dict.items():
+            color_theme = [room.color, room.hex_color, room.name]
+            room_colors.append(color_theme)
+        random.shuffle(room_colors)
+        for (_ , room), (color, hex_color, name)  in zip(self.map_dict.items(), room_colors):
+            room.color = color
+            room.hex_color = hex_color
+            room.name = name
     
     def map(self, room):
         front = room

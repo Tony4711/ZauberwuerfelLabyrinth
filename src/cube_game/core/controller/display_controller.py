@@ -22,7 +22,7 @@ class DisplayController:
         handler = {
             DisplayState.NAVIGATION: self.game_context.interface.format_navigation,
             DisplayState.MAP: self.game_context.interface.format_map,
-            DisplayState.SHUFFLE_MAP: self.game_context.interface.shuffle_map
+            DisplayState.SHUFFLE_MAP: self.game_context.interface.shuffle_room_color
         }
         func = handler.get(display_state)
         if func:
