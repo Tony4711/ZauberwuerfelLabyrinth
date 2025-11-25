@@ -14,7 +14,6 @@ venv/
 # Worspace Dateien
 *.code-workspace
 
-
 # Logs und temporäre Dateien
 *.log
 *.tmp
@@ -28,3 +27,8 @@ Thumbs.db
 docs/vs_guide.md
 
 *.code-workspace
+
+# PyInstaller
+dist/
+build/
+*.spec
