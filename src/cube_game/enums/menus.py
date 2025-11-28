@@ -4,7 +4,7 @@ class MainMenu(Enum):
 
     OPTION1 = "Spiel Starten"
     OPTION2 = "Spiel Beenden"
-    OPTION3 = "Steuerung"
+    OPTION3 = "Spielanleitung"
 
 class ExitMenu(Enum):
 

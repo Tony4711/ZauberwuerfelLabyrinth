@@ -43,3 +43,4 @@ class DisplayState(Enum):
     MAP = "Karte"
     NAVIGATION = "Steuerungen"
     SHUFFLE_MAP = "Mischen"
+    HOWTO = "Spielanleitung"

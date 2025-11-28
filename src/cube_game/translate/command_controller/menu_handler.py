@@ -6,7 +6,7 @@ menu_option = {
     MenuOptionHandler.MAIN: {
         Command.OP1: GameState.PLAYING,
         Command.OP2: MenuState.EXIT,
-        Command.OP3: DisplayState.NAVIGATION
+        Command.OP3: DisplayState.HOWTO
     },
     MenuOptionHandler.EXIT: {
         Command.OP1: GameState.EXIT,

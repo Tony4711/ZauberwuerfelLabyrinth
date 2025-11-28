@@ -13,7 +13,7 @@ from data.player import Player
 from data.position import Position
 from translate.command_controller import command_handler, command_router, movement_handler, menu_handler, commandtag_router_signal
 from translate import opposite, turn, facing_op, facing_offset, offset_corner
-from translate.interface import interface_router, game_state_router_signal, menu_state_router_signal, player_state_router_signal, system_state_router_signal
+from translate.interface import interface_router, game_state_router_signal, menu_state_router_signal, player_state_router_signal, system_state_router_signal, display_state_router_signal
 from template import interface
 from mapping import state_command
 
@@ -56,11 +56,12 @@ class GameContext:
         self.facing_op = facing_op.op
 
         # Translate Interface
-        self.interface_router = interface_router.router
+        self.interface_router = interface_router.router(self)
         self.menu_state_signal = menu_state_router_signal.router_signal
         self.game_state_signal = game_state_router_signal.router_signal
         self.player_state_signal = player_state_router_signal.router_signal
         self.system_state_signal = system_state_router_signal.router_signal
+        self.display_state_signal = display_state_router_signal.router_signal
 
         # Template
         self.template = interface.template

@@ -46,6 +46,11 @@ class MapString(Enum):
                 "--- Die Karte des Zauberwürferl Labyrinths ---",
             )
 
+class HowToString(Enum):
+    STRING = (
+                "--- Anleitung ---",
+    )
+
 class Display(Enum):
 
     HELLO_TEXT = HelloString
@@ -59,6 +64,8 @@ class Display(Enum):
     INFRONT_DOOR_TEXT = InfrontDoorString
     ROOM_ENTRANCE_TEXT = RoomEntranceString
     INPUT_EXCEPTION_TEXT = InputExceptionString
+    HOWTO_TEXT = HowToString
+    
 
     @property
     def string(self):
@@ -68,9 +75,3 @@ class Display(Enum):
 class NavMenu(Enum):
     ALL = Command
 
-
-class DisplayNavigation(Enum):
-
-    NAVIGATION = auto()
-    ALL_NAVIGATION = auto()
-    

@@ -1,5 +1,5 @@
 from enums.commands import Command
-from enums.states import DisplayState
+from enums.states import DisplayState, GameState
 from enums.display import Display
 import os
 
@@ -52,7 +52,9 @@ class Interface:
         self.game_context.console.render_menu_table(title,lines)
     
     def format_navigation(self):
-        state = self.game_context.previous_state
+        state = self.game_context.state_controller.game_stack._current_state_stack()
+        if state == GameState.MENU: 
+            state = self.game_context.state_controller.menu_stack._current_state_stack()
         trans_enum = self.game_context.template(self.game_context)
         title = f"--- {DisplayState.NAVIGATION.value} ---"
         lines = None

@@ -15,9 +15,12 @@ class RouterSignal(Enum):
     SHOW_INFRONT_DOOR = auto() 
     SHOW_ROOM_ENTRANCE = auto()
     SHOW_INPUT_EXCEPTION = auto()
-    SHOW_ALL_NAVIGATION = auto()
+    SHOW_HOWTO = auto()
     META_HANDLER = auto()
     MOVEMENT_HANDLER = auto()
     OPTION_HANDLER = auto()
+    NAVIGATION_FUNCTION = auto()
+    MAP_FUNCTION = auto()
+    SHUFFLE_FUNCTION = auto()
     
 

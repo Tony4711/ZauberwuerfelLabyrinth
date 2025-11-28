@@ -19,12 +19,8 @@ class DisplayController:
             func(state)
 
     def _display_state_handler(self, display_state):
-        handler = {
-            DisplayState.NAVIGATION: self.game_context.interface.format_navigation,
-            DisplayState.MAP: self.game_context.interface.format_map,
-            DisplayState.SHUFFLE_MAP: self.game_context.interface.shuffle_room_color
-        }
-        func = handler.get(display_state)
+        signal = self.game_context.display_state_signal.get(display_state)
+        func = self.game_context.interface_router.get(signal)
         if func:
             func()
 
@@ -40,8 +36,8 @@ class DisplayController:
 
     def _menu_state_handler(self, menu_state):
         signal = self.game_context.menu_state_signal.get(menu_state)
-        menu = self.game_context.interface_router.get(signal)
-        self.game_context.interface.format_menu(menu, menu_state)
+        key = self.game_context.interface_router.get(signal)
+        self.game_context.interface.format_menu(key, menu_state)
     
     def _system_state_handler(self, system_state):
         signal = self.game_context.system_state_signal.get(system_state)
