@@ -1,8 +1,9 @@
-from enums.states import DisplayState
+from enums.states import DisplayFunction
 from enums.routing import RouterSignal
 
 router_signal = {
-            DisplayState.NAVIGATION: RouterSignal.NAVIGATION_FUNCTION,
-            DisplayState.MAP: RouterSignal.MAP_FUNCTION,
-            DisplayState.SHUFFLE_MAP: RouterSignal.SHUFFLE_FUNCTION,
+            DisplayFunction.NAVIGATION: RouterSignal.NAVIGATION_FUNCTION,
+            DisplayFunction.MAP: RouterSignal.MAP_FUNCTION,
+            DisplayFunction.SHUFFLE_MAP: RouterSignal.SHUFFLE_FUNCTION,
+            DisplayFunction.INSTRUCTION: RouterSignal.SHOW_INSTRUCTION,
         }

@@ -1,4 +1,4 @@
-from enums.states import MenuState, GameState, DisplayState, SystemState, DoorState, PlayerState
+from enums.states import MenuState, GameState, DisplayFunction, SystemState, DoorState, PlayerState
 
 class DisplayController:
 
@@ -7,7 +7,7 @@ class DisplayController:
 
     def state_handler(self, state):
         handler = {
-            DisplayState: self._display_state_handler,
+            DisplayFunction: self._display_function_state_handler,
             SystemState: self._system_state_handler,
             PlayerState: self._player_state_handler,
             MenuState: self._menu_state_handler,
@@ -18,8 +18,8 @@ class DisplayController:
         if func:
             func(state)
 
-    def _display_state_handler(self, display_state):
-        signal = self.game_context.display_state_signal.get(display_state)
+    def _display_function_state_handler(self, display_function_state):
+        signal = self.game_context.display_state_signal.get(display_function_state)
         func = self.game_context.interface_router.get(signal)
         if func:
             func()

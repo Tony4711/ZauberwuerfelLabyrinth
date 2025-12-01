@@ -20,13 +20,13 @@ class GameState(Enum):
     IDLE = "Ruhend"
     MENU = "Menu"
     BACK = "Zurück"
-    
+
 class MenuState(Enum):
 
     MAIN = "Hauptmenu"
     SETTINGS = "Einstellungen"
     EXIT = "Beenden"
-
+    
 class PlayerState(Enum):
 
     INIT = auto()
@@ -36,11 +36,16 @@ class PlayerState(Enum):
     WALL = auto()
     DOOR = auto()
     ROOM_ENTRANCE = auto()
+    BLOCKED = auto()
+    PICKUP_ITEM = auto()
+    REMOVE_ITEM = auto()
+    INVALID_ITEM = auto()
+    DOOR_UNLOCKED = auto()
 
-class DisplayState(Enum):
+class DisplayFunction(Enum):
     
     INIT = "INIT"
     MAP = "Karte"
     NAVIGATION = "Steuerungen"
     SHUFFLE_MAP = "Mischen"
-    HOWTO = "Spielanleitung"
+    INSTRUCTION = "Spielanleitung"

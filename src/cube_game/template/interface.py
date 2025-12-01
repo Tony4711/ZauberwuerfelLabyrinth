@@ -26,6 +26,5 @@ def template(game_context):
             "navigation_command": f"[yellow]{Command.NAVIGATION.value.upper()}[/]",
             "player_facing": game_context.player.facing.value,
             "player_moved": game_context.player.moved.value,
-            "current_room": game_context.player.current_room.name,
-            #"map": game_context.world.map(game_context.starting_room)
+            "object": game_context.interaction_context.target_object.value,
         }

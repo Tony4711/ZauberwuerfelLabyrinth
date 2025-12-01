@@ -1,4 +1,4 @@
-from enums.states import MenuState, DisplayState
+from enums.states import MenuState, DisplayFunction
 from enums.routing import RouterSignal
 
 router_signal = {

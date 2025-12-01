@@ -1,14 +1,18 @@
 from enums.system import LoopSignal
 from enums.geometry import Facing, Moved
 from enums.states import GameState
-from core.player_movement import PlayerMovement
-from core.interface import Interface
+from enums.objects import ItemID
+from core.game.player_movement import PlayerMovement
+from core.game.items import Items
+from core.ui.interface import Interface
 from core.controller.input_controller import InputController
 from core.controller.state_controller import StateController
 from core.controller.command_controller import CommandController
 from core.controller.display_controller import DisplayController
-from core.world import World
-from core.rich_console import RichConsole
+from core.model.world import World
+from core.ui.rich_console import RichConsole
+from core.game.interaction import Interaction
+from core.model.interaction_context import InteractionContext
 from data.player import Player
 from data.position import Position
 from translate.command_controller import command_handler, command_router, movement_handler, menu_handler, commandtag_router_signal
@@ -28,6 +32,8 @@ class GameContext:
         self.player_movement = PlayerMovement(self)
         self.interface = Interface(self)
         self.console = RichConsole()
+        self.interaction = Interaction(self)
+        self.items = Items(self) 
 
         # Game Objects
         self.world = World(self)
@@ -69,9 +75,14 @@ class GameContext:
         # Mapping
         self.state_command = state_command.mapping
 
+        # Interaction Context
+        self.interaction_context = InteractionContext(self)
+
+        # Inventory
+        self.player.inventory.add_item(self.items.key_top_room)
+
     
     def _new_player(self):
-        return Player("Garry", Facing.NORTH, Moved.NONE, self.world.starting_room, Position(8,10))
-
+        return Player(name="Garry", facing=Facing.NORTH, moved=Moved.NONE, current_room=self.world.starting_room, pos=Position(8,10))
 
 

@@ -17,12 +17,12 @@ class Facing(Enum):
 
 class RoomColor(Enum):
     
-    YELLOW = "Gelb"
-    WHITE = "Weiß"
-    GREEN = "Grün"
-    ORANGE = "Orange"
-    BLUE = "Blau"
-    RED = "Rot"
+    YELLOW = "Gelben"
+    WHITE = "Weißen"
+    GREEN = "Grünen"
+    ORANGE = "Orangenen"
+    BLUE = "Blauen"
+    RED = "Roten"
     
 class Corner(Enum):
 

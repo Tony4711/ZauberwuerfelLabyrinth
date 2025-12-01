@@ -1,4 +1,4 @@
-from enums.states import GameState, MenuState, PlayerState, DoorState, SystemState, DisplayState
+from enums.states import GameState, MenuState, PlayerState, DoorState, SystemState, DisplayFunction
 from enums.system import LoopSignal
 
 class StateStack:
@@ -44,7 +44,7 @@ class SystemStack(StateStack):
 class DisplayStack(StateStack):
 
     def __init__(self):
-        super().__init__(DisplayState.INIT)
+        super().__init__(DisplayFunction.INIT)
 
 class StateController:
     
@@ -55,12 +55,12 @@ class StateController:
         self.player_state = PlayerState.INIT
         self.door_state = DoorState.CLOSED
         self.system_state = SystemState.OK
-        self.display_state = DisplayState.INIT
+        self.display_function_state = DisplayFunction.INIT
         self.game_stack = GameStack()
         self.menu_stack = MenuStack()
         self.player_stack = PlayerStack()
         self.system_stack = SystemStack()
-        self.display_stack = DisplayStack()
+        self.display_function_stack = DisplayStack()
         self.state_handler_dict = self._init_state_handler()
         self.exception_handler_dict = self._init_exception_handler()
     
@@ -71,7 +71,7 @@ class StateController:
             PlayerState: self._update_player,
             DoorState: self._update_door,
             SystemState: self._reset_system,
-            DisplayState: self._update_display,
+            DisplayFunction: self._update_display_function,
         }
         return state_handler
     
@@ -124,9 +124,9 @@ class StateController:
     def _update_door(self, door_state):
         self.door_state = door_state
     
-    def _update_display(self, display_state):
-        self.display_state = display_state
-        self.display_stack._push_state_stack(display_state)
+    def _update_display_function(self, display_state):
+        self.display_function_state = display_state
+        self.display_function_stack._push_state_stack(display_state)
         return display_state
 
     def _reset_system(self, system_state):

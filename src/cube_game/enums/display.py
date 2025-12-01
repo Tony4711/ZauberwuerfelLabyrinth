@@ -35,7 +35,7 @@ class InfrontDoorString(Enum):
 class RoomEntranceString(Enum):
     STRING = (
                 "--- Du gehst durch eine Tür und betrittst ---\n",
-                "--- den {current_room} ---",
+                "--- den {object} Raum ---",
             )
 
 class InputExceptionString(Enum):
@@ -46,9 +46,20 @@ class MapString(Enum):
                 "--- Die Karte des Zauberwürferl Labyrinths ---",
             )
 
-class HowToString(Enum):
+class InstructionString(Enum):
     STRING = (
-                "--- Anleitung ---",
+                "Du befindest dich in einem Labyrinth. Deine Aufgabe ist es dich durch die verschiedenen Räume des Würfels zu navigieren.",
+                "Dort erwarten dich Rätsel, die es zu lösen gilt, um den Würfel wieder in seine Korrekte anordnung zu bringen."
+    )
+
+class ClosedString(Enum):
+    STRING = (
+                "--- {object} ist verschlossen ---",
+    )
+
+class DoorUnlockedString(Enum):
+    STRING = (
+                "--- Du schließt die Tür mit dem {object} auf ---",
     )
 
 class Display(Enum):
@@ -61,10 +72,12 @@ class Display(Enum):
     MOVE_TEXT = MoveString
     TURN_TEXT = TurnString
     WALL_TEXT = WallString
+    CLOSED_TEXT = ClosedString
     INFRONT_DOOR_TEXT = InfrontDoorString
     ROOM_ENTRANCE_TEXT = RoomEntranceString
     INPUT_EXCEPTION_TEXT = InputExceptionString
-    HOWTO_TEXT = HowToString
+    INSTRUCTION_TEXT = InstructionString
+    DOOR_UNLOCKED_TEXT = DoorUnlockedString
     
 
     @property

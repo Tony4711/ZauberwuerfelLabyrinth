@@ -1,4 +1,5 @@
-from core.game_context import GameContext
+
+from core.model.game_context import GameContext
 from enums.system import LoopSignal
 
 class Main:

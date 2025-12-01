@@ -1,16 +1,16 @@
 from enums.commands import Command
-from enums.states import MenuState, GameState, DisplayState
+from enums.states import MenuState, GameState, DisplayFunction
 from enums.handler import CommandHandler, MenuOptionHandler, MovementHandler
 
 def handler():
 
     return {
     CommandHandler.META_COMMAND: {
-        Command.NAVIGATION: DisplayState.NAVIGATION,
-        Command.OPEN_MAP: DisplayState.MAP,
+        Command.NAVIGATION: DisplayFunction.NAVIGATION,
+        Command.OPEN_MAP: DisplayFunction.MAP,
         Command.BACK: GameState.BACK,
         Command.EXIT: MenuState.EXIT,
-        Command.SHUFFLE_MAP: DisplayState.SHUFFLE_MAP,
+        Command.SHUFFLE_MAP: DisplayFunction.SHUFFLE_MAP,
     },
     CommandHandler.OPTION_COMMAND: {
         MenuState.MAIN: MenuOptionHandler.MAIN,

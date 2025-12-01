@@ -1,4 +1,4 @@
-from enums.states import PlayerState
+from enums.states import PlayerState, DoorState
 from enums.commands import Command
 from enums.geometry import Moved
 
@@ -44,14 +44,10 @@ class PlayerMovement:
             #print(f"Room: {self.game_context.player.current_room.doors[direction]}") #---DEBUG PRINT---
             return PlayerState.MOVE
         elif self.game_context.world.has_door():
-            if door.entry_facing:
-                self.game_context.player.facing = door.entry_facing
-            self.game_context.world.change_room(door)
-            self.game_context.player
+            return self.game_context.interaction.door(door)
             #print(f"Player: {self.game_context.player.pos}") #---DEBUG PRINT---
             #print(f"Player after room switch: {self.game_context.player.pos}") #---DEBUG PRINT---
             #print(f"Player direction: {self.game_context.player.direction}") #---DEBUG PRINT---
-            return PlayerState.ROOM_ENTRANCE
         else:
             return PlayerState.WALL
     

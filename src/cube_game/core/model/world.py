@@ -2,6 +2,8 @@ from data.position import Position
 from enums.geometry import RoomColor, Corner, Moved, Edge, Faces, Facing
 from data.door import Door
 from data.room import Room
+from enums.states import DoorState
+from enums.objects import InteractableID
 import random
 
 class World:
@@ -31,10 +33,10 @@ class World:
                 Faces.RIGHT
             ],
             doors = [
-                Door(leads_to = Faces.FRONT, entry_facing = None, pos=Position(8,6)),
-                Door(leads_to = Faces.RIGHT, entry_facing = Facing.NORTH, pos=Position(12,4)),
-                Door(leads_to = Faces.BACK, entry_facing = Facing.NORTH, pos=Position(8,0)),
-                Door(leads_to = Faces.LEFT, entry_facing = Facing.NORTH, pos=Position(6,4))
+                Door(type = InteractableID.DOOR, leads_to = Faces.FRONT, entry_facing = None, pos=Position(8,6)),
+                Door(type = InteractableID.DOOR, leads_to = Faces.RIGHT, entry_facing = Facing.NORTH, pos=Position(12,4)),
+                Door(type = InteractableID.DOOR, leads_to = Faces.BACK, entry_facing = Facing.NORTH, pos=Position(8,0)),
+                Door(type = InteractableID.DOOR, leads_to = Faces.LEFT, entry_facing = Facing.NORTH, pos=Position(6,4))
                 ]
             )
         self.top_room = Room(
@@ -55,10 +57,10 @@ class World:
                 Faces.FRONT
             ],
             doors = [
-                Door(leads_to = Faces.BACK, entry_facing = Facing.SOUTH, pos=Position(8,18)),
-                Door(leads_to = Faces.RIGHT, entry_facing = Facing.SOUTH, pos=Position(12,16)),
-                Door(leads_to = Faces.FRONT, entry_facing = None, pos=Position(8,12)),
-                Door(leads_to = Faces.LEFT, entry_facing = Facing.SOUTH, pos=Position(6,16))   
+                Door(type = InteractableID.DOOR, leads_to = Faces.BACK, entry_facing = Facing.SOUTH, pos=Position(8,18)),
+                Door(type = InteractableID.DOOR, leads_to = Faces.RIGHT, entry_facing = Facing.SOUTH, pos=Position(12,16)),
+                Door(type = InteractableID.DOOR, leads_to = Faces.FRONT, entry_facing = None, pos=Position(8,12)),
+                Door(type = InteractableID.DOOR, leads_to = Faces.LEFT, entry_facing = Facing.SOUTH, pos=Position(6,16))   
             ]
         )
         self.front_room = Room(
@@ -79,10 +81,10 @@ class World:
                 Faces.BOTTOM
             ],
             doors = [
-                Door(leads_to = Faces.TOP, entry_facing = None, pos=Position(8,12)),
-                Door(leads_to = Faces.RIGHT, entry_facing = None, pos=Position(12,8)),
-                Door(leads_to = Faces.BOTTOM, entry_facing = None, pos=Position(8,6)),
-                Door(leads_to = Faces.LEFT, entry_facing = None, pos=Position(6,8)) 
+                Door(type = InteractableID.DOOR, leads_to = Faces.TOP, entry_facing = None, req_key = self.game_context.items.key_top_room, state = DoorState.CLOSED, pos = Position(8,12)),
+                Door(type = InteractableID.DOOR, leads_to = Faces.RIGHT, entry_facing = None, pos = Position(12,8)),
+                Door(type = InteractableID.DOOR, leads_to = Faces.BOTTOM, entry_facing = None, pos = Position(8,6)),
+                Door(type = InteractableID.DOOR, leads_to = Faces.LEFT, entry_facing = None, pos = Position(6,8)) 
             ]
         )
         self.right_room = Room(
@@ -103,10 +105,10 @@ class World:
                 Faces.BOTTOM
             ],
             doors = [
-                Door(leads_to = Faces.TOP, entry_facing = Facing.WEST, pos=Position(15,12)),
-                Door(leads_to = Faces.BACK, entry_facing = None, pos=Position(18,8)),
-                Door(leads_to = Faces.BOTTOM, entry_facing = Facing.WEST, pos=Position(15,6)),
-                Door(leads_to = Faces.FRONT, entry_facing = None, pos=Position(12,8))
+                Door(type = InteractableID.DOOR, leads_to = Faces.TOP, entry_facing = Facing.WEST, pos=Position(15,12)),
+                Door(type = InteractableID.DOOR, leads_to = Faces.BACK, entry_facing = None, pos=Position(18,8)),
+                Door(type = InteractableID.DOOR, leads_to = Faces.BOTTOM, entry_facing = Facing.WEST, pos=Position(15,6)),
+                Door(type = InteractableID.DOOR, leads_to = Faces.FRONT, entry_facing = None, pos=Position(12,8))
             ]
         )
         self.back_room = Room(
@@ -127,10 +129,10 @@ class World:
                 Faces.BOTTOM
             ],
             doors = [
-                Door(leads_to = Faces.TOP, entry_facing = Facing.WEST, pos=Position(21,12)),
-                Door(leads_to = Faces.LEFT, entry_facing = None, pos=Position(24,8)),
-                Door(leads_to = Faces.BOTTOM, entry_facing = Facing.WEST, pos=Position(21,6)),
-                Door(leads_to = Faces.RIGHT, entry_facing = None, pos=Position(18,8))
+                Door(type = InteractableID.DOOR, leads_to = Faces.TOP, entry_facing = Facing.WEST, pos=Position(21,12)),
+                Door(type = InteractableID.DOOR, leads_to = Faces.LEFT, entry_facing = None, pos=Position(24,8)),
+                Door(type = InteractableID.DOOR, leads_to = Faces.BOTTOM, entry_facing = Facing.WEST, pos=Position(21,6)),
+                Door(type = InteractableID.DOOR, leads_to = Faces.RIGHT, entry_facing = None, pos=Position(18,8))
             ]
         )
         self.left_room = Room(
@@ -151,31 +153,12 @@ class World:
                 Faces.BOTTOM
             ],
             doors = [ 
-                Door(leads_to = Faces.TOP, entry_facing = Facing.EAST, pos = Position(3,12)),
-                Door(leads_to = Faces.FRONT, entry_facing = None, pos = Position(6,8)),
-                Door(leads_to = Faces.BOTTOM, entry_facing = Facing.EAST, pos = Position(3,6)),
-                Door(leads_to = Faces.BACK, entry_facing = None, pos = Position(0,8))
+                Door(type = InteractableID.DOOR, leads_to = Faces.TOP, entry_facing = Facing.EAST, pos = Position(3,12)),
+                Door(type = InteractableID.DOOR, leads_to = Faces.FRONT, entry_facing = None, pos = Position(6,8)),
+                Door(type = InteractableID.DOOR, leads_to = Faces.BOTTOM, entry_facing = Facing.EAST, pos = Position(3,6)),
+                Door(type = InteractableID.DOOR, leads_to = Faces.BACK, entry_facing = None, pos = Position(0,8))
             ]
         )
-        ### DEBUG PRINT ###
-        # print("Door-Setup Left Room:")
-        # for i, d in enumerate(self.left_room.doors):
-        #     print(i, d.leads_to, d.pos, id(d.pos))
-        # print("Door-Setup Back Room:")
-        # for i, d in enumerate(self.back_room.doors):
-        #     print(i, d.leads_to, d.pos, id(d.pos))
-        # print("Door-Setup top Room:")
-        # for i, d in enumerate(self.top_room.doors):
-        #     print(i, d.leads_to, d.pos, id(d.pos))
-        # print("Door-Setup Bottom Room:")
-        # for i, d in enumerate(self.bottom_room.doors):
-        #     print(i, d.leads_to, d.pos, id(d.pos))
-        # print("Door-Setup Right Room:")
-        # for i, d in enumerate(self.right_room.doors):
-        #     print(i, d.leads_to, d.pos, id(d.pos))
-        # print("Door-Setup Front Room:")
-        # for i, d in enumerate(self.front_room.doors):
-        #     print(i, d.leads_to, d.pos, id(d.pos))
 
     
     def init_map(self):
@@ -217,7 +200,7 @@ class World:
 
     # Change room in wich player is located based on the neighbor room at the direction the player is facing
     def change_room(self, door):
-        # Get Faces.ENUM of room behind door from doors.door.lead_to
+        # Get Faces.ENUM of room behind door from doors.door.leads_to
         next_room_face = door.leads_to
         # Use Faces.ENUM as key to return Room object from map_dict{}
         next_room = self.game_context.world.map_dict.get(next_room_face)
@@ -227,27 +210,9 @@ class World:
         self.game_context.player.pos.y = entry_pos.y
         # Update room the player is currently inside
         self.game_context.player.current_room = next_room
+        self.game_context.interaction_context.target_object = next_room.color
 
     def has_door(self):
-        ### DEBUG PRINT ###
-        # print("Door-Setup Left Room:")
-        # for i, d in enumerate(self.left_room.doors):
-        #     print(i, d.leads_to, d.pos, id(d.pos))
-        # print("Door-Setup Back Room:")
-        # for i, d in enumerate(self.back_room.doors):
-        #     print(i, d.leads_to, d.pos, id(d.pos))
-        # print("Door-Setup top Room:")
-        # for i, d in enumerate(self.top_room.doors):
-        #     print(i, d.leads_to, d.pos, id(d.pos))
-        # print("Door-Setup Bottom Room:")
-        # for i, d in enumerate(self.bottom_room.doors):
-        #     print(i, d.leads_to, d.pos, id(d.pos))
-        # print("Door-Setup Right Room:")
-        # for i, d in enumerate(self.right_room.doors):
-        #     print(i, d.leads_to, d.pos, id(d.pos))
-        # print("Door-Setup Front Room:")
-        # for i, d in enumerate(self.front_room.doors):
-        #     print(i, d.leads_to, d.pos, id(d.pos))
         doors: list = self.game_context.player.current_room.doors
         is_on_door = any(door.pos == self.game_context.player.pos for door in doors)
         return is_on_door
