@@ -14,40 +14,16 @@ class PlayerMovement:
     # Movement method with steps for each direction.
     def move_player(self, directional_command):
         # Set facing from player as local variable for readebility
-        facing = self.game_context.player.facing
-        # If command is back use opposite facing of player 
-        if directional_command == Command.MOVE_BACK:
-            facing = self.game_context.opposite_facing[facing]
-            self.game_context.player.moved = Moved.BACK
-        else:
-            self.game_context.player.facing = facing
-            self.game_context.player.moved = Moved.FORWARD
-        # Use facing to determine >, < operator
-        op = self.game_context.facing_op[facing]
+        facing = self.game_context.player.facing 
+        self._player_facing(directional_command, facing)
         # Use facing to get offset to determine which axis should increase oder decrease
         (dx,dy) = self.game_context.facing_offset[facing]
-        # Use offset to translate into corner and axis lambda function
-        # Offset tells which axis gets manipulated so it is mapped to the axis of the corner
-        # e.g. y decreases, which means border is an bottom wall so Corner.BOTTOM_LEFT is used
-        # and since player moves on y-axis BOTTOM_LEFT: Position(y) is used
-        corner, axis_func = self.game_context.offset_corner[(dx,dy)]
-        # axis function for player position + offset
-        player_axis_val = axis_func(self.game_context.player.pos + (dx, dy))
-        # axis function for room position at corner
-        room_axis_val   = axis_func(self.game_context.player.current_room.pos[corner])
-        # try to find a door at the direction the player is facing and store it as local variable
-        door = self.game_context.world.get_door()
-        # Compare player position with borders of current room before moving
-        if op(player_axis_val, room_axis_val):
+        if self._player_in_bound(facing):
             self.game_context.player.pos.move(dx,dy)
-            #print(f"Player: {self.game_context.player.pos}") #---DEBUG PRINT---
-            #print(f"Room: {self.game_context.player.current_room.doors[direction]}") #---DEBUG PRINT---
             return PlayerState.MOVE
         elif self.game_context.world.has_door():
+            door = self.game_context.world.get_door()
             return self.game_context.interaction.door(door)
-            #print(f"Player: {self.game_context.player.pos}") #---DEBUG PRINT---
-            #print(f"Player after room switch: {self.game_context.player.pos}") #---DEBUG PRINT---
-            #print(f"Player direction: {self.game_context.player.direction}") #---DEBUG PRINT---
         else:
             return PlayerState.WALL
     
@@ -60,3 +36,29 @@ class PlayerMovement:
             self.game_context.player.moved = Moved.RIGHT
         self.game_context.player.facing = facing
         return PlayerState.TURN
+    
+    def _player_facing(self, directional_command, facing):
+        # If command is back use opposite facing of player
+        if directional_command == Command.MOVE_BACK:
+            facing = self.game_context.opposite_facing[facing]
+            self.game_context.player.moved = Moved.BACK
+        else:
+            self.game_context.player.facing = facing
+            self.game_context.player.moved = Moved.FORWARD
+        
+    def _player_in_bound(self, facing):
+        # Use facing to determine >, < operator
+        op = self.game_context.facing_op[facing]
+        (dx,dy) = self.game_context.facing_offset[facing]
+        # Use offset to translate into corner and axis lambda function
+        # Offset tells which axis gets manipulated so it is mapped to the axis of the corner
+        # e.g. y decreases, which means border is an bottom wall so Corner.BOTTOM_LEFT is used
+        # and since player moves on y-axis BOTTOM_LEFT: Position(y) is used
+        corner, axis_func = self.game_context.offset_corner[(dx,dy)]
+        # axis function for player position + offset
+        player_axis_val = axis_func(self.game_context.player.pos + (dx,dy))
+        # axis function for room position at corner
+        room_axis_val = axis_func(self.game_context.player.current_room.pos[corner])
+        # Compare player position with borders of current room before moving
+        if op(player_axis_val, room_axis_val):
+            return True

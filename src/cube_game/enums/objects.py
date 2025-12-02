@@ -1,10 +1,15 @@
 from enum import Enum
 
-class InteractableID(Enum):
+class InteractableType(Enum):
 
     NONE = "None"
     DOOR = "Tür"
 
-class ItemID(Enum):
+class ItemType(Enum):
     
     KEY = "Schlüssel"
+
+class ItemID(Enum):
+
+    BOTTOM_KEY = "Schlüssel für unteren Raum"
+    TOP_KEY = "Schlüssel für oberen Raum"

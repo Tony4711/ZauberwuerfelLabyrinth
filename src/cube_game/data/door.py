@@ -1,6 +1,6 @@
 from enums.states import DoorState
 from enums.geometry import Facing
-from enums.objects import InteractableID, ItemID
+from enums.objects import InteractableType, ItemType
 from data.position import Position
 from data.item import KeyItem
 from dataclasses import dataclass, field
@@ -8,7 +8,7 @@ from dataclasses import dataclass, field
 @dataclass
 class Door:
 
-    type: InteractableID
+    interactable_type: InteractableType
     leads_to: str
     entry_facing: Facing
     req_key: KeyItem | None = None

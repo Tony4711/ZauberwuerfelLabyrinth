@@ -54,7 +54,8 @@ class InstructionString(Enum):
 
 class ClosedString(Enum):
     STRING = (
-                "--- {object} ist verschlossen ---",
+                "--- Du findest eine verschlossene {object} ---\n",
+                "--- Du benötigst einen Schlüssel um sie zu öffnen"
     )
 
 class DoorUnlockedString(Enum):

@@ -6,16 +6,16 @@ class Interaction:
         self.game_context = game_context
 
     def door(self, door):
-        self.game_context.interaction_context.target_object = door.type
+        self.game_context.interaction_context.target_object = door.interactable_type
         if door.state == DoorState.OPEN:
             return self._enter_door(door)
         elif door.state == DoorState.CLOSED:
-                if self.open_interactable(door):
-                    door.state = DoorState.OPEN
-                    self.game_context.interaction_context.target_object = door.req_key.id
-                    return PlayerState.DOOR_UNLOCKED
-                else:
-                    return PlayerState.BLOCKED
+            if self.open_interactable(door):
+                door.state = DoorState.OPEN
+                self.game_context.interaction_context.target_object = door.req_key.item_type
+                return PlayerState.DOOR_UNLOCKED
+            else:
+                return PlayerState.BLOCKED
     
     def open_interactable(self, interactable):
         if self.game_context.player.inventory.has_item(interactable.req_key):
@@ -27,5 +27,7 @@ class Interaction:
         if door.entry_facing:
                 self.game_context.player.facing = door.entry_facing
         self.game_context.world.change_room(door)
-        return PlayerState.ROOM_ENTRANCE
-        
+        return PlayerState.ENTER_ROOM
+
+    def _pick_up(self, item):
+        pass

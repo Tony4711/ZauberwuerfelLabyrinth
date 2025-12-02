@@ -1,7 +1,7 @@
 from enums.system import LoopSignal
 from enums.geometry import Facing, Moved
 from enums.states import GameState
-from enums.objects import ItemID
+from enums.objects import ItemType
 from core.game.player_movement import PlayerMovement
 from core.game.items import Items
 from core.ui.interface import Interface
@@ -79,7 +79,8 @@ class GameContext:
         self.interaction_context = InteractionContext(self)
 
         # Inventory
-        self.player.inventory.add_item(self.items.key_top_room)
+        #self.player.inventory.add_item(self.items.key_top_room)
+        self.player.inventory.add_item(self.items.key_bottom_room)
 
     
     def _new_player(self):

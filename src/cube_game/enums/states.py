@@ -35,7 +35,7 @@ class PlayerState(Enum):
     STAND = auto()
     WALL = auto()
     DOOR = auto()
-    ROOM_ENTRANCE = auto()
+    ENTER_ROOM = auto()
     BLOCKED = auto()
     PICKUP_ITEM = auto()
     REMOVE_ITEM = auto()

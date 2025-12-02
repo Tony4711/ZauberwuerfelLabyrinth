@@ -3,7 +3,7 @@ from enums.geometry import RoomColor, Corner, Moved, Edge, Faces, Facing
 from data.door import Door
 from data.room import Room
 from enums.states import DoorState
-from enums.objects import InteractableID
+from enums.objects import InteractableType
 import random
 
 class World:
@@ -33,10 +33,10 @@ class World:
                 Faces.RIGHT
             ],
             doors = [
-                Door(type = InteractableID.DOOR, leads_to = Faces.FRONT, entry_facing = None, pos=Position(8,6)),
-                Door(type = InteractableID.DOOR, leads_to = Faces.RIGHT, entry_facing = Facing.NORTH, pos=Position(12,4)),
-                Door(type = InteractableID.DOOR, leads_to = Faces.BACK, entry_facing = Facing.NORTH, pos=Position(8,0)),
-                Door(type = InteractableID.DOOR, leads_to = Faces.LEFT, entry_facing = Facing.NORTH, pos=Position(6,4))
+                Door(interactable_type = InteractableType.DOOR, leads_to = Faces.FRONT, entry_facing = None, pos=Position(8,6)),
+                Door(interactable_type = InteractableType.DOOR, leads_to = Faces.RIGHT, entry_facing = Facing.NORTH, pos=Position(12,4)),
+                Door(interactable_type = InteractableType.DOOR, leads_to = Faces.BACK, entry_facing = Facing.NORTH, pos=Position(8,0)),
+                Door(interactable_type = InteractableType.DOOR, leads_to = Faces.LEFT, entry_facing = Facing.NORTH, pos=Position(6,4))
                 ]
             )
         self.top_room = Room(
@@ -57,10 +57,10 @@ class World:
                 Faces.FRONT
             ],
             doors = [
-                Door(type = InteractableID.DOOR, leads_to = Faces.BACK, entry_facing = Facing.SOUTH, pos=Position(8,18)),
-                Door(type = InteractableID.DOOR, leads_to = Faces.RIGHT, entry_facing = Facing.SOUTH, pos=Position(12,16)),
-                Door(type = InteractableID.DOOR, leads_to = Faces.FRONT, entry_facing = None, pos=Position(8,12)),
-                Door(type = InteractableID.DOOR, leads_to = Faces.LEFT, entry_facing = Facing.SOUTH, pos=Position(6,16))   
+                Door(interactable_type = InteractableType.DOOR, leads_to = Faces.BACK, entry_facing = Facing.SOUTH, pos=Position(8,18)),
+                Door(interactable_type = InteractableType.DOOR, leads_to = Faces.RIGHT, entry_facing = Facing.SOUTH, pos=Position(12,16)),
+                Door(interactable_type = InteractableType.DOOR, leads_to = Faces.FRONT, entry_facing = None, pos=Position(8,12)),
+                Door(interactable_type = InteractableType.DOOR, leads_to = Faces.LEFT, entry_facing = Facing.SOUTH, pos=Position(6,16))   
             ]
         )
         self.front_room = Room(
@@ -81,10 +81,10 @@ class World:
                 Faces.BOTTOM
             ],
             doors = [
-                Door(type = InteractableID.DOOR, leads_to = Faces.TOP, entry_facing = None, req_key = self.game_context.items.key_top_room, state = DoorState.CLOSED, pos = Position(8,12)),
-                Door(type = InteractableID.DOOR, leads_to = Faces.RIGHT, entry_facing = None, pos = Position(12,8)),
-                Door(type = InteractableID.DOOR, leads_to = Faces.BOTTOM, entry_facing = None, pos = Position(8,6)),
-                Door(type = InteractableID.DOOR, leads_to = Faces.LEFT, entry_facing = None, pos = Position(6,8)) 
+                Door(interactable_type = InteractableType.DOOR, leads_to = Faces.TOP, entry_facing = None, req_key = self.game_context.items.key_top_room, state = DoorState.CLOSED, pos = Position(8,12)),
+                Door(interactable_type = InteractableType.DOOR, leads_to = Faces.RIGHT, entry_facing = None, pos = Position(12,8)),
+                Door(interactable_type = InteractableType.DOOR, leads_to = Faces.BOTTOM, entry_facing = None, pos = Position(8,6)),
+                Door(interactable_type = InteractableType.DOOR, leads_to = Faces.LEFT, entry_facing = None, pos = Position(6,8)) 
             ]
         )
         self.right_room = Room(
@@ -105,10 +105,10 @@ class World:
                 Faces.BOTTOM
             ],
             doors = [
-                Door(type = InteractableID.DOOR, leads_to = Faces.TOP, entry_facing = Facing.WEST, pos=Position(15,12)),
-                Door(type = InteractableID.DOOR, leads_to = Faces.BACK, entry_facing = None, pos=Position(18,8)),
-                Door(type = InteractableID.DOOR, leads_to = Faces.BOTTOM, entry_facing = Facing.WEST, pos=Position(15,6)),
-                Door(type = InteractableID.DOOR, leads_to = Faces.FRONT, entry_facing = None, pos=Position(12,8))
+                Door(interactable_type = InteractableType.DOOR, leads_to = Faces.TOP, entry_facing = Facing.WEST, pos=Position(15,12)),
+                Door(interactable_type = InteractableType.DOOR, leads_to = Faces.BACK, entry_facing = None, pos=Position(18,8)),
+                Door(interactable_type = InteractableType.DOOR, leads_to = Faces.BOTTOM, entry_facing = Facing.WEST, pos=Position(15,6)),
+                Door(interactable_type = InteractableType.DOOR, leads_to = Faces.FRONT, entry_facing = None, pos=Position(12,8))
             ]
         )
         self.back_room = Room(
@@ -129,10 +129,10 @@ class World:
                 Faces.BOTTOM
             ],
             doors = [
-                Door(type = InteractableID.DOOR, leads_to = Faces.TOP, entry_facing = Facing.WEST, pos=Position(21,12)),
-                Door(type = InteractableID.DOOR, leads_to = Faces.LEFT, entry_facing = None, pos=Position(24,8)),
-                Door(type = InteractableID.DOOR, leads_to = Faces.BOTTOM, entry_facing = Facing.WEST, pos=Position(21,6)),
-                Door(type = InteractableID.DOOR, leads_to = Faces.RIGHT, entry_facing = None, pos=Position(18,8))
+                Door(interactable_type = InteractableType.DOOR, leads_to = Faces.TOP, entry_facing = Facing.WEST, pos=Position(21,12)),
+                Door(interactable_type = InteractableType.DOOR, leads_to = Faces.LEFT, entry_facing = None, pos=Position(24,8)),
+                Door(interactable_type = InteractableType.DOOR, leads_to = Faces.BOTTOM, entry_facing = Facing.WEST, pos=Position(21,6)),
+                Door(interactable_type = InteractableType.DOOR, leads_to = Faces.RIGHT, entry_facing = None, pos=Position(18,8))
             ]
         )
         self.left_room = Room(
@@ -153,10 +153,10 @@ class World:
                 Faces.BOTTOM
             ],
             doors = [ 
-                Door(type = InteractableID.DOOR, leads_to = Faces.TOP, entry_facing = Facing.EAST, pos = Position(3,12)),
-                Door(type = InteractableID.DOOR, leads_to = Faces.FRONT, entry_facing = None, pos = Position(6,8)),
-                Door(type = InteractableID.DOOR, leads_to = Faces.BOTTOM, entry_facing = Facing.EAST, pos = Position(3,6)),
-                Door(type = InteractableID.DOOR, leads_to = Faces.BACK, entry_facing = None, pos = Position(0,8))
+                Door(interactable_type = InteractableType.DOOR, leads_to = Faces.TOP, entry_facing = Facing.EAST, pos = Position(3,12)),
+                Door(interactable_type = InteractableType.DOOR, leads_to = Faces.FRONT, entry_facing = None, pos = Position(6,8)),
+                Door(interactable_type = InteractableType.DOOR, leads_to = Faces.BOTTOM, entry_facing = Facing.EAST, pos = Position(3,6)),
+                Door(interactable_type = InteractableType.DOOR, leads_to = Faces.BACK, entry_facing = None, pos = Position(0,8))
             ]
         )
 
