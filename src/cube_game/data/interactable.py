@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from enums.interaction import InteractableType, InteractableID
+from  enums.interaction_objects import InteractableType, InteractableID
 from enums.states import InteractableState
 from enums.geometry import Facing, Faces
 from data.position import Position

@@ -10,6 +10,7 @@ def template(game_context):
             "OPEN_MAP": "Karte öffnen",
             "NAVIGATION": "Steuerung anzeigen",
             "SHUFFLE_MAP": "Räume mischen",
+            "INVENTORY": "Inventar anzeigen",
             "OP1": "Menu Auswahl 1",
             "OP2": "Menu Auswahl 2",
             "OP3": "Menu Auswahl 3",

@@ -1,6 +1,6 @@
 from data.item import Item, KeyItem
 from data.position import Position
-from enums.interaction import ItemID
+from  enums.interaction_objects import ItemID
 
 class Items:
 

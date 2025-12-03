@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from enums.interaction import InteractableType, InteractionType, InteractionResult
+from  enums.interaction_objects import InteractableType, InteractionType, InteractionResult
 
 @dataclass
 class InteractionContext:

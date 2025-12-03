@@ -1,5 +1,5 @@
 from enums.states import InteractableState, PlayerState
-from enums.interaction import InteractionType, InteractionResult
+from  enums.interaction_objects import InteractionType, InteractionResult
 from data.interactable import PressurePlate
 
 class Interaction:
@@ -35,7 +35,6 @@ class Interaction:
         pressure_plate.state = InteractableState.PRESSED
         self._update_interaction_context(pressure_plate, InteractionType.STANDING_ON, InteractionResult.ADD_ITEM)
         self.game_context.player.inventory.add_item(self.game_context.items.key_front_top)
-        self.game_context.player.inventory.add_item(self.game_context.items.key_front_bottom)
     
     def _update_interaction_context(self, target_obj, interaction_type, interaction_result):
         self.game_context.interaction_context.target_object = target_obj.interactable_type

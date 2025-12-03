@@ -16,6 +16,7 @@ class RichConsole:
         table = Table(
             box = box.ROUNDED,
             padding = (0, 2), 
+            expand=True,
             border_style = "green",
             header_style = "bold red",
             row_styles = ["blue"]

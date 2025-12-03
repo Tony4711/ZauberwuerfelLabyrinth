@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from enums.interaction import ItemType, ItemID
+from  enums.interaction_objects import ItemType, ItemID
 from data.position import Position
 
 @dataclass

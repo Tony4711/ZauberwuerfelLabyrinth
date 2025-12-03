@@ -3,7 +3,7 @@ from enums.geometry import RoomColor, Corner, Moved, Edge, Faces, Facing
 from data.interactable import Door, PressurePlate
 from data.room import Room
 from enums.states import InteractableState
-from enums.interaction import InteractableID
+from  enums.interaction_objects import InteractableID
 import random
 
 class World:
