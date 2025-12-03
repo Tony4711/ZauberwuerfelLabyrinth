@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
 from data.position import Position
 from data.room import Room
-from data.door import Door
+from data.interactable import Door
 from data.inventory import Inventory
 from enums.geometry import Facing, Moved
 

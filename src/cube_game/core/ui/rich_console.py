@@ -3,6 +3,7 @@ from rich.panel import Panel
 from rich.align import Align
 from rich.text import Text
 from rich.table import Table
+from rich.theme import Theme
 from rich import box
 from rich import print
 
@@ -10,12 +11,29 @@ class RichConsole:
 
     def __init__(self):
         self.console = Console
+        
+    def render_inventory(self, inventory:list):
+        table = Table(
+            box = box.ROUNDED,
+            padding = (0, 2), 
+            border_style = "green",
+            header_style = "bold red",
+            row_styles = ["blue"]
+        )
+        row_cells = []
+        table.add_column("Item")
+        table.add_column("Beschreibung")
+        for item in inventory:
+            (item_type, item_descr, item_id) = item
+            table.add_row(item_type, f"{item_descr} {item_id}")
+        print(Align.center(table))
+        
 
     def render_display_panel(self, txt):
         text = Text.from_markup(txt, justify="center")
         panel = Panel(
             text,
-            box = box.DOUBLE_EDGE,
+            box = box.ROUNDED,
             padding = (0, 6),
             expand = False,
             border_style = "green", 

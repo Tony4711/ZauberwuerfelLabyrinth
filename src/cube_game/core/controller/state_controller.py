@@ -1,4 +1,4 @@
-from enums.states import GameState, MenuState, PlayerState, DoorState, SystemState, DisplayFunction
+from enums.states import GameState, MenuState, PlayerState, InteractableState, SystemState, DisplayFunction
 from enums.system import LoopSignal
 
 class StateStack:
@@ -53,7 +53,7 @@ class StateController:
         self.game_state = GameState.INIT
         self.menu_state = MenuState.MAIN
         self.player_state = PlayerState.INIT
-        self.door_state = DoorState.CLOSED
+        self.interactable_state = InteractableState.CLOSED
         self.system_state = SystemState.OK
         self.display_function_state = DisplayFunction.INIT
         self.game_stack = GameStack()
@@ -69,7 +69,7 @@ class StateController:
             GameState: self._update_game,
             MenuState: self._update_menu,
             PlayerState: self._update_player,
-            DoorState: self._update_door,
+            InteractableState: self._update_interactbale,
             SystemState: self._reset_system,
             DisplayFunction: self._update_display_function,
         }
@@ -121,8 +121,8 @@ class StateController:
         self.player_stack._push_state_stack(player_state)
         return player_state
     
-    def _update_door(self, door_state):
-        self.door_state = door_state
+    def _update_interactbale(self, interactable_state):
+        self.interactable_state = interactable_state
     
     def _update_display_function(self, display_state):
         self.display_function_state = display_state

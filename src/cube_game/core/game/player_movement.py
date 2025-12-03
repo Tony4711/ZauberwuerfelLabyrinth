@@ -1,4 +1,4 @@
-from enums.states import PlayerState, DoorState
+from enums.states import PlayerState, InteractableState
 from enums.commands import Command
 from enums.geometry import Moved
 
@@ -15,17 +15,32 @@ class PlayerMovement:
     def move_player(self, directional_command):
         # Set facing from player as local variable for readebility
         facing = self.game_context.player.facing 
-        self._player_facing(directional_command, facing)
+        facing = self._player_facing(directional_command, facing)
         # Use facing to get offset to determine which axis should increase oder decrease
         (dx,dy) = self.game_context.facing_offset[facing]
         if self._player_in_bound(facing):
             self.game_context.player.pos.move(dx,dy)
+            interactable = self.has_interactable()
+            if interactable: 
+                self.game_context.interaction.interact_with(interactable)
+                return PlayerState.INTERACTION
             return PlayerState.MOVE
         elif self.game_context.world.has_door():
             door = self.game_context.world.get_door()
             return self.game_context.interaction.door(door)
         else:
             return PlayerState.WALL
+    
+    def has_interactable(self):
+        getters = (
+            self.game_context.world.get_pressure_plate,
+        )
+        interactable = None
+        for getter in getters:
+            interactable = getter()
+            if interactable is not None:
+                break
+        return interactable
     
     def turn_player(self, directional_command):
         if directional_command == Command.TURN_LEFT:
@@ -40,11 +55,13 @@ class PlayerMovement:
     def _player_facing(self, directional_command, facing):
         # If command is back use opposite facing of player
         if directional_command == Command.MOVE_BACK:
-            facing = self.game_context.opposite_facing[facing]
             self.game_context.player.moved = Moved.BACK
+            facing = self.game_context.opposite_facing[facing]
+            return facing
         else:
             self.game_context.player.facing = facing
             self.game_context.player.moved = Moved.FORWARD
+            return facing
         
     def _player_in_bound(self, facing):
         # Use facing to determine >, < operator

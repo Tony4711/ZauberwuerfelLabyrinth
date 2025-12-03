@@ -22,6 +22,8 @@ def router(game_context):
         RouterSignal.SHUFFLE_FUNCTION: game_context.interface.shuffle_room_color,
         RouterSignal.SHOW_CLOSED: Display.CLOSED_TEXT,
         RouterSignal.SHOW_DOOR_UNLOCKED: Display.DOOR_UNLOCKED_TEXT,
+        RouterSignal.SHOW_INTERACTION: Display.INTERACTION_TEX,
+        RouterSignal.INVENTORY_FUNCTION: game_context.interface.format_inventory,
     }
 
 

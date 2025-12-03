@@ -100,3 +100,11 @@ class Interface:
     def shuffle_room_color(self):
         self.game_context.world.shuffle_room_color()
         self.format_map()
+    
+    def format_inventory(self):
+        context = self.game_context.template(self.game_context)
+        items = self.game_context.player.inventory.items
+        inventory: list = []
+        for item in items:
+            inventory.append((item.item_type.value, item.descr, item.item_id.value.format(**context)))
+        self.game_context.console.render_inventory(inventory)

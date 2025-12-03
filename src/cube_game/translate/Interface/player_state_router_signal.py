@@ -9,4 +9,5 @@ router_signal = {
     PlayerState.ENTER_ROOM: RouterSignal.SHOW_ROOM_ENTRANCE,
     PlayerState.BLOCKED: RouterSignal.SHOW_CLOSED,
     PlayerState.DOOR_UNLOCKED: RouterSignal.SHOW_DOOR_UNLOCKED,
+    PlayerState.INTERACTION: RouterSignal.SHOW_INTERACTION,
 }

@@ -23,7 +23,8 @@ mapping = {
                     Command.OPEN_MAP: "Öffne die Karte",
                     Command.EXIT: "Spiel beenden",
                     Command.NAVIGATION: "Steuerungen",
-                    Command.SHUFFLE_MAP: "Räume mischen"
+                    Command.SHUFFLE_MAP: "Räume mischen",
+                    Command.INVENTORY: "Inventar anzeigen",
                 },
                 GameState.INIT:{
 

@@ -18,6 +18,8 @@ class RouterSignal(Enum):
     SHOW_INSTRUCTION = auto()
     SHOW_CLOSED = auto()
     SHOW_DOOR_UNLOCKED = auto()
+    SHOW_INTERACTION = auto()
+    INVENTORY_FUNCTION = auto()
     META_HANDLER = auto()
     MOVEMENT_HANDLER = auto()
     OPTION_HANDLER = auto()

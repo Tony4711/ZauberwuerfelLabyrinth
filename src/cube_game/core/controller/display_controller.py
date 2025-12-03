@@ -1,4 +1,4 @@
-from enums.states import MenuState, GameState, DisplayFunction, SystemState, DoorState, PlayerState
+from enums.states import MenuState, GameState, DisplayFunction, SystemState, InteractableState, PlayerState
 
 class DisplayController:
 

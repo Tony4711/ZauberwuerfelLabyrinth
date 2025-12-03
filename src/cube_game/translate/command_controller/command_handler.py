@@ -11,6 +11,7 @@ def handler():
         Command.BACK: GameState.BACK,
         Command.EXIT: MenuState.EXIT,
         Command.SHUFFLE_MAP: DisplayFunction.SHUFFLE_MAP,
+        Command.INVENTORY: DisplayFunction.INVENTORY,
     },
     CommandHandler.OPTION_COMMAND: {
         MenuState.MAIN: MenuOptionHandler.MAIN,

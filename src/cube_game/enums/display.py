@@ -34,8 +34,8 @@ class InfrontDoorString(Enum):
 
 class RoomEntranceString(Enum):
     STRING = (
-                "--- Du gehst durch eine Tür und betrittst ---\n",
-                "--- den {object} Raum ---",
+                "--- Du gehst durch eine Tür und befindest dich im ---\n",
+                "--- {object} Raum ---",
             )
 
 class InputExceptionString(Enum):
@@ -63,6 +63,12 @@ class DoorUnlockedString(Enum):
                 "--- Du schließt die Tür mit dem {object} auf ---",
     )
 
+class InteractionString(Enum):
+    STRING = (
+                "--- {interaction_type} {object} ---",
+                "--- {interaction_result} ---"
+    )
+
 class Display(Enum):
 
     HELLO_TEXT = HelloString
@@ -79,6 +85,7 @@ class Display(Enum):
     INPUT_EXCEPTION_TEXT = InputExceptionString
     INSTRUCTION_TEXT = InstructionString
     DOOR_UNLOCKED_TEXT = DoorUnlockedString
+    INTERACTION_TEX = InteractionString
     
 
     @property

@@ -1,7 +1,6 @@
 from enums.system import LoopSignal
 from enums.geometry import Facing, Moved
 from enums.states import GameState
-from enums.objects import ItemType
 from core.game.player_movement import PlayerMovement
 from core.game.items import Items
 from core.ui.interface import Interface
@@ -12,9 +11,9 @@ from core.controller.display_controller import DisplayController
 from core.model.world import World
 from core.ui.rich_console import RichConsole
 from core.game.interaction import Interaction
-from core.model.interaction_context import InteractionContext
 from data.player import Player
 from data.position import Position
+from data.interaction_context import InteractionContext
 from translate.command_controller import command_handler, command_router, movement_handler, menu_handler, commandtag_router_signal
 from translate import opposite, turn, facing_op, facing_offset, offset_corner
 from translate.interface import interface_router, game_state_router_signal, menu_state_router_signal, player_state_router_signal, system_state_router_signal, display_state_router_signal
@@ -76,11 +75,7 @@ class GameContext:
         self.state_command = state_command.mapping
 
         # Interaction Context
-        self.interaction_context = InteractionContext(self)
-
-        # Inventory
-        #self.player.inventory.add_item(self.items.key_top_room)
-        self.player.inventory.add_item(self.items.key_bottom_room)
+        self.interaction_context = InteractionContext()
 
     
     def _new_player(self):

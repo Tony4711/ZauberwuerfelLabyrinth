@@ -6,4 +6,5 @@ router_signal = {
             DisplayFunction.MAP: RouterSignal.MAP_FUNCTION,
             DisplayFunction.SHUFFLE_MAP: RouterSignal.SHUFFLE_FUNCTION,
             DisplayFunction.INSTRUCTION: RouterSignal.SHOW_INSTRUCTION,
+            DisplayFunction.INVENTORY: RouterSignal.INVENTORY_FUNCTION,
         }

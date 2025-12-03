@@ -24,5 +24,6 @@ class Command(TaggedEnum):
     OPEN_MAP = ("m", CommandTag.META)
     NAVIGATION = ("c", CommandTag.META)
     SHUFFLE_MAP = ("y", CommandTag.META)
+    INVENTORY = ("i", CommandTag.META)
 
 

@@ -1,11 +1,13 @@
 from enum import Enum, auto
 
 
-class DoorState(Enum):
+class InteractableState(Enum):
 
     OPEN = auto()
     CLOSED = auto()
     LOCKED = auto()
+    PRESSED = auto()
+    DEPRESSED = auto()
 
 class SystemState(Enum):
 
@@ -41,6 +43,7 @@ class PlayerState(Enum):
     REMOVE_ITEM = auto()
     INVALID_ITEM = auto()
     DOOR_UNLOCKED = auto()
+    INTERACTION = auto()
 
 class DisplayFunction(Enum):
     
@@ -49,3 +52,4 @@ class DisplayFunction(Enum):
     NAVIGATION = "Steuerungen"
     SHUFFLE_MAP = "Mischen"
     INSTRUCTION = "Spielanleitung"
+    INVENTORY = "Inventar"
