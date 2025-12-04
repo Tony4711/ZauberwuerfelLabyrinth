@@ -15,7 +15,7 @@ class PlayerMovement:
     def move_player(self, directional_command):
         # Set facing from player as local variable for readebility
         facing = self.game_context.player.facing 
-        facing = self._player_facing(directional_command, facing)
+        facing = self._update_player_facing(directional_command, facing)
         # Use facing to get offset to determine which axis should increase oder decrease
         (dx,dy) = self.game_context.facing_offset[facing]
         if self._player_in_bound(facing):
@@ -52,7 +52,7 @@ class PlayerMovement:
         self.game_context.player.facing = facing
         return PlayerState.TURN
     
-    def _player_facing(self, directional_command, facing):
+    def _update_player_facing(self, directional_command, facing):
         # If command is back use opposite facing of player
         if directional_command == Command.MOVE_BACK:
             self.game_context.player.moved = Moved.BACK
