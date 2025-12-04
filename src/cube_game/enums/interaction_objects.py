@@ -3,10 +3,14 @@ from enum import Enum, auto
 class InteractionType(Enum):
 
     STANDING_ON = "Du stehst auf einer"
+    UNLOCK = "Du öffnest mit dem Schlüssel die"
+    LOCKED = "Du stehst vor einer verschlossenen"
+    WALK_THROUGH = "Du gehst durch eine"
 
 class InteractionResult(Enum):
 
-    ADD_ITEM = "Ein Item wurde deinem Inventar hinzugefügt"
+    ADD_ITEM = ", ein Item wurde deinem Inventar hinzugefügt"
+    ENTER = "und betrittst den {current_room}"
 
 class InteractableType(Enum):
 

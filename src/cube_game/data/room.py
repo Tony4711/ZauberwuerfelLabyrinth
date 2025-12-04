@@ -10,7 +10,7 @@ class Room:
     color: RoomColor
     width: int
     length: int
-    name: str
+    value: str
     hex_color: hex
     doors: list[Door] = field(default_factory=list)
     neighbors: list[Faces] = field(default_factory=list)
@@ -18,6 +18,6 @@ class Room:
     pressure_plates: list [PressurePlate] = field(default_factory=list)
     
     def __repr__(self):
-        return f"{self.name} at {self.pos} with {self.neighbors} as neighbors" 
+        return f"{self.value} at {self.pos} with {self.neighbors} as neighbors" 
 
 

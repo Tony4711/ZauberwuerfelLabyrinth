@@ -65,8 +65,7 @@ class DoorUnlockedString(Enum):
 
 class InteractionString(Enum):
     STRING = (
-                "--- {interaction_type} {object} ---\n",
-                "--- {interaction_result} ---"
+                "--- {interaction_type} {object} {interaction_result} ---",
     )
 
 class Display(Enum):

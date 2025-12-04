@@ -3,7 +3,6 @@ from rich.panel import Panel
 from rich.align import Align
 from rich.text import Text
 from rich.table import Table
-from rich.theme import Theme
 from rich import box
 from rich import print
 
@@ -70,8 +69,7 @@ class RichConsole:
         table.add_row(*rows)
         print(Align.center(table))
     
-    def map_layout(self, map): 
-        face_size = 16 
+    def render_map(self, map):
         table = Table.grid() 
         for faces in map: 
             row_cells = [] 

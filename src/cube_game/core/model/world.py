@@ -25,7 +25,7 @@ class World:
                 Corner.TOP_RIGHT: Position(12,6)
                 },
             hex_color = "#F7E642",
-            name = "Gelben Raum",
+            value = "Gelben Raum",
             neighbors = [
                 Faces.FRONT,
                 Faces.BACK,
@@ -49,7 +49,7 @@ class World:
                 Corner.TOP_RIGHT: Position(12,18)
                 },
             hex_color = "#FDFDFD",
-            name = "Weißen Raum",
+            value = "Weißen Raum",
             neighbors = [
                 Faces.BACK,
                 Faces.RIGHT,
@@ -73,7 +73,7 @@ class World:
                 Corner.TOP_RIGHT: Position(12,12)
                 },
             hex_color = "#43A047",
-            name = "Grünen Raum",
+            value = "Grünen Raum",
             neighbors = [
                 Faces.TOP,
                 Faces.RIGHT,
@@ -97,7 +97,7 @@ class World:
                 Corner.TOP_RIGHT: Position(18,12)
                 },
             hex_color = "#E53935",
-            name = "Roten Raum",
+            value = "Roten Raum",
             neighbors = [
                 Faces.TOP,
                 Faces.BACK,
@@ -121,7 +121,7 @@ class World:
                 Corner.TOP_RIGHT: Position(24,12)
                 },
             hex_color = "#1976D2",
-            name = "Blauen Raum",
+            value = "Blauen Raum",
             neighbors = [
                 Faces.TOP,
                 Faces.LEFT,
@@ -145,7 +145,7 @@ class World:
                 Corner.TOP_RIGHT: Position(6,12)
                 },
             hex_color = "#FF9800",
-            name = "Orangen Raum",
+            value = "Orangen Raum",
             neighbors = [
                 Faces.FRONT,
                 Faces.BACK,
@@ -177,13 +177,13 @@ class World:
         room_colors = []
         color_theme = []
         for _ , room in self.map_dict.items():
-            color_theme = [room.color, room.hex_color, room.name]
+            color_theme = [room.color, room.hex_color, room.value]
             room_colors.append(color_theme)
         random.shuffle(room_colors)
-        for (_ , room), (color, hex_color, name)  in zip(self.map_dict.items(), room_colors):
+        for (_ , room), (color, hex_color, value)  in zip(self.map_dict.items(), room_colors):
             room.color = color
             room.hex_color = hex_color
-            room.name = name
+            room.value = value
     
     def map(self, room):
         front = room
@@ -212,7 +212,6 @@ class World:
         self.game_context.player.pos.y = entry_pos.y
         # Update room the player is currently inside
         self.game_context.player.current_room = next_room
-        self.game_context.interaction_context.target_object = next_room.color
 
     def has_door(self):
         doors: list = self.game_context.player.current_room.doors

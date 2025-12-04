@@ -36,6 +36,7 @@ class Interface:
         string = ""
         string += "\n".join(string_tuple)
         string = string.format(**context)
+        string = string.format(**context)
         self.game_context.console.render_display_panel(string)
     
     def format_menu(self, menu, menu_state):
@@ -95,7 +96,7 @@ class Interface:
         
     def format_map(self):
         map = self.game_context.world.map(self.game_context.starting_room)
-        self.game_context.console.map_layout(map)
+        self.game_context.console.render_map(map)
     
     def shuffle_room_color(self):
         self.game_context.world.shuffle_room_color()
