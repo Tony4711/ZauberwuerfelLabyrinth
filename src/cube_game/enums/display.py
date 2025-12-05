@@ -26,12 +26,6 @@ class ExitMenuString(Enum):
 class ExitConfirmedString(Enum):
     STRING = ("--- Spiel wird beendet ---",)
 
-class InfrontDoorString(Enum):
-    STRING = (
-            "--- Du gehst einen Schritt nach {player_facing} ---\n",
-            "---- Du stehst vor einer Tür ---",
-            )
-
 class RoomEntranceString(Enum):
     STRING = (
                 "--- Du gehst durch eine Tür und befindest dich im ---\n",
@@ -65,7 +59,8 @@ class DoorUnlockedString(Enum):
 
 class InteractionString(Enum):
     STRING = (
-                "--- {interaction_type} {object} {interaction_result} ---",
+                "--- {interaction_type} {object} ---{interaction_result}",
+                
     )
 
 class Display(Enum):
@@ -79,7 +74,6 @@ class Display(Enum):
     TURN_TEXT = TurnString
     WALL_TEXT = WallString
     CLOSED_TEXT = ClosedString
-    INFRONT_DOOR_TEXT = InfrontDoorString
     ROOM_ENTRANCE_TEXT = RoomEntranceString
     INPUT_EXCEPTION_TEXT = InputExceptionString
     INSTRUCTION_TEXT = InstructionString

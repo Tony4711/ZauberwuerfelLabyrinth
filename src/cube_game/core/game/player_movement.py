@@ -8,10 +8,12 @@ from enums.geometry import Moved
 
 class PlayerMovement:
 
+    # Initialize movement handler with the shared game context.
     def __init__(self, game_context):
         self.game_context = game_context
     
     # Movement method with steps for each direction.
+    # Advance the player in the requested direction, resolving interactions and walls.
     def move_player(self, directional_command):
         # Set facing from player as local variable for readebility
         facing = self.game_context.player.facing 
@@ -22,8 +24,7 @@ class PlayerMovement:
             self.game_context.player.pos.move(dx,dy)
             interactable = self.has_interactable()
             if interactable: 
-                self.game_context.interaction.interact_with(interactable)
-                return PlayerState.INTERACTION
+                return self.game_context.interaction.interact_with(interactable)
             return PlayerState.MOVE
         elif self.game_context.world.has_door():
             door = self.game_context.world.get_door()
@@ -31,6 +32,7 @@ class PlayerMovement:
         else:
             return PlayerState.WALL
     
+    # Check surrounding tiles for an interactable to trigger after movement.
     def has_interactable(self):
         getters = (
             self.game_context.world.get_pressure_plate,
@@ -42,6 +44,7 @@ class PlayerMovement:
                 break
         return interactable
     
+    # Rotate the player left or right and update movement state.
     def turn_player(self, directional_command):
         if directional_command == Command.TURN_LEFT:
             facing = self.game_context.turn_left[self.game_context.player.facing]
@@ -52,6 +55,7 @@ class PlayerMovement:
         self.game_context.player.facing = facing
         return PlayerState.TURN
     
+    # Update player facing based on movement command, handling forward/back logic.
     def _update_player_facing(self, directional_command, facing):
         # If command is back use opposite facing of player
         if directional_command == Command.MOVE_BACK:
@@ -63,6 +67,7 @@ class PlayerMovement:
             self.game_context.player.moved = Moved.FORWARD
             return facing
         
+    # Validate that the intended move stays inside current room bounds.
     def _player_in_bound(self, facing):
         # Use facing to determine >, < operator
         op = self.game_context.facing_op[facing]

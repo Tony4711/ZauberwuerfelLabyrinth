@@ -34,16 +34,9 @@ class PlayerState(Enum):
     INIT = auto()
     MOVE = auto()
     TURN = auto()
-    STAND = auto()
     WALL = auto()
-    DOOR = auto()
-    ENTER_ROOM = auto()
-    BLOCKED = auto()
-    PICKUP_ITEM = auto()
-    REMOVE_ITEM = auto()
-    INVALID_ITEM = auto()
-    DOOR_UNLOCKED = auto()
     INTERACTION = auto()
+    INTERACTION_EXCEPTION = auto()
 
 class DisplayFunction(Enum):
     

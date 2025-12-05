@@ -3,14 +3,17 @@ from enums.states import GameState, SystemState
 
 class CommandController:
 
+    # Initialize command controller with shared game context.
     def __init__(self, game_context):
         self.game_context = game_context
 
+    # Fetch next command from input controller.
     def get_command(self):
         return self.game_context.input_controller.process_input()
 
     # Use of different levels of dicts to process command logic.
     # Begins with sorting the command by commandTag, which divides comments into categories.
+    # Route command based on its tag through configured handler mappings.
     def command_handler(self, command):
         # Retrieve a signal from dict whichs matches with the command tag
         signal = self.game_context.commandtag_signal.get(command.tag)
@@ -39,6 +42,7 @@ class CommandController:
             # Call move method with command
             return handler(command)
         
+    # Process the next command and return resulting game/system state.
     def process_command(self):
         if self.game_context.state_controller.game_stack._current_state_stack() == GameState.INIT:
             return GameState.INIT
