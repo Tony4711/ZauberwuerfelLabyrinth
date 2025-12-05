@@ -9,10 +9,10 @@ class InteractionType(Enum):
 
 class InteractionResult(Enum):
 
-    ADD_ITEM = "\n--- Ein Item wurde deinem Inventar hinzugefügt ---"
-    ENTER_ROOM = "\n--- Du betrittst den {current_room} ---"
-    KEY_REQ = "\n--- Du benötigst einen Schlüssel um sie zu öffnen ---"
-    ALLREADY_IN_INVENTORY = "\n--- Das Item ist bereits in deinem Inventar ---"
+    ADD_ITEM = "\n  Ein Item wurde deinem Inventar hinzugefügt  "
+    ENTER_ROOM = "\n  Du betrittst den {current_room}  "
+    KEY_REQ = "\n  Du benötigst einen Schlüssel um sie zu öffnen  "
+    ALLREADY_IN_INVENTORY = "\n  Das Item ist bereits in deinem Inventar  "
 
 class InteractableType(Enum):
 

@@ -3,41 +3,41 @@ from enums.commands import Command
 
 class HelloString(Enum):
     STRING = (
-                "--- Willkommen zu 'Gefangen im Zauberwürfel Labyrinth'! ---\n",
+                "Willkommen zu 'Gefangen im Zauberwürfel Labyrinth'!  \n",
                 "Zum steuern bitte die in [ ] geschriebene Taste drücken\n",
                 "Benutze im Spiel [{navigation_command}] um dir die Steuerung anzeigen zu lassen"
             )
     
 class StartString(Enum):
-    STRING = ("--- Spiel wird gestartet ---",)
+    STRING = ("Spiel wird gestartet",)
 
 class MoveString(Enum):
-    STRING = ("--- Du gehst einen Schritt nach {player_moved} ---",)
+    STRING = ("Du gehst einen Schritt nach {player_moved}",)
 
 class TurnString(Enum):
-    STRING = ("--- Du drehst dich nach {player_moved}---",)
+    STRING = ("Du drehst dich nach {player_moved",)
 
 class WallString(Enum):
-    STRING = ("--- Du stößt gegen eine Wand ---",)
+    STRING = ("Du stößt gegen eine Wand",)
 
 class ExitMenuString(Enum):
-    STRING = ("--- Spiel wirklich beenden? [J/N] ---",)
+    STRING = ("Spiel wirklich beenden? [J/N]",)
 
 class ExitConfirmedString(Enum):
-    STRING = ("--- Spiel wird beendet ---",)
+    STRING = ("Spiel wird beendet",)
 
 class RoomEntranceString(Enum):
     STRING = (
-                "--- Du gehst durch eine Tür und befindest dich im ---\n",
-                "--- {object} Raum ---",
+                "Du gehst durch eine Tür und befindest dich im  \n",
+                "{object} Raum",
             )
 
 class InputExceptionString(Enum):
-    STRING = ("--- Ungültige Eingabe ---",)
+    STRING = ("Ungültige Eingabe",)
 
 class MapString(Enum):
     STRING = (
-                "--- Die Karte des Zauberwürferl Labyrinths ---",
+                "Die Karte des Zauberwürferl Labyrinths",
             )
 
 class InstructionString(Enum):
@@ -48,18 +48,18 @@ class InstructionString(Enum):
 
 class ClosedString(Enum):
     STRING = (
-                "--- Du findest eine verschlossene {object} ---\n",
-                "--- Du benötigst einen Schlüssel um sie zu öffnen"
+                "Du findest eine verschlossene {object}  \n",
+                "Du benötigst einen Schlüssel um sie zu öffnen"
     )
 
 class DoorUnlockedString(Enum):
     STRING = (
-                "--- Du schließt die Tür mit dem {object} auf ---",
+                "Du schließt die Tür mit dem {object} auf",
     )
 
 class InteractionString(Enum):
     STRING = (
-                "--- {interaction_type} {object} ---{interaction_result}",
+                "{interaction_type} {object}  {interaction_result}",
                 
     )
 

@@ -42,7 +42,7 @@ class Interface:
     def format_menu(self, menu, menu_state):
         trans_key = self.game_context.template(self.game_context)
         lines = ""
-        title = f"--- {menu_state.value} ---"
+        title = f"  {menu_state.value}  "
         for option in menu.value:
             key_char = option.name
             enum = option.value
@@ -57,7 +57,6 @@ class Interface:
         if state == GameState.MENU: 
             state = self.game_context.state_controller.menu_stack._current_state_stack()
         trans_enum = self.game_context.template(self.game_context)
-        title = f"--- {DisplayFunction.NAVIGATION.value} ---"
         lines = None
         headers = []
         rows = []
@@ -72,7 +71,7 @@ class Interface:
             lines += line + "\n"
             lines = lines.format(**trans_enum)
         rows.append(lines.rstrip("\n"))
-        self.game_context.console.render_navigation_table(title, headers, rows)
+        self.game_context.console.render_navigation_table(headers, rows)
     
     def _format_state_command(self, state, command):
         state_command = self._try_state_command(state)
