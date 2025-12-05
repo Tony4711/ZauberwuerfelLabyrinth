@@ -8,8 +8,11 @@ class Inventory:
     items: list[Item] = field(default_factory=list)
 
     def add_item(self, item):
-        self.items.append(item)
-        return True
+        if self.has_item(item):
+            return False
+        else:
+            self.items.append(item)
+            return True
     
     def remove_item(self, item):
         if item in self.items:
