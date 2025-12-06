@@ -15,7 +15,7 @@ class MoveString(Enum):
     STRING = ("Du gehst einen Schritt nach {player_moved}",)
 
 class TurnString(Enum):
-    STRING = ("Du drehst dich nach {player_moved",)
+    STRING = ("Du drehst dich nach {player_moved}",)
 
 class WallString(Enum):
     STRING = ("Du stößt gegen eine Wand",)
@@ -60,7 +60,6 @@ class DoorUnlockedString(Enum):
 class InteractionString(Enum):
     STRING = (
                 "{interaction_type} {object}  {interaction_result}",
-                
     )
 
 class Display(Enum):
