@@ -25,57 +25,57 @@ class GameContext:
     def __init__(self):
         
         # Main Objects
-        self.running = LoopSignal.CONTINUE
-        self.next_state = GameState.INIT
-        self.previous_state = GameState.INIT
-        self.player_movement = PlayerMovement(self)
-        self.interface = Interface(self)
-        self.console = RichConsole()
-        self.interaction = Interaction(self)
-        self.items = Items(self) 
+        self.running=LoopSignal.CONTINUE
+        self.next_state=GameState.INIT
+        self.previous_state=GameState.INIT
+        self.player_movement=PlayerMovement(self)
+        self.interface=Interface(self)
+        self.console=RichConsole()
+        self.interaction=Interaction(self)
+        self.items=Items(self) 
 
         # Game Objects
-        self.world = World(self)
-        self.starting_room = self.world.front_room
-        self.player = self._new_player()
+        self.world=World(self)
+        self.starting_room=self.world.front_room
+        self.player=self._new_player()
 
         # Controller
-        self.input_controller = InputController(self)
-        self.command_controller = CommandController(self)
-        self.state_controller = StateController(self)
-        self.display_controller = DisplayController(self)
+        self.input_controller=InputController(self)
+        self.command_controller=CommandController(self)
+        self.state_controller=StateController(self)
+        self.display_controller=DisplayController(self)
 
         # Translate CommandHandler
-        self.command_router = command_router.router
-        self.commandtag_signal = commandtag_router_signal.router_signal
-        self.command_handler = command_handler.handler()
-        self.menu_handler = menu_handler.menu_option
-        self.movement_handler = movement_handler.handler(self)
+        self.command_router=command_router.router
+        self.commandtag_signal=commandtag_router_signal.router_signal
+        self.command_handler=command_handler.handler()
+        self.menu_handler=menu_handler.menu_option
+        self.movement_handler=movement_handler.handler(self)
 
         # Translate
-        self.facing_offset = facing_offset.offset
-        self.offset_corner = offset_corner.corner
-        self.opposite_facing = opposite.facing
-        self.turn_left = turn.left
-        self.turn_right = turn.right
-        self.facing_op = facing_op.op
+        self.facing_offset=facing_offset.offset
+        self.offset_corner=offset_corner.corner
+        self.opposite_facing=opposite.facing
+        self.turn_left=turn.left
+        self.turn_right=turn.right
+        self.facing_op=facing_op.op
 
         # Translate Interface
-        self.interface_router = interface_router.router(self)
-        self.menu_state_signal = menu_state_router_signal.router_signal
-        self.game_state_signal = game_state_router_signal.router_signal
-        self.player_state_signal = player_state_router_signal.router_signal
-        self.system_state_signal = system_state_router_signal.router_signal
-        self.display_state_signal = display_state_router_signal.router_signal
+        self.interface_router=interface_router.router(self)
+        self.menu_state_signal=menu_state_router_signal.router_signal
+        self.game_state_signal=game_state_router_signal.router_signal
+        self.player_state_signal=player_state_router_signal.router_signal
+        self.system_state_signal=system_state_router_signal.router_signal
+        self.display_state_signal=display_state_router_signal.router_signal
 
         # Template
-        self.template = interface.template
+        self.template=interface.template
 
         # Mapping
-        self.state_command = state_command.mapping
+        self.state_command=state_command.mapping
 
         # Interaction Context
-        self.interaction_context = InteractionContext()
+        self.interaction_context=InteractionContext()
 
     
     def _new_player(self):

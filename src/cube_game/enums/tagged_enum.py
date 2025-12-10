@@ -4,8 +4,8 @@ class TaggedEnum(Enum):
     """Basisklasse für Enums mit (key, tag)-Struktur."""
     
     def __init__(self, key, tag):
-        self._value_ = key
-        self._tag_ = tag
+        self._value_=key
+        self._tag_=tag
 
     @property
     def key(self):

@@ -4,6 +4,6 @@ from  enums.interaction_objects import InteractableType, InteractionType, Intera
 @dataclass
 class InteractionContext:
 
-        target_object: InteractableType = field(default=InteractableType)
-        interaction_type: InteractionType = field(default=InteractionType)
-        interaction_result: InteractionResult = field(default=InteractionResult)
+        target_object: InteractableType=field(default=InteractableType)
+        interaction_type: InteractionType=field(default=InteractionType)
+        interaction_result: InteractionResult=field(default=InteractionResult)

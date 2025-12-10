@@ -7,13 +7,13 @@ class InputController:
 
     # Initialize input controller with game context and command mapping.
     def __init__(self, game_context):
-        self.game_context = game_context
-        self.mapping = state_command.mapping
+        self.game_context=game_context
+        self.mapping=state_command.mapping
     
     # Read raw keyboard input and normalize it.
     def read_input(self):
         from readchar import readkey, key
-        input = readkey().lower().strip()
+        input=readkey().lower().strip()
         return input
     
     # Print formatted input echo to output.
@@ -22,25 +22,25 @@ class InputController:
     
     # Convert raw input to validated command based on current state.
     def process_input(self):
-        input = self.read_input()
+        input=self.read_input()
         #self.write_input(input.upper())
         # parse self.input to self.command
-        command = self._get_command_from_input(input)
-        valid_command = self._state_trooper( command)
+        command=self._get_command_from_input(input)
+        valid_command=self._state_trooper( command)
         return valid_command
     
     # Translate raw string input into Command enum if applicable.
     def _get_command_from_input(self, input: str):
         for command in Command:
-            if command.value == input:
+            if command.value==input:
                 return command
         return None
     
     # Validate a command against current game or menu state.
     def _state_trooper(self, command) -> str:
-        game_state = self.game_context.state_controller.game_stack._current_state_stack()
-        menu_state = self.game_context.state_controller.menu_stack._current_state_stack()
-        if game_state == game_state.MENU:
+        game_state=self.game_context.state_controller.game_stack._current_state_stack()
+        menu_state=self.game_context.state_controller.menu_stack._current_state_stack()
+        if game_state==game_state.MENU:
             if self._is_valid_for_menu_state(menu_state, command):
                 return command
         else: 

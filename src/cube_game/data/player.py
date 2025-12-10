@@ -11,7 +11,7 @@ class Player:
     name: str
     facing: Facing
     moved: Moved
-    inventory: Inventory = field(default_factory=Inventory)
-    current_room: Room | None = None
-    pos: Position = field(default_factory=lambda: Position(7,7)) 
+    inventory: Inventory=field(default_factory=Inventory)
+    current_room: Room | None=None
+    pos: Position=field(default_factory=lambda: Position(7,7)) 
     

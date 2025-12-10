@@ -11,5 +11,5 @@ class Item:
 @dataclass
 class KeyItem(Item):
     
-    descr: str = field(default="Ein Schlüssel zum öffnen einer Tür")
-    item_type: ItemType = field(default=ItemType.KEY) 
+    descr: str=field(default="Ein Schlüssel zum öffnen einer Tür")
+    item_type: ItemType=field(default=ItemType.KEY) 

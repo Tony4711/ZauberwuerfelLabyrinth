@@ -1,6 +1,6 @@
 from enums.geometry import Edge
 
-edges = {
+edges={
     [(6,12),(6,6)]:Edge.LEFT_FRONT,     #left(Corner.TOP_RIGHT):front(Corner.BOTTOM_LEFT)
     [(12,12),(12,6)]:Edge.FRONT_RIGHT,     #front(Corner.TOP_RIGHT):right(Corner.BOTTOM_LEFT)
     [(18,12),(18,6)]:Edge.RIGHT_BACK,     #right(Corner.TOP_RIGHT):back(Corner.BOTTOM_LEFT)

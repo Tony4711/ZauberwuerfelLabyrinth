@@ -2,7 +2,7 @@ from enums.commands import Command
 from enums.states import GameState, MenuState
 
 
-mapping = {
+mapping={
             MenuState:{
                 MenuState.MAIN:{
                     Command.OP1: "Option 1",

@@ -10,77 +10,77 @@ class PlayerMovement:
 
     # Initialize movement handler with the shared game context.
     def __init__(self, game_context):
-        self.game_context = game_context
+        self.game_context=game_context
     
     # Movement method with steps for each direction.
     # Advance the player in the requested direction, resolving interactions and walls.
     def move_player(self, directional_command):
         # Set facing from player as local variable for readebility
-        facing = self.game_context.player.facing 
-        facing = self._update_player_facing(directional_command, facing)
+        facing=self.game_context.player.facing 
+        facing=self._update_player_facing(directional_command, facing)
         # Use facing to get offset to determine which axis should increase oder decrease
-        (dx,dy) = self.game_context.facing_offset[facing]
+        (dx,dy)=self.game_context.facing_offset[facing]
         if self._player_in_bound(facing):
             self.game_context.player.pos.move(dx,dy)
-            interactable = self.has_interactable()
+            interactable=self.has_interactable()
             if interactable: 
                 return self.game_context.interaction.interact_with(interactable)
             return PlayerState.MOVE
         elif self.game_context.world.has_door():
-            door = self.game_context.world.get_door()
+            door=self.game_context.world.get_door()
             return self.game_context.interaction.door(door)
         else:
             return PlayerState.WALL
     
     # Check surrounding tiles for an interactable to trigger after movement.
     def has_interactable(self):
-        getters = (
+        getters=(
             self.game_context.world.get_pressure_plate,
         )
-        interactable = None
+        interactable=None
         for getter in getters:
-            interactable = getter()
+            interactable=getter()
             if interactable is not None:
                 break
         return interactable
     
     # Rotate the player left or right and update movement state.
     def turn_player(self, directional_command):
-        if directional_command == Command.TURN_LEFT:
-            facing = self.game_context.turn_left[self.game_context.player.facing]
-            self.game_context.player.moved = Moved.LEFT
-        elif directional_command == Command.TURN_RIGHT:
-            facing = self.game_context.turn_right[self.game_context.player.facing]
-            self.game_context.player.moved = Moved.RIGHT
-        self.game_context.player.facing = facing
+        if directional_command==Command.TURN_LEFT:
+            facing=self.game_context.turn_left[self.game_context.player.facing]
+            self.game_context.player.moved=Moved.LEFT
+        elif directional_command==Command.TURN_RIGHT:
+            facing=self.game_context.turn_right[self.game_context.player.facing]
+            self.game_context.player.moved=Moved.RIGHT
+        self.game_context.player.facing=facing
         return PlayerState.TURN
     
     # Update player facing based on movement command, handling forward/back logic.
     def _update_player_facing(self, directional_command, facing):
         # If command is back use opposite facing of player
-        if directional_command == Command.MOVE_BACK:
-            self.game_context.player.moved = Moved.BACK
-            facing = self.game_context.opposite_facing[facing]
+        if directional_command==Command.MOVE_BACK:
+            self.game_context.player.moved=Moved.BACK
+            facing=self.game_context.opposite_facing[facing]
             return facing
         else:
-            self.game_context.player.facing = facing
-            self.game_context.player.moved = Moved.FORWARD
+            self.game_context.player.facing=facing
+            self.game_context.player.moved=Moved.FORWARD
             return facing
         
     # Validate that the intended move stays inside current room bounds.
     def _player_in_bound(self, facing):
         # Use facing to determine >, < operator
-        op = self.game_context.facing_op[facing]
-        (dx,dy) = self.game_context.facing_offset[facing]
+        op=self.game_context.facing_op[facing]
+        (dx,dy)=self.game_context.facing_offset[facing]
         # Use offset to translate into corner and axis lambda function
         # Offset tells which axis gets manipulated so it is mapped to the axis of the corner
         # e.g. y decreases, which means border is an bottom wall so Corner.BOTTOM_LEFT is used
         # and since player moves on y-axis BOTTOM_LEFT: Position(y) is used
-        corner, axis_func = self.game_context.offset_corner[(dx,dy)]
+        corner, axis_func=self.game_context.offset_corner[(dx,dy)]
         # axis function for player position + offset
-        player_axis_val = axis_func(self.game_context.player.pos + (dx,dy))
+        player_axis_val=axis_func(self.game_context.player.pos + (dx,dy))
         # axis function for room position at corner
-        room_axis_val = axis_func(self.game_context.player.current_room.pos[corner])
+        room_axis_val=axis_func(self.game_context.player.current_room.pos[corner])
         # Compare player position with borders of current room before moving
         if op(player_axis_val, room_axis_val):
             return True
