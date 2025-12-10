@@ -1,13 +1,13 @@
 from enums.geometry import Facing
 
-left = {
+left={
     Facing.NORTH: Facing.WEST,
     Facing.WEST:  Facing.SOUTH,
     Facing.SOUTH: Facing.EAST,
     Facing.EAST:  Facing.NORTH,
 }
 
-right = {
+right={
     Facing.NORTH: Facing.EAST,
     Facing.EAST:  Facing.SOUTH,
     Facing.SOUTH: Facing.WEST,

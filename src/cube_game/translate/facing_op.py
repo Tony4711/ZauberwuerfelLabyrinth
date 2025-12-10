@@ -1,7 +1,7 @@
 from enums.geometry import Facing
 import operator
 
-op = {
+op={
     Facing.NORTH: operator.le,
     Facing.EAST: operator.le,
     Facing.SOUTH: operator.ge,

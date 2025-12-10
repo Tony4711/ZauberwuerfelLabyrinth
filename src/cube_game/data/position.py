@@ -10,5 +10,5 @@ class Position:
         self.y += dy
 
     def __add__(self, other):
-        dx, dy = other
+        dx, dy=other
         return Position(self.x + dx, self.y + dy) 

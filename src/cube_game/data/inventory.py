@@ -4,8 +4,8 @@ from data.item import Item
 @dataclass
 class Inventory:
 
-    size: int = field(default=10)
-    items: list[Item] = field(default_factory=list)
+    size: int=field(default=10)
+    items: list[Item]=field(default_factory=list)
 
     def add_item(self, item):
         if self.has_item(item):

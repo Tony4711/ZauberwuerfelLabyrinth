@@ -2,7 +2,7 @@ from enums.handler import MenuOptionHandler
 from enums.commands import Command
 from enums.states import GameState, MenuState, DisplayFunction
 
-menu_option = {
+menu_option={
     MenuOptionHandler.MAIN: {
         Command.OP1: GameState.PLAYING,
         Command.OP2: MenuState.EXIT,

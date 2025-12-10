@@ -17,13 +17,13 @@ class Door(Interactable):
 
     leads_to: Faces 
     entry_facing: Facing
-    req_key: KeyItem | None = None
-    interactable_type: InteractableType = field(default=InteractableType.DOOR)
-    state: InteractableState = field(default=InteractableState.OPEN)
+    req_key: KeyItem | None=None
+    interactable_type: InteractableType=field(default=InteractableType.DOOR)
+    state: InteractableState=field(default=InteractableState.OPEN)
     
 @dataclass
 class PressurePlate(Interactable):
 
-    interactable_type: InteractableType = field(default=InteractableType.PRESSURE_PLATE)
-    state: InteractableState = field(default=InteractableState.DEPRESSED)
-
+    interactable_type: InteractableType=field(default=InteractableType.PRESSURE_PLATE)
+    state: InteractableState=field(default=InteractableState.DEPRESSED)
+    
