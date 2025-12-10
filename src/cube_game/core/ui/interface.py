@@ -67,18 +67,18 @@ class Interface:
                 if lines:
                     rows.append(lines.rstrip("\n"))
                 lines=""
-            line=self._format_state_command(state, command)
+            line=self._format_valid_command_for_state(state, command)
             lines += line + "\n"
             lines=lines.format(**trans_enum)
         rows.append(lines.rstrip("\n"))
         self.game_context.console.render_navigation_table(headers, rows)
     
-    def _format_state_command(self, state, command):
+    def _format_valid_command_for_state(self, state, command):
         state_command=self._try_state_command(state)
         key_char=command.value.upper()
         enum=command.name
         if state_command and state_command.get(command):
-            line=f"[[yellow]{key_char}[/]] [bold underline cyan]{'{' + enum + '}'}[/]"
+            line=f"[[yellow]{key_char}[/]] [bold underline #43A047]{'{' + enum + '}'}[/]"
             return line
         else:
             line=f"[[yellow]{key_char}[/]] {'{' + enum + '}'}"

@@ -10,7 +10,6 @@ class Interactable:
 
     pos: Position
     interactable_id: InteractableID
-    capabilities: list[Capabilities] = field(default_factory=list)
 
 @dataclass
 class Door(Interactable):
@@ -26,4 +25,5 @@ class PressurePlate(Interactable):
 
     interactable_type: InteractableType=field(default=InteractableType.PRESSURE_PLATE)
     state: InteractableState=field(default=InteractableState.DEPRESSED)
+    capabilities: list[Capabilities]=field(default_factory=list)
     

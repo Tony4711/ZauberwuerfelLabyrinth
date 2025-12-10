@@ -3,7 +3,7 @@ from enum import Enum, auto
 
 class Capabilities(Enum):
     
-    IS_MOVEABLE = auto()
+    IS_MOVEABLE=auto()
 
 class InteractionType(Enum):
 

@@ -1,9 +1,9 @@
 from data.position import Position
-from enums.geometry import RoomColor, Corner, Moved, Edge, Faces, Facing
+from enums.geometry import RoomColor, Corner, Faces, Facing
 from data.interactable import Door, PressurePlate
 from data.room import Room
 from enums.states import InteractableState
-from  enums.interaction_objects import InteractableID
+from  enums.interaction_objects import InteractableID, Capabilities
 import random
 
 class World:
@@ -158,8 +158,8 @@ class World:
                 Door(interactable_id=InteractableID.DOOR_LEFT_BOTTOM, leads_to=Faces.BOTTOM, entry_facing=Facing.EAST, pos=Position(3,6)),
                 Door(interactable_id=InteractableID.DOOR_LEFT_BACK, leads_to=Faces.BACK, entry_facing=None, pos=Position(0,8)),
             ],
-            pressure_plates=[
-                PressurePlate(interactable_id=InteractableID.PRESSURE_PLATE_LEFT, pos=Position(4,8))
+            interactables=[
+                PressurePlate(interactable_id=InteractableID.PRESSURE_PLATE_LEFT, pos=Position(4,8), capabilities=[Capabilities.IS_MOVEABLE])
             ]
         )
 
@@ -236,12 +236,12 @@ class World:
         return door.pos
     
     def on_pressure_plate(self):
-        plates: list=self.game_context.player.current_room.pressure_plates
+        plates: list=self.game_context.player.current_room.interactables
         is_on_plate=any(plate.pos==self.game_context.player.pos for plate in plates)
         return is_on_plate
     
     def get_pressure_plate(self):
-        plates: list=self.game_context.player.current_room.pressure_plates
+        plates: list=self.game_context.player.current_room.interactables
         matching_plate=next(
             (plate for plate in plates if plate.pos==self.game_context.player.pos),
             None
