@@ -1,5 +1,10 @@
 from enum import Enum, auto
 
+
+class Capabilities(Enum):
+    
+    IS_MOVEABLE = auto()
+
 class InteractionType(Enum):
 
     STANDING_ON = "Du stehst auf einer"

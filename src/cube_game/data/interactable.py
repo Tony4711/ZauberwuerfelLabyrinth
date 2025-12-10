@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from  enums.interaction_objects import InteractableType, InteractableID
+from  enums.interaction_objects import InteractableType, InteractableID, Capabilities
 from enums.states import InteractableState
 from enums.geometry import Facing, Faces
 from data.position import Position
@@ -10,6 +10,7 @@ class Interactable:
 
     pos: Position
     interactable_id: InteractableID
+    capabilities: list[Capabilities] = field(default_factory=list)
 
 @dataclass
 class Door(Interactable):
@@ -25,4 +26,4 @@ class PressurePlate(Interactable):
 
     interactable_type: InteractableType = field(default=InteractableType.PRESSURE_PLATE)
     state: InteractableState = field(default=InteractableState.DEPRESSED)
-    
+
