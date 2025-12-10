@@ -11,6 +11,7 @@ class InteractionType(Enum):
     UNLOCK="Du öffnest mit dem Schlüssel die"
     LOCKED="Du stehst vor einer verschlossenen"
     WALK_THROUGH="Du gehst durch eine"
+    MOVE="Du bewegst das"
 
 class InteractionResult(Enum):
 
@@ -18,11 +19,13 @@ class InteractionResult(Enum):
     ENTER_ROOM="\n  Du betrittst den {current_room}  "
     KEY_REQ="\n  Du benötigst einen Schlüssel um sie zu öffnen  "
     ALLREADY_IN_INVENTORY="\n  Das Item ist bereits in deinem Inventar  "
+    MOVED_OBSTACLE="\n Du hast das Hindernis bewegt"
 
 class InteractableType(Enum):
 
     DOOR="Tür"
     PRESSURE_PLATE="Druckplatte"
+    OBSTACLE="Hindernis"
 
 class InteractableID(Enum):
 
@@ -51,6 +54,7 @@ class InteractableID(Enum):
     DOOR_LEFT_BOTTOM=auto()
     DOOR_LEFT_BACK =auto()
     PRESSURE_PLATE_LEFT=auto()
+    OBSTACLE_LEFT=auto()
 
 class ItemType(Enum):
     

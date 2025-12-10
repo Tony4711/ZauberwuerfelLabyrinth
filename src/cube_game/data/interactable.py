@@ -25,5 +25,10 @@ class PressurePlate(Interactable):
 
     interactable_type: InteractableType=field(default=InteractableType.PRESSURE_PLATE)
     state: InteractableState=field(default=InteractableState.DEPRESSED)
+
+@dataclass
+class Obstacle(Interactable):
+
+    interactable_type: InteractableType=field(default=InteractableType.OBSTACLE)
+    state: InteractableState=field(default=InteractableState.NOT_MOVED)
     capabilities: list[Capabilities]=field(default_factory=list)
-    

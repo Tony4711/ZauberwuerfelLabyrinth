@@ -8,6 +8,8 @@ class InteractableState(Enum):
     LOCKED=auto()
     PRESSED=auto()
     DEPRESSED=auto()
+    MOVED=auto()
+    NOT_MOVED=auto()
 
 class SystemState(Enum):
 

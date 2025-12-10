@@ -1,6 +1,7 @@
 from enums.states import InteractableState, PlayerState
 from enums.interaction_objects import InteractableID
 from  enums.interaction_objects import InteractionType, InteractionResult
+from data.interactable import PressurePlate
 
 class Interaction:
 
@@ -9,7 +10,7 @@ class Interaction:
         self.game_context=game_context
 
     # Process door interaction: enter if open, attempt to unlock if closed.
-    def door(self, door):
+    def process_door(self, door):
         # If door is open enter room
         if door.state==InteractableState.OPEN:
             self._enter_room(door)
@@ -37,6 +38,11 @@ class Interaction:
         self.game_context.world.change_room(door)
         self._update_interaction_context(target_obj=door.interactable_type, interaction_type=InteractionType.WALK_THROUGH, interaction_result=InteractionResult.ENTER_ROOM)
 
+    def _move_obstacle(self, obstacle_pos):
+        destination=self.game_context.world.get_interactable(PressurePlate)
+        obstacle_pos.x=destination.pos.x
+        obstacle_pos.y=destination.pos.y
+
     # Try to add an item to the player's inventory and update the interaction result
     # if the item is already present.
     # If item was added call interface to display new item in inventory.
@@ -60,7 +66,8 @@ class Interaction:
     # Trigger side effects tied to an interaction result (e.g., awarding items).
     def _interaction_event(self, interaction_result, event_obj):
         handler={
-            InteractionResult.ADD_ITEM: lambda: self._update_inventory(event_obj)
+            InteractionResult.ADD_ITEM: lambda: self._update_inventory(event_obj),
+            InteractionResult.MOVED_OBSTACLE: lambda: self._move_obstacle(event_obj)
         }
         func=handler.get(interaction_result)
         if func:
@@ -83,6 +90,13 @@ class Interaction:
                 InteractionType.STANDING_ON, 
                 InteractionResult.ADD_ITEM, 
                 self.game_context.items.key_front_top
+            ),
+            InteractableID.OBSTACLE_LEFT: (
+                InteractableState.MOVED,
+                InteractionType.MOVE,
+                InteractionResult.MOVED_OBSTACLE,
+                interactable.pos
+
             )
         }
         interaction_context=handler.get(interactable.interactable_id)

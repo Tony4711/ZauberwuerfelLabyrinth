@@ -22,27 +22,16 @@ class PlayerMovement:
         (dx,dy)=self.game_context.facing_offset[facing]
         if self._player_in_bound(facing):
             self.game_context.player.pos.move(dx,dy)
-            interactable=self.has_interactable()
+            #interactable=self.has_interactable()
+            interactable=self.game_context.world.has_interactbale_on_player()
             if interactable: 
                 return self.game_context.interaction.interact_with(interactable)
             return PlayerState.MOVE
         elif self.game_context.world.has_door():
             door=self.game_context.world.get_door()
-            return self.game_context.interaction.door(door)
+            return self.game_context.interaction.process_door(door)
         else:
             return PlayerState.WALL
-    
-    # Check surrounding tiles for an interactable to trigger after movement.
-    def has_interactable(self):
-        getters=(
-            self.game_context.world.get_pressure_plate,
-        )
-        interactable=None
-        for getter in getters:
-            interactable=getter()
-            if interactable is not None:
-                break
-        return interactable
     
     # Rotate the player left or right and update movement state.
     def turn_player(self, directional_command):

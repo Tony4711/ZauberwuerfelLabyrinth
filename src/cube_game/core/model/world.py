@@ -1,6 +1,6 @@
 from data.position import Position
 from enums.geometry import RoomColor, Corner, Faces, Facing
-from data.interactable import Door, PressurePlate
+from data.interactable import Door, PressurePlate, Obstacle
 from data.room import Room
 from enums.states import InteractableState
 from  enums.interaction_objects import InteractableID, Capabilities
@@ -159,7 +159,8 @@ class World:
                 Door(interactable_id=InteractableID.DOOR_LEFT_BACK, leads_to=Faces.BACK, entry_facing=None, pos=Position(0,8)),
             ],
             interactables=[
-                PressurePlate(interactable_id=InteractableID.PRESSURE_PLATE_LEFT, pos=Position(4,8), capabilities=[Capabilities.IS_MOVEABLE])
+                PressurePlate(interactable_id=InteractableID.PRESSURE_PLATE_LEFT, pos=Position(4,8)),
+                Obstacle(interactable_id=InteractableID.OBSTACLE_LEFT, pos=Position(5,8), capabilities=[Capabilities.IS_MOVEABLE]),
             ]
         )
 
@@ -235,15 +236,18 @@ class World:
         )
         return door.pos
     
-    def on_pressure_plate(self):
-        plates: list=self.game_context.player.current_room.interactables
-        is_on_plate=any(plate.pos==self.game_context.player.pos for plate in plates)
-        return is_on_plate
-    
-    def get_pressure_plate(self):
-        plates: list=self.game_context.player.current_room.interactables
-        matching_plate=next(
-            (plate for plate in plates if plate.pos==self.game_context.player.pos),
+    def has_interactbale_on_player(self):
+        interactables: list=self.game_context.player.current_room.interactables
+        matching_interactable=next(
+            (interactable for interactable in interactables if interactable.pos==self.game_context.player.pos),
             None
         )
-        return matching_plate
+        return matching_interactable
+
+    def get_interactable(self, interactable_type):
+        interactables: list=self.game_context.player.current_room.interactables
+        matching_interactable=next(
+            (interactable for interactable in interactables if type(interactable)==interactable_type),
+            None
+        )
+        return matching_interactable
