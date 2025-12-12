@@ -4,6 +4,7 @@ from enum import Enum, auto
 class Capabilities(Enum):
     
     IS_MOVEABLE=auto()
+    BLOCKING=auto()
 
 class InteractionType(Enum):
 
@@ -53,8 +54,9 @@ class InteractableID(Enum):
     DOOR_LEFT_FRONT=auto()
     DOOR_LEFT_BOTTOM=auto()
     DOOR_LEFT_BACK =auto()
-    PRESSURE_PLATE_LEFT=auto()
-    OBSTACLE_LEFT=auto()
+    PRESSURE_PLATE_LEFT_1=auto()
+    PRESSURE_PLATE_LEFT_2=auto()
+    OBSTACLE_LEFT_1=auto()
 
 class ItemType(Enum):
     

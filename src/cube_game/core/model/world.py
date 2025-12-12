@@ -159,8 +159,9 @@ class World:
                 Door(interactable_id=InteractableID.DOOR_LEFT_BACK, leads_to=Faces.BACK, entry_facing=None, pos=Position(0,8)),
             ],
             interactables=[
-                PressurePlate(interactable_id=InteractableID.PRESSURE_PLATE_LEFT, pos=Position(4,8)),
-                Obstacle(interactable_id=InteractableID.OBSTACLE_LEFT, pos=Position(5,8), capabilities=[Capabilities.IS_MOVEABLE]),
+                PressurePlate(interactable_id=InteractableID.PRESSURE_PLATE_LEFT_1, pos=Position(4,8)),
+                PressurePlate(interactable_id=InteractableID.PRESSURE_PLATE_LEFT_2, pos=Position(6,10)),
+                Obstacle(interactable_id=InteractableID.OBSTACLE_LEFT_1, pos=Position(5,8), capabilities=[Capabilities.IS_MOVEABLE, Capabilities.BLOCKING]),
             ]
         )
 
@@ -236,18 +237,18 @@ class World:
         )
         return door.pos
     
-    def has_interactbale_on_player(self):
+    def has_interactbale_on_pos(self, pos):
         interactables: list=self.game_context.player.current_room.interactables
         matching_interactable=next(
-            (interactable for interactable in interactables if interactable.pos==self.game_context.player.pos),
+            (interactable for interactable in interactables if interactable.pos==pos),
             None
         )
         return matching_interactable
 
-    def get_interactable(self, interactable_type):
+    def get_all_interactables_from_type(self, interactable_type):
         interactables: list=self.game_context.player.current_room.interactables
-        matching_interactable=next(
-            (interactable for interactable in interactables if type(interactable)==interactable_type),
-            None
-        )
+        matching_interactable=[interactable for interactable in interactables if type(interactable)==interactable_type]
         return matching_interactable
+    
+    def interactable_infront(self):
+        pass

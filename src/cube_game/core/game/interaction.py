@@ -39,9 +39,14 @@ class Interaction:
         self._update_interaction_context(target_obj=door.interactable_type, interaction_type=InteractionType.WALK_THROUGH, interaction_result=InteractionResult.ENTER_ROOM)
 
     def _move_obstacle(self, obstacle_pos):
-        destination=self.game_context.world.get_interactable(PressurePlate)
-        obstacle_pos.x=destination.pos.x
-        obstacle_pos.y=destination.pos.y
+        destinations=self.game_context.world.get_all_interactables_from_type(PressurePlate)
+        self._choose_destination_for_obstacle(destinations)
+    
+    def _choose_destination_for_obstacle(self, destinations):
+        pass
+
+    def _interaction_menu(self):
+        pass
 
     # Try to add an item to the player's inventory and update the interaction result
     # if the item is already present.
@@ -85,13 +90,13 @@ class Interaction:
     def interact_with(self, interactable):
         # Dict with ID of interactable as key and context tuple as value
         handler={
-            InteractableID.PRESSURE_PLATE_LEFT: (
+            InteractableID.PRESSURE_PLATE_LEFT_1: (
                 InteractableState.PRESSED, 
                 InteractionType.STANDING_ON, 
                 InteractionResult.ADD_ITEM, 
                 self.game_context.items.key_front_top
             ),
-            InteractableID.OBSTACLE_LEFT: (
+            InteractableID.OBSTACLE_LEFT_1: (
                 InteractableState.MOVED,
                 InteractionType.MOVE,
                 InteractionResult.MOVED_OBSTACLE,

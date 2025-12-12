@@ -1,6 +1,7 @@
 from enums.states import PlayerState, InteractableState
 from enums.commands import Command
 from enums.geometry import Moved
+from  enums.interaction_objects import Capabilities
 
 # Ein Spiel zum Verstehen der Grundmechaniken eines Rubiks Würfels.
 # Der kleine Zauberer Garry ist in einem 3 dimensionalem Labyrinth gefangen und muss die Räume richtig miteinander verbinden, um herauszufinden.
@@ -21,9 +22,14 @@ class PlayerMovement:
         # Use facing to get offset to determine which axis should increase oder decrease
         (dx,dy)=self.game_context.facing_offset[facing]
         if self._player_in_bound(facing):
+            infront=self.game_context.player.pos + (dx,dy)
+            interactable_infront=self._interactable_infront(infront)
+            if interactable_infront:
+                if self._blocking(interactable_infront):
+                    return PlayerState.WALL
             self.game_context.player.pos.move(dx,dy)
-            #interactable=self.has_interactable()
-            interactable=self.game_context.world.has_interactbale_on_player()
+            #CHORE above checks for an interactable infront of the player and below again calls the same method but after moving so it is an redundant calling but above can return None
+            interactable=self.game_context.world.has_interactbale_on_pos(self.game_context.player.pos)
             if interactable: 
                 return self.game_context.interaction.interact_with(interactable)
             return PlayerState.MOVE
@@ -67,9 +73,18 @@ class PlayerMovement:
         # and since player moves on y-axis BOTTOM_LEFT: Position(y) is used
         corner, axis_func=self.game_context.offset_corner[(dx,dy)]
         # axis function for player position + offset
-        player_axis_val=axis_func(self.game_context.player.pos + (dx,dy))
+        player_axis_value=axis_func(self.game_context.player.pos + (dx,dy))
         # axis function for room position at corner
-        room_axis_val=axis_func(self.game_context.player.current_room.pos[corner])
+        room_axis_value=axis_func(self.game_context.player.current_room.pos[corner])
         # Compare player position with borders of current room before moving
-        if op(player_axis_val, room_axis_val):
+        if op(player_axis_value, room_axis_value):
             return True
+    
+    def _interactable_infront(self, infront):
+        interactable_infront=self.game_context.world.has_interactbale_on_pos(infront)
+        return interactable_infront
+    
+    def _blocking(self, interactable):
+        capabilities=interactable.capabilities
+        is_blocking=any(capabile==Capabilities.BLOCKING for capabile in capabilities)
+        return is_blocking
